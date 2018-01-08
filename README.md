@@ -26,7 +26,7 @@ If you works with Android Studio :
 
 - Get the AAR in app>build>outputs>aar
 
-The release comes with a pre-packaged jar file named gs-ui-android.aar that contains the GraphStream classes related to this UI. To start using GraphStream, follow the instructions in Running section.
+The release comes with a pre-packaged AAR file named gs-ui-android.aar that contains the GraphStream classes related to this UI. To start using GraphStream, follow the instructions in Running section.
 
 Running
 --------
