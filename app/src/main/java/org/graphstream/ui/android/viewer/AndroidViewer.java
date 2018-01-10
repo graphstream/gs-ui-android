@@ -182,8 +182,6 @@ public class AndroidViewer implements Viewer {
      *            The threading model.
      */
     public AndroidViewer(Graph graph, ThreadingModel threadingModel) {
-        Log.e("Debug","AndroidViewer : const");
-
         switch (threadingModel) {
             case GRAPH_IN_GUI_THREAD:
                 graphInAnotherThread = false;

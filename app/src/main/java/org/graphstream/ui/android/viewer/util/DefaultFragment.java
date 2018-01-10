@@ -68,4 +68,8 @@ public class DefaultFragment extends Fragment {
 
         return view ;
     }
+
+    public AndroidViewer getViewer() {
+        return viewer;
+    }
 }

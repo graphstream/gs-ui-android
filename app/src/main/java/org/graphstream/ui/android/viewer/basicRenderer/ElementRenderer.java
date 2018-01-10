@@ -280,13 +280,13 @@ public abstract class ElementRenderer {
                             ColorManager.getGraphstreamColor(ColorManager.getFillColor(group, col + 1));
 
                     double red = ((color0.getRed() * (1 - div)) + (color1
-                            .getRed() * div)) / 255f;
+                            .getRed() * div)) ;
                     double green = ((color0.getGreen() * (1 - div)) + (color1
-                            .getGreen() * div)) / 255f;
+                            .getGreen() * div)) ;
                     double blue = ((color0.getBlue() * (1 - div)) + (color1
-                            .getBlue() * div)) / 255f;
+                            .getBlue() * div)) ;
                     double alpha = ((color0.getAlpha() * (1 - div)) + (color1
-                            .getAlpha() * div)) / 255f;
+                            .getAlpha() * div)) ;
 
                     color = ColorManager.getColor(new org.graphstream.ui.graphicGraph.stylesheet.Color(
 							(int)red, (int)green, (int)blue, (int)alpha));

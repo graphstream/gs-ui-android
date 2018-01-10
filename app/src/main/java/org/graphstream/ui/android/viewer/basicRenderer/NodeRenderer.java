@@ -68,8 +68,9 @@ public class NodeRenderer extends ElementRenderer {
 			GraphicElement element) {
 		int color = ColorManager.getFillColor(group, 0);
 
-		if (element != null && group.getFillMode() == FillMode.DYN_PLAIN)
+		if (element != null && group.getFillMode() == FillMode.DYN_PLAIN) {
 			color = interpolateColor(group, element);
+		}
 
 		ColorManager.paint.setColor(color);
 
