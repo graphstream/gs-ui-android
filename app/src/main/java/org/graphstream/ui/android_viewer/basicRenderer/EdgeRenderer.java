@@ -29,14 +29,13 @@
  * The fact that you are presently reading this means that you have had
  * knowledge of the CeCILL-C and LGPL licenses and that you accept their terms.
  */
-package org.graphstream.ui.android.viewer.basicRenderer;
+package org.graphstream.ui.android_viewer.basicRenderer;
 
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 
-import org.graphstream.ui.android.viewer.util.ColorManager;
+import org.graphstream.ui.android_viewer.util.ColorManager;
 import org.graphstream.ui.geom.Vector2;
 import org.graphstream.ui.graphicGraph.GraphicEdge;
 import org.graphstream.ui.graphicGraph.GraphicElement;

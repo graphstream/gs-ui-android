@@ -29,17 +29,14 @@
  * The fact that you are presently reading this means that you have had
  * knowledge of the CeCILL-C and LGPL licenses and that you accept their terms.
  */
-package org.graphstream.ui.android.viewer.basicRenderer;
+package org.graphstream.ui.android_viewer.basicRenderer;
 
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Matrix;
-import android.util.Log;
 
 import org.graphstream.graph.Element;
-import org.graphstream.ui.android.viewer.AndroidGraphRenderer;
-import org.graphstream.ui.android.viewer.util.ColorManager;
-import org.graphstream.ui.android.viewer.util.DefaultCamera;
+import org.graphstream.ui.android_viewer.util.ColorManager;
+import org.graphstream.ui.android_viewer.util.DefaultCamera;
 import org.graphstream.ui.geom.Point3;
 import org.graphstream.ui.graphicGraph.GraphicElement;
 import org.graphstream.ui.graphicGraph.GraphicSprite;
@@ -47,7 +44,6 @@ import org.graphstream.ui.graphicGraph.StyleGroup;
 import org.graphstream.ui.graphicGraph.StyleGroup.ElementEvents;
 import org.graphstream.ui.graphicGraph.stylesheet.StyleConstants;
 import org.graphstream.ui.graphicGraph.stylesheet.StyleConstants.Units;
-import org.graphstream.ui.graphicGraph.stylesheet.Value;
 import org.graphstream.ui.view.Camera;
 
 public abstract class ElementRenderer {

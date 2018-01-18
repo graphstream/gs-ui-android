@@ -1,4 +1,4 @@
-package org.graphstream.ui.android.viewer.util;
+package org.graphstream.ui.android_viewer.util;
 
 import android.app.Fragment;
 import android.content.Context;
@@ -10,9 +10,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import org.graphstream.graph.Graph;
-import org.graphstream.ui.android.viewer.AndroidViewer;
-import org.graphstream.ui.android.viewer.DefaultView;
-import org.graphstream.ui.android.viewer.basicRenderer.AndroidBasicGraphRenderer;
+import org.graphstream.ui.android_viewer.AndroidViewer;
+import org.graphstream.ui.android_viewer.DefaultView;
+import org.graphstream.ui.android_viewer.basicRenderer.AndroidBasicGraphRenderer;
 import org.graphstream.ui.layout.Layout;
 import org.graphstream.ui.layout.Layouts;
 

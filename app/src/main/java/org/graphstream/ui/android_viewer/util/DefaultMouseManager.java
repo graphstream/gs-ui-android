@@ -1,4 +1,4 @@
-package org.graphstream.ui.android.viewer.util;
+package org.graphstream.ui.android_viewer.util;
 
 import android.view.MotionEvent;
 

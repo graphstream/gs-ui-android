@@ -1,8 +1,7 @@
-package org.graphstream.ui.android.viewer.util;
+package org.graphstream.ui.android_viewer.util;
 
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.util.Log;
 
 import org.graphstream.ui.graphicGraph.StyleGroup;
 

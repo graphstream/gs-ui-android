@@ -1,4 +1,4 @@
-package org.graphstream.ui.android.viewer;
+package org.graphstream.ui.android_viewer;
 
 import android.graphics.Canvas;
 import android.os.CountDownTimer;
@@ -8,7 +8,7 @@ import org.graphstream.graph.Graph;
 import org.graphstream.stream.ProxyPipe;
 import org.graphstream.stream.Source;
 import org.graphstream.stream.thread.ThreadProxyPipe;
-import org.graphstream.ui.android.viewer.basicRenderer.AndroidBasicGraphRenderer;
+import org.graphstream.ui.android_viewer.basicRenderer.AndroidBasicGraphRenderer;
 import org.graphstream.ui.graphicGraph.GraphicGraph;
 import org.graphstream.ui.view.GraphRenderer;
 import org.graphstream.ui.view.View;

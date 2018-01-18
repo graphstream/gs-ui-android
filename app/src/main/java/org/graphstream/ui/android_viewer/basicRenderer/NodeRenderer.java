@@ -29,26 +29,23 @@
  * The fact that you are presently reading this means that you have had
  * knowledge of the CeCILL-C and LGPL licenses and that you accept their terms.
  */
-package org.graphstream.ui.android.viewer.basicRenderer;
+package org.graphstream.ui.android_viewer.basicRenderer;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
 
-import org.graphstream.ui.android.viewer.util.ColorManager;
-import org.graphstream.ui.android.viewer.util.DefaultCamera;
+import org.graphstream.ui.android_viewer.util.ColorManager;
 import org.graphstream.ui.graphicGraph.GraphicElement;
-import org.graphstream.ui.graphicGraph.GraphicSprite;
+import org.graphstream.ui.graphicGraph.GraphicNode;
 import org.graphstream.ui.graphicGraph.StyleGroup;
-import org.graphstream.ui.graphicGraph.stylesheet.StyleConstants;
 import org.graphstream.ui.graphicGraph.stylesheet.Values;
+import org.graphstream.ui.graphicGraph.stylesheet.StyleConstants;
 import org.graphstream.ui.graphicGraph.stylesheet.StyleConstants.FillMode;
 import org.graphstream.ui.graphicGraph.stylesheet.StyleConstants.SizeMode;
 import org.graphstream.ui.view.Camera;
 import org.graphstream.ui.view.util.GraphMetrics;
 
-import static org.graphstream.ui.android.viewer.util.ColorManager.paint;
-
-public class SpriteRenderer extends ElementRenderer {
+public class NodeRenderer extends ElementRenderer {
 	protected GraphMetrics metrics;
 
 	protected Values size;
@@ -66,20 +63,30 @@ public class SpriteRenderer extends ElementRenderer {
 
 	@Override
 	protected void pushDynStyle(StyleGroup group, Canvas g, Camera camera,
-								GraphicElement element) {
+			GraphicElement element) {
 		int color = ColorManager.getFillColor(group, 0);
 
-		if (element != null && group.getFillMode() == FillMode.DYN_PLAIN)
+		if (element != null && group.getFillMode() == FillMode.DYN_PLAIN) {
 			color = interpolateColor(group, element);
+		}
 
-		paint.setColor(color);
+		ColorManager.paint.setColor(color);
 
 		if (group.getSizeMode() == SizeMode.DYN_SIZE) {
-			width = metrics.lengthToGu(StyleConstants.convertValue(element
-					.getAttribute("ui.size")));
-			height = width;
-			w2 = width / 2;
-			h2 = height / 2;
+			Object s = element.getAttribute("ui.size");
+
+			if (s != null) {
+				width = metrics.lengthToGu(StyleConstants.convertValue(s));
+				height = width;
+				w2 = width / 2;
+				h2 = height / 2;
+			} else {
+				size = group.getSize();
+				width = metrics.lengthToGu(size, 0);
+				height = size.size() > 1 ? metrics.lengthToGu(size, 1) : width;
+				w2 = width / 2;
+				h2 = height / 2;
+			}
 		}
 	}
 
@@ -94,7 +101,7 @@ public class SpriteRenderer extends ElementRenderer {
 
 		int color = ColorManager.getFillColor(group, 0);
 
-		paint.setColor(color);
+		ColorManager.paint.setColor(color);
 	}
 
 	@Override
@@ -105,13 +112,11 @@ public class SpriteRenderer extends ElementRenderer {
 	@Override
 	protected void renderElement(StyleGroup group, Canvas g, Camera camera,
 			GraphicElement element) {
-		GraphicSprite sprite = (GraphicSprite) element;
-		float[] pos = ((DefaultCamera) camera).getSpritePosition(sprite,
-				new float[2], StyleConstants.Units.GU);
+		GraphicNode node = (GraphicNode) element;
 
-		shape.setFrame((float)(pos[0] - w2), (float)(pos[1] - h2), (float)((pos[0] - w2)+width), (float)((pos[1] - h2)+height));
-		paint.setStyle(Paint.Style.FILL);
-		g.drawOval(shape.left, shape.top, shape.right, shape.bottom, paint);
+        shape.setFrame((float)(node.x - w2), (float)(node.y - h2), (float)((node.x - w2)+width), (float)((node.y - h2)+height));
+		ColorManager.paint.setStyle(Paint.Style.FILL);
+		g.drawOval(shape.left, shape.top, shape.right, shape.bottom, ColorManager.paint);
 		renderText(group, g, camera, element);
 	}
 

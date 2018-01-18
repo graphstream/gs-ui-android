@@ -1,4 +1,4 @@
-package org.graphstream.ui.android.viewer;
+package org.graphstream.ui.android_viewer;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -6,7 +6,6 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.view.SurfaceView;
 
-import org.graphstream.ui.android.viewer.basicRenderer.AndroidBasicGraphRenderer;
 import org.graphstream.ui.view.GraphRendererBase;
 import org.graphstream.ui.view.View;
 import org.graphstream.ui.view.Viewer;

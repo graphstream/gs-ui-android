@@ -1,14 +1,11 @@
-package org.graphstream.ui.android.viewer;
+package org.graphstream.ui.android_viewer;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.support.v4.view.MotionEventCompat;
-import android.util.Log;
-import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.View;
 
-import org.graphstream.ui.android.viewer.util.DefaultMouseManager;
+import org.graphstream.ui.android_viewer.util.DefaultMouseManager;
 import org.graphstream.ui.graphicGraph.GraphicElement;
 import org.graphstream.ui.graphicGraph.GraphicGraph;
 import org.graphstream.ui.view.Camera;

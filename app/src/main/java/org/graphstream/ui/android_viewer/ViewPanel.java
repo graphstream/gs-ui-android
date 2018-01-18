@@ -1,4 +1,4 @@
-package org.graphstream.ui.android.viewer;
+package org.graphstream.ui.android_viewer;
 
 import android.content.Context;
 import android.view.SurfaceHolder;

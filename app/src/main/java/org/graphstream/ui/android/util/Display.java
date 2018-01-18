@@ -1,4 +1,4 @@
-package org.graphstream.ui.android.viewer.util;
+package org.graphstream.ui.android.util;
 
 import org.graphstream.graph.Graph;
 import org.graphstream.ui.view.Viewer;
