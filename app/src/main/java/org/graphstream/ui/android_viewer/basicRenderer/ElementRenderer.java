@@ -35,7 +35,7 @@ import android.graphics.Canvas;
 import android.graphics.Matrix;
 
 import org.graphstream.graph.Element;
-import org.graphstream.ui.android_viewer.util.ColorManager;
+import org.graphstream.ui.android.util.ColorManager;
 import org.graphstream.ui.android_viewer.util.DefaultCamera;
 import org.graphstream.ui.geom.Point3;
 import org.graphstream.ui.graphicGraph.GraphicElement;
@@ -44,7 +44,7 @@ import org.graphstream.ui.graphicGraph.StyleGroup;
 import org.graphstream.ui.graphicGraph.StyleGroup.ElementEvents;
 import org.graphstream.ui.graphicGraph.stylesheet.StyleConstants;
 import org.graphstream.ui.graphicGraph.stylesheet.StyleConstants.Units;
-import org.graphstream.ui.view.Camera;
+import org.graphstream.ui.view.camera.Camera;
 
 public abstract class ElementRenderer {
 	// Attribute

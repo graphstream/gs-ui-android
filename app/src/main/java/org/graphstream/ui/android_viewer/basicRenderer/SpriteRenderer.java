@@ -34,7 +34,7 @@ package org.graphstream.ui.android_viewer.basicRenderer;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 
-import org.graphstream.ui.android_viewer.util.ColorManager;
+import org.graphstream.ui.android.util.ColorManager;
 import org.graphstream.ui.android_viewer.util.DefaultCamera;
 import org.graphstream.ui.graphicGraph.GraphicElement;
 import org.graphstream.ui.graphicGraph.GraphicSprite;
@@ -43,10 +43,10 @@ import org.graphstream.ui.graphicGraph.stylesheet.StyleConstants;
 import org.graphstream.ui.graphicGraph.stylesheet.Values;
 import org.graphstream.ui.graphicGraph.stylesheet.StyleConstants.FillMode;
 import org.graphstream.ui.graphicGraph.stylesheet.StyleConstants.SizeMode;
-import org.graphstream.ui.view.Camera;
+import org.graphstream.ui.view.camera.Camera;
 import org.graphstream.ui.view.util.GraphMetrics;
 
-import static org.graphstream.ui.android_viewer.util.ColorManager.paint;
+import static org.graphstream.ui.android.util.ColorManager.paint;
 
 public class SpriteRenderer extends ElementRenderer {
 	protected GraphMetrics metrics;

@@ -1,0 +1,37 @@
+package org.graphstream.ui.android.renderer.shape.android.basicShapes;
+
+import org.graphstream.ui.android.Backend;
+import org.graphstream.ui.view.camera.DefaultCamera2D;
+import org.graphstream.ui.android.renderer.shape.android.baseShapes.PolygonalShape;
+import org.graphstream.ui.android.renderer.shape.android.baseShapes.Form.Path2D;
+
+public class TriangleShape extends PolygonalShape {
+
+	@Override
+	public void make(Backend backend, DefaultCamera2D camera) {
+		double x  = area.theCenter.x;
+		double y  = area.theCenter.y;
+		double w2 = area.theSize.x / 2;
+		double h2 = area.theSize.y / 2;
+		
+		theShape = new Path2D(5, true);
+		theShape().moveTo( x,      y + h2 );
+		theShape().lineTo( x + w2, y - h2 );
+		theShape().lineTo( x - w2, y - h2 );
+		theShape.closePath();
+	}
+
+	@Override
+	public void makeShadow(Backend backend, DefaultCamera2D camera) {
+		double x  = area.theCenter.x + shadowable.theShadowOff.x;
+		double y  = area.theCenter.y + shadowable.theShadowOff.y;
+		double w2 = ( area.theSize.x + shadowable.theShadowWidth.x ) / 2;
+		double h2 = ( area.theSize.y + shadowable.theShadowWidth.y ) / 2;
+		
+		theShape = new Path2D(5, true);
+		theShape().moveTo( x,      y + h2 );
+		theShape().lineTo( x + w2, y - h2 );
+		theShape().lineTo( x - w2, y - h2 );
+		theShape.closePath();
+	}
+}

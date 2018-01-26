@@ -8,7 +8,7 @@ import android.view.SurfaceView;
 
 import org.graphstream.graph.Element;
 import org.graphstream.ui.android_viewer.AndroidGraphRendererBase;
-import org.graphstream.ui.android_viewer.util.ColorManager;
+import org.graphstream.ui.android.util.ColorManager;
 import org.graphstream.ui.android_viewer.util.DefaultCamera;
 import org.graphstream.ui.geom.Point3;
 import org.graphstream.ui.graphicGraph.GraphicElement;
@@ -17,7 +17,7 @@ import org.graphstream.ui.graphicGraph.StyleGroup;
 import org.graphstream.ui.graphicGraph.StyleGroupSet;
 import org.graphstream.ui.graphicGraph.stylesheet.StyleConstants;
 import org.graphstream.ui.graphicGraph.stylesheet.Value;
-import org.graphstream.ui.view.Camera;
+import org.graphstream.ui.view.camera.Camera;
 import org.graphstream.ui.view.LayerRenderer;
 import org.graphstream.ui.view.util.GraphMetrics;
 import org.graphstream.ui.view.util.InteractiveElement;
@@ -30,7 +30,7 @@ import java.util.HashSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import static org.graphstream.ui.android_viewer.util.ColorManager.paint;
+import static org.graphstream.ui.android.util.ColorManager.paint;
 
 public class AndroidBasicGraphRenderer extends AndroidGraphRendererBase {
     private static final Logger logger = Logger.getLogger(AndroidBasicGraphRenderer.class.getName());
