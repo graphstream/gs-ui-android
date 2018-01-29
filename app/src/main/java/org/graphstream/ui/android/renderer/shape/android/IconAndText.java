@@ -7,6 +7,7 @@ import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.util.Log;
 
 import org.graphstream.ui.android.Backend;
 import org.graphstream.ui.android.util.ColorManager;
@@ -325,7 +326,7 @@ class AndroidTextBox extends TextBox {
 
     public void render(Backend backend, double xLeft, double yBottom) {
 
-        if ( bounds != null ) {
+        if ( textData != null ) {
             Canvas g = backend.graphics2D();
 
             if (bgColor != -1) {

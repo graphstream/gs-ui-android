@@ -6,8 +6,11 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.os.Debug;
+import android.util.Log;
 
 import org.graphstream.ui.android.Backend;
+import org.graphstream.ui.android.util.Background;
 import org.graphstream.ui.android.util.ColorManager;
 import org.graphstream.ui.android.util.ImageCache;
 import org.graphstream.ui.android_viewer.util.GradientFactory;
@@ -228,10 +231,13 @@ public class GraphBackgroundRenderer implements GraphicElement.SwingElementRende
 			int w = (int)metrics.viewport[2] ; 
 			int h = (int)metrics.viewport[3] ;
 
-            GradientFactory.gradientInArea( 0, 0, w, h, style ).applyPaint(g);
+            Background b = GradientFactory.gradientInArea( 0, 0, w, h, style );
+			if (b != null)
+				b.applyPaint(g);
 
             ColorManager.paint.setStyle(Paint.Style.FILL);
 			g.drawRect( 0, 0, w, h, ColorManager.paint);
+            b.removePaint();
 		}
 	}
 	

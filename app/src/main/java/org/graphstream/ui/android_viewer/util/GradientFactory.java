@@ -3,6 +3,7 @@ package org.graphstream.ui.android_viewer.util;
 import android.graphics.LinearGradient;
 import android.graphics.RadialGradient;
 import android.graphics.Shader;
+import android.util.Log;
 
 import org.graphstream.ui.android.util.Background;
 import org.graphstream.ui.graphicGraph.stylesheet.Style;
@@ -29,6 +30,7 @@ public class GradientFactory {
 	 */
 	public static Background gradientInArea(int x0, int y0, int width, int height,
 											Style style) {
+		Log.e("Debug", "2 = "+style.getFillMode());
 		switch (style.getFillMode()) {
 			case GRADIENT_VERTICAL:
 				return linearGradientFromStyle(x0, y0, x0, y0 + height, style);
@@ -117,15 +119,14 @@ public class GradientFactory {
 												float radius, float fx, float fy, Style style) {
 		Background paint = null;
 
-		if (version16) {
-			if (style.getFillColorCount() > 1
-					&& style.getFillMode() == FillMode.GRADIENT_RADIAL) {
-				float fractions[] = createFractions(style);
-				int colors[] = createColors(style);
-				paint = new Background(new RadialGradient(cx, cy, radius, colors, fractions,
-						Shader.TileMode.MIRROR));
-			}
-		}
+        if (style.getFillColorCount() > 1
+                && style.getFillMode() == FillMode.GRADIENT_RADIAL) {
+            float fractions[] = createFractions(style);
+            int colors[] = createColors(style);
+            paint = new Background(new RadialGradient(cx, cy, radius, colors, fractions,
+                    Shader.TileMode.MIRROR));
+        }
+
 
 		return paint;
 	}
@@ -158,7 +159,6 @@ public class GradientFactory {
 		return colors;
 	}
 
-	public static boolean version16 = false;
 	public static float[][] predefFractions = new float[11][];
 	public static float[] predefFractions2 = { 0f, 1f };
 	public static float[] predefFractions3 = { 0f, 0.5f, 1f };
@@ -175,16 +175,6 @@ public class GradientFactory {
 			0.4444f, 0.5555f, 0.6666f, 0.7777f, 0.8888f, 1f };
 
 	static {
-		String version = System.getProperty("java.version");
-
-		if (version.startsWith("1.") && version.length() >= 3) {
-			String v = version.substring(2, 3);
-			int n = Integer.parseInt(v);
-
-			if (n >= 6)
-				version16 = true;
-		}
-
 		predefFractions[0] = null;
 		predefFractions[1] = null;
 		predefFractions[2] = predefFractions2;

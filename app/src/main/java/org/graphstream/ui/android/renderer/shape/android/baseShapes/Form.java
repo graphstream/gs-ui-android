@@ -1,9 +1,11 @@
 package org.graphstream.ui.android.renderer.shape.android.baseShapes;
 
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.RectF;
+import android.util.Log;
 
 import org.graphstream.ui.android.util.ColorManager;
 import org.graphstream.ui.android.util.Stroke;
@@ -106,7 +108,7 @@ public interface Form  {
 		private int size ;
 		
 		private boolean fillable;
-        private RectF bounds ;
+        private RectF bounds = new RectF();
 		
 		public Path2D(int nbElement, boolean fillable) {
 			super();
@@ -125,7 +127,7 @@ public interface Form  {
             super.lineTo((float)x, (float)y);
 			size++;
 
-            computeBounds(this.bounds, true);
+			computeBounds(this.bounds, true);
 		}
 		
 		public void curveTo(double xc1, double yc1, double xc2, double yc2, double x1, double y1) {
@@ -182,7 +184,7 @@ public interface Form  {
 	}
 
 	public class CubicCurve2D extends Path implements Form {
-        private RectF bounds ;
+        private RectF bounds  = new RectF();
 
 		public CubicCurve2D() {
 			super();
@@ -283,7 +285,7 @@ public interface Form  {
 	}
 
 	public class Arc2D extends Path implements Form {
-        private RectF bounds ;
+        private RectF bounds = new RectF();
 
 		public void setArcByCenter(double x, double y, double rad, double angleSt, double angleLen) {
             super.arcTo((float)(x-rad), (float)(y-rad), (float)rad*2, (float)rad*2, (float)angleSt, (float)angleLen, true);
@@ -330,21 +332,30 @@ public interface Form  {
 		private float[][] path = new float[2][2];
 		
 		public void setFrameFromCenter(double centerX, double centerY, double cornerX, double cornerY) {
-            bounds = new RectF((float)(centerX-(cornerX-centerX)), (float)(centerY-(cornerY-centerY)), (float)(cornerX-centerX)*2, (float)(cornerY-centerY)*2);
+            /*bounds = new RectF((float)(centerX-(cornerX-centerX)), (float)(centerY-(cornerY-centerY)), (float)(cornerX-centerX)*2, (float)(cornerY-centerY)*2);
 			
 			path[0][0] = (float)(centerX-(cornerX-centerX)) ; path[0][1] = (float)(centerY-(cornerY-centerY)) ;
 			path[1][0] = (float)(cornerX-centerX)*2 ; path[1][1] = (float)(cornerY-centerY)*2;
-			
-			doubleStroke = false ;
+			*/
+            bounds = new RectF((float)centerX, (float)centerY, (float)(centerX+cornerX), (float)(centerY+cornerY));
+
+            path[0][0] = (float)centerX ; path[0][1] = (float)centerY;
+            path[1][0] = (float)cornerX; path[1][1] = (float)cornerY;
+
+            doubleStroke = false ;
 		}
 		
 		public void setFrame(double x, double y, double cornerX, double cornerY) {
-            bounds = new RectF((float)x, (float)y, (float)cornerX, (float)cornerY);
+            /*bounds = new RectF((float)x, (float)y, (float)cornerX, (float)cornerY);
 
             path[0][0] = (float)x ; path[0][1] = (float)y ;
-			path[1][0] = (float)cornerX ; path[1][1] = (float)cornerY ;
-			
-			doubleStroke = false ;
+			path[1][0] = (float)cornerX ; path[1][1] = (float)cornerY ;*/
+            bounds = new RectF((float)x, (float)y, (float)(x+cornerX), (float)(y+cornerY));
+
+            path[0][0] = (float)x ; path[0][1] = (float)y;
+            path[1][0] = (float)(x+cornerX); path[1][1] = (float)(y+cornerY);
+
+            doubleStroke = false ;
 		}
 		
 		@Override

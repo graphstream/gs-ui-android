@@ -1,6 +1,7 @@
 package org.graphstream.ui.android.renderer;
 
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 
 import org.graphstream.ui.android.Backend;
@@ -17,8 +18,8 @@ public class SelectionRenderer {
 	
 	protected Form.Rectangle2D shape = new Form.Rectangle2D();
 
-	protected int linesColorQ  = ColorManager.getColor(new org.graphstream.ui.graphicGraph.stylesheet.Color(  0,   0,   0, 64));
-	protected int fillColor    = ColorManager.getColor(new org.graphstream.ui.graphicGraph.stylesheet.Color( 50,  50, 200, 32));
+	protected int linesColorQ  = Color.argb(  64,0,   0,   0 );
+	protected int fillColor    = Color.argb( 32, 50,  50, 200);
 			
 	public SelectionRenderer(Selection selection, GraphicGraph graph) {
 		this.selection = selection ;
@@ -39,18 +40,13 @@ public class SelectionRenderer {
 			
 			if(x1 > x2) { t = x1; x1 = x2; x2 = t; }
 			if(y1 > y2) { t = y1; y1 = y2; y2 = t; }
-			
+
+			int color = ColorManager.paint.getColor();
 			ColorManager.paint.setColor(linesColorQ);
 
-			Stroke stroke = new Stroke(1);
-			stroke.changeStrokeProperties(g);
+			float width = ColorManager.paint.getStrokeWidth();
+            ColorManager.paint.setStrokeWidth(4);
 
-			ColorManager.paint.setStyle(Paint.Style.STROKE);
-			g.drawLine(0, y1, panelWidth, y1, ColorManager.paint);
-			g.drawLine(0, y2, panelWidth, y2, ColorManager.paint);
-			g.drawLine(x1, 0, x1, panelHeight, ColorManager.paint);
-			g.drawLine(x2, 0, x2, panelHeight, ColorManager.paint);
-			
 			shape.setFrame(x1, y1, x2-x1, y2-y1);
 
             ColorManager.paint.setColor(fillColor);
@@ -58,6 +54,9 @@ public class SelectionRenderer {
 
             ColorManager.paint.setColor(linesColorQ);
             shape.drawByPoints(g, true);
+
+            ColorManager.paint.setColor(color);
+            ColorManager.paint.setStrokeWidth(width);
 		}
 	}
 }

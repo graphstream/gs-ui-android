@@ -151,7 +151,7 @@ public class BackendJ2D implements Backend {
 
 	private void computeInverse() {
 	    xT = new Matrix(Tx);
-		if( !xT.invert(null)) {
+		if( !xT.invert(xT)) {
             Log.e("Error", "Cannot inverse matrix. " + this.getClass().getSimpleName());
         }
 	}

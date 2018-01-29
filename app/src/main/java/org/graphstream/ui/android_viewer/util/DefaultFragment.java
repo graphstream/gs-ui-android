@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import org.graphstream.graph.Graph;
+import org.graphstream.ui.android.AndroidFullGraphRenderer;
 import org.graphstream.ui.android_viewer.AndroidViewer;
 import org.graphstream.ui.android_viewer.DefaultView;
 import org.graphstream.ui.android_viewer.basicRenderer.AndroidBasicGraphRenderer;
@@ -21,7 +22,7 @@ public class DefaultFragment extends Fragment {
     private static Graph graph ;
     public static boolean autoLayout = true;
     private AndroidViewer viewer ;
-    private AndroidBasicGraphRenderer renderer ;
+    private AndroidFullGraphRenderer renderer ;
 
     public void init(Graph g) {
         graph = g ;
@@ -46,7 +47,7 @@ public class DefaultFragment extends Fragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         Log.e("Debug","DefaultFragment : onAttach");
-        renderer = new AndroidBasicGraphRenderer();
+        renderer = new AndroidFullGraphRenderer();
         renderer.setContext(context);
     }
 

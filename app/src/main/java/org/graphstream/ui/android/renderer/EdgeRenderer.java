@@ -13,7 +13,7 @@ import org.graphstream.ui.android.renderer.shape.android.baseShapes.AreaOnConnec
 public class EdgeRenderer extends StyleRenderer {	
 	private Shape shape = null;
 	AreaOnConnectorShape arrow = null;
-			
+
 	public EdgeRenderer(StyleGroup styleGroup) {
 		super(styleGroup);
 	}

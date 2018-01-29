@@ -165,8 +165,6 @@ public abstract class StyleRenderer implements GraphicElement.SwingElementRender
 	public abstract void endRenderingPass(Backend bck, DefaultCamera2D camera, boolean forShadow) ;
 }
 
-
-
 @FunctionalInterface
 interface FunctionInVoid<A,B,C> {
 	
