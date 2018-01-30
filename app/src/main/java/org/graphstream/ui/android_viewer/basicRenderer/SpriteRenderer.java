@@ -46,8 +46,6 @@ import org.graphstream.ui.graphicGraph.stylesheet.StyleConstants.SizeMode;
 import org.graphstream.ui.view.camera.Camera;
 import org.graphstream.ui.view.util.GraphMetrics;
 
-import static org.graphstream.ui.android.util.ColorManager.paint;
-
 public class SpriteRenderer extends ElementRenderer {
 	protected GraphMetrics metrics;
 
@@ -58,14 +56,14 @@ public class SpriteRenderer extends ElementRenderer {
 	protected double width, height, w2, h2;
 
 	@Override
-	protected void setupRenderingPass(StyleGroup group, Canvas g,
+	protected void setupRenderingPass(StyleGroup group, Canvas g, Paint p,
 			Camera camera) {
 		metrics = camera.getMetrics();
 		configureText(group, camera);
 	}
 
 	@Override
-	protected void pushDynStyle(StyleGroup group, Canvas g, Camera camera,
+	protected void pushDynStyle(StyleGroup group, Canvas g, Paint paint, Camera camera,
 								GraphicElement element) {
 		int color = ColorManager.getFillColor(group, 0);
 
@@ -84,7 +82,7 @@ public class SpriteRenderer extends ElementRenderer {
 	}
 
 	@Override
-	protected void pushStyle(StyleGroup group, Canvas g, Camera camera) {
+	protected void pushStyle(StyleGroup group, Canvas g, Paint paint, Camera camera) {
 		size = group.getSize();
 		shape = new Ellipse();
 		width = metrics.lengthToGu(size, 0);
@@ -98,12 +96,12 @@ public class SpriteRenderer extends ElementRenderer {
 	}
 
 	@Override
-	protected void elementInvisible(StyleGroup group, Canvas g,
+	protected void elementInvisible(StyleGroup group, Canvas g, Paint p,
 			Camera camera, GraphicElement element) {
 	}
 
 	@Override
-	protected void renderElement(StyleGroup group, Canvas g, Camera camera,
+	protected void renderElement(StyleGroup group, Canvas g, Paint paint, Camera camera,
 			GraphicElement element) {
 		GraphicSprite sprite = (GraphicSprite) element;
 		float[] pos = ((DefaultCamera) camera).getSpritePosition(sprite,
@@ -112,7 +110,7 @@ public class SpriteRenderer extends ElementRenderer {
 		shape.setFrame((float)(pos[0] - w2), (float)(pos[1] - h2), (float)((pos[0] - w2)+width), (float)((pos[1] - h2)+height));
 		paint.setStyle(Paint.Style.FILL);
 		g.drawOval(shape.left, shape.top, shape.right, shape.bottom, paint);
-		renderText(group, g, camera, element);
+		renderText(group, g, paint, camera, element);
 	}
 
 	class Ellipse {

@@ -1,6 +1,7 @@
 package org.graphstream.ui.android.renderer.shape.android.advancedShapes;
 
 import android.graphics.Canvas;
+import android.graphics.Paint;
 
 import org.graphstream.ui.geom.Vector2;
 import org.graphstream.ui.graphicGraph.GraphicElement;
@@ -173,16 +174,18 @@ public class AngleShape extends AreaConnectorShape {
 	@Override
 	public void render(Backend bck, DefaultCamera2D camera, GraphicElement element, Skeleton skeleton) {
 		Canvas g = bck.graphics2D();
+		Paint p = bck.getPaint();
+
 		make(bck, camera);
-		strokable.stroke(g, theShape);
+		strokable.stroke(g, p, theShape);
 		// 		fill( g, theSize, theShape, camera )
-		fillable.fill(g, theShape, camera);
+		fillable.fill(g, p, theShape, camera);
 		decorable.decorConnector(bck, camera, skel.iconAndText, element, theShape);
 	}
 
 	@Override
 	public void renderShadow(Backend bck, DefaultCamera2D camera, GraphicElement element, Skeleton skeleton) {
 		makeShadow(bck, camera);
-		shadowable.cast(bck.graphics2D(), theShape);
+		shadowable.cast(bck.graphics2D(), bck.getPaint(), theShape);
 	}
 }

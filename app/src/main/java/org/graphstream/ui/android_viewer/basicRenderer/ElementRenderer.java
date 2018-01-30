@@ -33,6 +33,7 @@ package org.graphstream.ui.android_viewer.basicRenderer;
 
 import android.graphics.Canvas;
 import android.graphics.Matrix;
+import android.graphics.Paint;
 
 import org.graphstream.graph.Element;
 import org.graphstream.ui.android.util.ColorManager;
@@ -73,17 +74,17 @@ public abstract class ElementRenderer {
 	/**
 	 * Render all the (visible) elements of the group.
 	 */
-	public void render(StyleGroup group, Canvas g, Camera camera) {
-		setupRenderingPass(group, g, camera);
-		pushStyle(group, g, camera);
+	public void render(StyleGroup group, Canvas g, Paint p, Camera camera) {
+		setupRenderingPass(group, g, p, camera);
+		pushStyle(group, g, p, camera);
 
 		for (Element e : group.bulkElements()) {
 			GraphicElement ge = (GraphicElement) e;
 
 			if (camera.isVisible(ge))
-				renderElement(group, g, camera, ge);
+				renderElement(group, g, p, camera, ge);
 			else
-				elementInvisible(group, g, camera, ge);
+				elementInvisible(group, g, p, camera, ge);
 		}
 
 		if (group.hasDynamicElements()) {
@@ -92,11 +93,11 @@ public abstract class ElementRenderer {
 
 				if (camera.isVisible(ge)) {
 					if (!group.elementHasEvents(ge)) {
-						pushDynStyle(group, g, camera, ge);
-						renderElement(group, g, camera, ge);
+						pushDynStyle(group, g, p, camera, ge);
+						renderElement(group, g, p, camera, ge);
 					}
 				} else {
-					elementInvisible(group, g, camera, ge);
+					elementInvisible(group, g, p, camera, ge);
 				}
 			}
 		}
@@ -107,11 +108,11 @@ public abstract class ElementRenderer {
 
 				if (camera.isVisible(ge)) {
 					event.activate();
-					pushStyle(group, g, camera);
-					renderElement(group, g, camera, ge);
+					pushStyle(group, g, p, camera);
+					renderElement(group, g, p, camera, ge);
 					event.deactivate();
 				} else {
-					elementInvisible(group, g, camera, ge);
+					elementInvisible(group, g, p, camera, ge);
 				}
 			}
 
@@ -129,7 +130,7 @@ public abstract class ElementRenderer {
 	 * @param camera
 	 *            The camera.
 	 */
-	protected abstract void setupRenderingPass(StyleGroup group, Canvas g,
+	protected abstract void setupRenderingPass(StyleGroup group, Canvas g, Paint p,
 			Camera camera);
 
 	/**
@@ -140,7 +141,7 @@ public abstract class ElementRenderer {
 	 * @param camera
 	 *            The camera.
 	 */
-	protected abstract void pushStyle(StyleGroup group, Canvas g,
+	protected abstract void pushStyle(StyleGroup group, Canvas g, Paint p,
 			Camera camera);
 
 	/**
@@ -154,7 +155,7 @@ public abstract class ElementRenderer {
 	 * @param element
 	 *            The graphic element concerned by the dynamic style change.
 	 */
-	protected abstract void pushDynStyle(StyleGroup group, Canvas g,
+	protected abstract void pushDynStyle(StyleGroup group, Canvas g, Paint p,
 			Camera camera, GraphicElement element);
 
 	/**
@@ -168,12 +169,12 @@ public abstract class ElementRenderer {
 	 * @param element
 	 *            The element to render.
 	 */
-	protected abstract void renderElement(StyleGroup group, Canvas g,
+	protected abstract void renderElement(StyleGroup group, Canvas g, Paint p,
 			Camera camera, GraphicElement element);
 
 	/**
 	 * Called during rendering in place of
-	 * {@link #renderElement(StyleGroup, Canvas, Camera, GraphicElement)}
+	 * {@link #renderElement(StyleGroup, Canvas, Paint, Camera, GraphicElement)}
 	 * to signal that the given element is not inside the view. The
 	 * renderElement() method will be called as soon as the element becomes
 	 * visible anew.
@@ -185,7 +186,7 @@ public abstract class ElementRenderer {
 	 * @param element
 	 *            The element to render.
 	 */
-	protected abstract void elementInvisible(StyleGroup group, Canvas g,
+	protected abstract void elementInvisible(StyleGroup group, Canvas g, Paint p,
 			Camera camera, GraphicElement element);
 
 	// Utility
@@ -198,7 +199,7 @@ public abstract class ElementRenderer {
 		textColor = ColorManager.getTextColor(group, 0);
 	}
 
-	protected void renderText(StyleGroup group, Canvas g, Camera camera,
+	protected void renderText(StyleGroup group, Canvas g, Paint paint, Camera camera,
 			GraphicElement element) {
 		String label = element.getLabel();
 		
@@ -233,14 +234,14 @@ public abstract class ElementRenderer {
 			}
 
 			Matrix Tx = g.getMatrix();
-			int color = ColorManager.paint.getColor() ;
-			ColorManager.paint.setColor(textColor);
-			ColorManager.paint.setTextSize(textSize);
+			int color = paint.getColor() ;
+			paint.setColor(textColor);
+			paint.setTextSize(textSize);
 			g.setMatrix(new Matrix());
 
-            g.drawText(label, (float) p.x, (float) (p.y + textSize / 3), ColorManager.paint); // approximation
+            g.drawText(label, (float) p.x, (float) (p.y + textSize / 3), paint); // approximation
 			g.setMatrix(Tx);
-			ColorManager.paint.setColor(color);
+			paint.setColor(color);
 		}
 	}
 

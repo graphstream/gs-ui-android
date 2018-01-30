@@ -66,6 +66,7 @@ import org.graphstream.ui.view.util.InteractiveElement;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.view.SurfaceView;
 
 /**	

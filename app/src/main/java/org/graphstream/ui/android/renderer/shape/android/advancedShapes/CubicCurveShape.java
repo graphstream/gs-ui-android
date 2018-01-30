@@ -1,6 +1,7 @@
 package org.graphstream.ui.android.renderer.shape.android.advancedShapes;
 
 import android.graphics.Canvas;
+import android.graphics.Paint;
 
 import org.graphstream.ui.geom.Vector2;
 import org.graphstream.ui.graphicGraph.GraphicElement;
@@ -147,9 +148,10 @@ public class CubicCurveShape extends LineConnectorShape {
 	@Override
 	public void render(Backend bck, DefaultCamera2D camera, GraphicElement element, Skeleton skeleton) {
 		Canvas g = bck.graphics2D();
+		Paint p = bck.getPaint();
 		make(bck, camera);
-		strokableLine.stroke(g, theShape);
-		fillableLine.fill(g, theSize, theShape);
+		strokableLine.stroke(g, p, theShape);
+		fillableLine.fill(g, p, theSize, theShape);
 		decorable.decorConnector(bck, camera, skel.iconAndText, element, theShape);
 		// 		showControlPolygon = true
 		// 		if( showControlPolygon ) {
@@ -167,6 +169,6 @@ public class CubicCurveShape extends LineConnectorShape {
 	@Override
 	public void renderShadow(Backend bck, DefaultCamera2D camera, GraphicElement element, Skeleton skeleton) {
 		makeShadow(bck, camera);
-		shadowableLine.cast(bck.graphics2D(), theShape);
+		shadowableLine.cast(bck.graphics2D(), bck.getPaint(), theShape);
 	}
 }

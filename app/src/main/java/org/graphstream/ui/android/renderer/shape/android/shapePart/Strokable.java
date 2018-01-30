@@ -1,6 +1,7 @@
 package org.graphstream.ui.android.renderer.shape.android.shapePart;
 
 import android.graphics.Canvas;
+import android.graphics.Paint;
 
 import org.graphstream.ui.graphicGraph.stylesheet.Style;
 import org.graphstream.ui.view.camera.DefaultCamera2D;
@@ -21,11 +22,11 @@ public class Strokable {
 	public float theStrokeWidth = 0.0f ;
 
  	/** Paint the stroke of the shape. */
-	public void stroke(Canvas g, Form shape ) {
+	public void stroke(Canvas g, Paint p, Form shape ) {
 		if(theStroke != null) {
-			ColorManager.paint.setColor(strokeColor);
-			theStroke.stroke(theStrokeWidth, shape, fillColor).changeStrokeProperties(g);
-			shape.drawByPoints(g, true);
+			p.setColor(strokeColor);
+			theStroke.stroke(theStrokeWidth, shape, fillColor).changeStrokeProperties(g, p);
+			shape.drawByPoints(g, p, true);
 		}
 	}
 	

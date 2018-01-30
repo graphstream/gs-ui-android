@@ -31,6 +31,7 @@ public class SelectionRenderer {
 	    // XXX
 		if(selection.isActive() && selection.x1() != selection.x2() && selection.y1() != selection.y2()) {
 			Canvas g = bck.graphics2D();
+            Paint p = bck.getPaint();
 
 			float x1 = selection.x1();
 			float y1 = selection.y1();
@@ -41,22 +42,22 @@ public class SelectionRenderer {
 			if(x1 > x2) { t = x1; x1 = x2; x2 = t; }
 			if(y1 > y2) { t = y1; y1 = y2; y2 = t; }
 
-			int color = ColorManager.paint.getColor();
-			ColorManager.paint.setColor(linesColorQ);
+			//int color = p.getColor();
+			p.setColor(linesColorQ);
 
-			float width = ColorManager.paint.getStrokeWidth();
-            ColorManager.paint.setStrokeWidth(4);
+			//float width = p.getStrokeWidth();
+            p.setStrokeWidth(4);
 
 			shape.setFrame(x1, y1, x2-x1, y2-y1);
 
-            ColorManager.paint.setColor(fillColor);
-            shape.drawByPoints(g, false);
+            p.setColor(fillColor);
+            shape.drawByPoints(g, p, false);
 
-            ColorManager.paint.setColor(linesColorQ);
-            shape.drawByPoints(g, true);
+            p.setColor(linesColorQ);
+            shape.drawByPoints(g, p, true);
 
-            ColorManager.paint.setColor(color);
-            ColorManager.paint.setStrokeWidth(width);
+            //p.setColor(color);
+            //p.setStrokeWidth(width);
 		}
 	}
 }

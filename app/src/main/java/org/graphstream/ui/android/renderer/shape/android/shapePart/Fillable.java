@@ -1,6 +1,7 @@
 package org.graphstream.ui.android.renderer.shape.android.shapePart;
 
 import android.graphics.Canvas;
+import android.graphics.Paint;
 
 import org.graphstream.ui.android.util.Background;
 import org.graphstream.ui.android.util.ColorManager;
@@ -31,21 +32,21 @@ public class Fillable {
 	 * @param g The Java2D graphics.
 	 * @param dynColor The value between 0 and 1 allowing to know the dynamic plain color, if any.
 	 * @param shape The shape to fill. */
-	public void fill(Canvas g, double dynColor, int optColor, Form shape, DefaultCamera2D camera) {
+	public void fill(Canvas g, Paint p, double dynColor, int optColor, Form shape, DefaultCamera2D camera) {
 		if(plainFast) {
-			ColorManager.paint.setColor(theFillColor);
-			shape.drawByPoints(g, false);
+			p.setColor(theFillColor);
+			shape.drawByPoints(g, p, false);
 	    } 
 		else {
 			if ( fillPaint instanceof ShapeAreaPaint ) {	
-				Background p = ((ShapeAreaPaint)fillPaint).paint(shape, camera.getMetrics().ratioPx2Gu) ;
-				p.applyPaint(g);
-				shape.drawByPoints(g, false);
+				Background background = ((ShapeAreaPaint)fillPaint).paint(shape, camera.getMetrics().ratioPx2Gu) ;
+				background.applyPaint(g, p);
+				shape.drawByPoints(g, p, false);
 			}
 			else if (fillPaint instanceof ShapeColorPaint ) {
-				Background p = ((ShapeColorPaint)fillPaint).paint(dynColor, optColor);
-				p.applyPaint(g);
-				shape.drawByPoints(g, false);
+				Background background = ((ShapeColorPaint)fillPaint).paint(dynColor, optColor);
+				background.applyPaint(g, p);
+				shape.drawByPoints(g, p, false);
 			}
 	    }
 	}
@@ -53,8 +54,8 @@ public class Fillable {
 	/** Fill the shape.
 	 * @param g The Java2D graphics.
 	 * @param shape The shape to fill. */
- 	public void fill(Canvas g, Form shape, DefaultCamera2D camera) {
- 		fill( g, theFillPercent, theFillColor, shape, camera );
+ 	public void fill(Canvas g, Paint p, Form shape, DefaultCamera2D camera) {
+ 		fill( g, p, theFillPercent, theFillColor, shape, camera );
  	}
 
     /** Configure all static parts needed to fill the shape. */
@@ -66,7 +67,7 @@ public class Fillable {
  			
  		    plainFast = true;
  		    theFillColor = paint.color;
-			ColorManager.paint.setColor(theFillColor);
+			bck.getPaint().setColor(theFillColor);
  		    // We prepare to accelerate the filling process if we know the color is not dynamic
  		    // and is plain: no need to change the paint at each new position for the shape.
  		} 

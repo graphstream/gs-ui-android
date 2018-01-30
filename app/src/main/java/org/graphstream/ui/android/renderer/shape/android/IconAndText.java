@@ -158,10 +158,12 @@ class IconAtLeftAndText extends IconAndText {
 
     public void render(Backend backend, DefaultCamera2D camera, double xLeft, double yBottom) {
         Canvas g = backend.graphics2D();
+        Paint p = backend.getPaint();
+
         Matrix m = new Matrix();
         float[] trans = {1f, 0f, 0f, 1f, (float)(offx+xLeft), (float)(offy+(yBottom-(getHeight()/2))-(icon.getHeight()/2)+pady)} ;
         m.mapPoints(trans);
-        g.drawBitmap(icon, m, ColorManager.paint);
+        g.drawBitmap(icon, m, p);
 
         double th = text.getAscent() + text.getDescent();
         double dh = 0f ;
@@ -271,7 +273,7 @@ class AndroidTextBox extends TextBox {
         if(text != null && text.length() > 0) {
             if (textData != text || !textData.equals(text)) {
                 this.textData = text ;
-                ColorManager.paint.getTextBounds(textData, 0, textData.length(), this.bounds);
+                backend.getPaint().getTextBounds(textData, 0, textData.length(), this.bounds);
             }
             else {
                 this.textData = null ;
@@ -328,24 +330,25 @@ class AndroidTextBox extends TextBox {
 
         if ( textData != null ) {
             Canvas g = backend.graphics2D();
+            Paint p = backend.getPaint();
 
             if (bgColor != -1) {
                 double a = getAscent() ;
                 double h = a + getDescent() ;
 
-                ColorManager.paint.setColor(bgColor);
-                ColorManager.paint.setStyle(Paint.Style.FILL);
+                p.setColor(bgColor);
+                p.setStyle(Paint.Style.FILL);
                 if(rounded) {
-                    g.drawRoundRect((float)(xLeft-padx), (float)(yBottom-(a+pady)), (float)(getWidth()+1+(padx+padx)), (float)(h+(pady+pady)), 6, 6, ColorManager.paint);
+                    g.drawRoundRect((float)(xLeft-padx), (float)(yBottom-(a+pady)), (float)(getWidth()+1+(padx+padx)), (float)(h+(pady+pady)), 6, 6, p);
                 } else {
-                    g.drawRect((float)(xLeft-padx), (float)(yBottom-(a+pady)), (float)(getWidth()+1+(padx+padx)), (float)(h+(pady+pady)), ColorManager.paint);
+                    g.drawRect((float)(xLeft-padx), (float)(yBottom-(a+pady)), (float)(getWidth()+1+(padx+padx)), (float)(h+(pady+pady)), p);
                 }
             }
-            ColorManager.paint.setColor(textColor);
-            ColorManager.paint.setTextSize(font.getSizeFont());
-            ColorManager.paint.setTypeface(font.getFont());
+            p.setColor(textColor);
+            p.setTextSize(font.getSizeFont());
+            p.setTypeface(font.getFont());
 
-            g.drawText(textData, (float)xLeft, (float)yBottom, ColorManager.paint);
+            g.drawText(textData, (float)xLeft, (float)yBottom, p);
         }
     }
 }

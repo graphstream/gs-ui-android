@@ -1,6 +1,7 @@
 package org.graphstream.ui.android.renderer.shape.android.shapePart;
 
 import android.graphics.Canvas;
+import android.graphics.Paint;
 
 import org.graphstream.ui.android.util.Background;
 import org.graphstream.ui.android.util.ColorManager;
@@ -32,16 +33,16 @@ public class Shadowable {
      * Render the shadow.
      * @param g The Java2D graphics.
      */
-	public void cast(Canvas g, Form shape) {
+	public void cast(Canvas g, Paint p, Form shape) {
 		if ( shadowPaint instanceof ShapeAreaPaint ) {
-			Background p = ((ShapeAreaPaint)shadowPaint).paint( shape, 1 ) ;
-			p.applyPaint(g);
-			shape.drawByPoints(g, false);
+			Background background = ((ShapeAreaPaint)shadowPaint).paint( shape, 1 ) ;
+			background.applyPaint(g, p);
+			shape.drawByPoints(g, p, false);
 		}
 		else if ( shadowPaint instanceof ShapeColorPaint ) {
-			Background p = ((ShapeColorPaint)shadowPaint).paint( 0, -1 ) ;
-			p.applyPaint(g);
-			shape.drawByPoints(g, false);
+			Background background = ((ShapeColorPaint)shadowPaint).paint( 0, -1 ) ;
+			background.applyPaint(g, p);
+			shape.drawByPoints(g, p, false);
 		}
 		else {
 			System.out.println("no shadow !!!");

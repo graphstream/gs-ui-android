@@ -1,6 +1,7 @@
 package org.graphstream.ui.android.renderer.shape.android.basicShapes;
 
 import android.graphics.Canvas;
+import android.graphics.Paint;
 
 import org.graphstream.ui.graphicGraph.GraphicElement;
 import org.graphstream.ui.android.Backend;
@@ -43,9 +44,10 @@ public class FreePlaneNodeShape extends RectangularAreaShape {
 	@Override
 	public void render(Backend bck, DefaultCamera2D camera, GraphicElement element, Skeleton skel) {
 		Canvas g = bck.graphics2D();
+		Paint p = bck.getPaint();
 		make(bck, camera);
-		fillable.fill(g, theShape(), camera);
-		strokable.stroke(g, theLineShape);
+		fillable.fill(g, p, theShape(), camera);
+		strokable.stroke(g, p, theLineShape);
 		decorArea(bck, camera, skel.iconAndText, element, theShape());
 	}
 	

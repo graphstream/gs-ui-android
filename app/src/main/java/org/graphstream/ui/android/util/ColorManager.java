@@ -7,93 +7,93 @@ import org.graphstream.ui.graphicGraph.StyleGroup;
 import org.graphstream.ui.graphicGraph.stylesheet.Style;
 
 public class ColorManager {
-    public static Paint paint = new Paint();
+    //public static Paint paint = new Paint();
     public static Float dashes = null ;
     /**
-     * Get fill awt color in styleGroup and convert to javafx Color
-     * @param stylegroup
+     * Get fill awt color in styleGroup and convert to android Color
+     * @param group
      * @param id
-     * @return javafx.scene.paint.Color
+     * @return int
      */
     public static int getFillColor(StyleGroup group, int id) {
         return getColor(group.getFillColor(id));
     }
 
     /**
-     * Get fill awt color in group and convert to javafx Color
-     * @param style
+     * Get fill awt color in group and convert to android Color
+     * @param group
      * @param id
-     * @return javafx.scene.paint.Color
+     * @return int
      */
     public static int getFillColor(Style group, int id) {
         return getColor(group.getFillColor(id));
     }
 
     /**
-     * Get stroke awt color in styleGroup and convert to javafx Color
-     * @param stylegroup
+     * Get stroke awt color in styleGroup and convert to android Color
+     * @param group
      * @param id
-     * @return javafx.scene.paint.Color
+     * @return int
      */
     public static int getStrokeColor(StyleGroup group, int id) {
         return getColor(group.getStrokeColor(id));
     }
 
     /**
-     * Get stroke awt color in group and convert to javafx Color
-     * @param style
+     * Get stroke awt color in group and convert to android Color
+     * @param group
      * @param id
-     * @return javafx.scene.paint.Color
+     * @return int
      */
     public static int getStrokeColor(Style group, int id) {
         return getColor(group.getStrokeColor(id));
     }
 
     /**
-     * Get canvas awt color in styleGroup and convert to javafx Color
-     * @param stylegroup
+     * Get canvas awt color in styleGroup and convert to android Color
+     * @param group
      * @param id
-     * @return javafx.scene.paint.Color
+     * @return int
      */
     public static int getCanvasColor(StyleGroup group, int id) {
         return getColor(group.getCanvasColor(id));
     }
 
     /**
-     * Get shadow awt color in styleGroup and convert to javafx Color
-     * @param styleGroup
+     * Get shadow awt color in styleGroup and convert to android Color
+     * @param group
      * @param id
-     * @return javafx.scene.paint.Color
+     * @return int
      */
     public static int getShadowColor(StyleGroup group, int id) {
         return getColor(group.getShadowColor(id));
     }
 
     /**
-     * Get shadow awt color in group and convert to javafx Color
-     * @param style
+     * Get shadow awt color in group and convert to android Color
+     * @param group
      * @param id
-     * @return javafx.scene.paint.Color
+     * @return int
      */
     public static int getShadowColor(Style group, int id) {
         return getColor(group.getShadowColor(id));
     }
 
     /**
-     * Get text awt color in group and convert to javafx Color
-     * @param style
+     * Get text awt color in group and convert to android Color
+     * @param group
      * @param id
-     * @return javafx.scene.paint.Color
+     * @return int
      */
     public static int getTextColor(Style group, int id) {
         return getColor(group.getTextColor(id));
     }
 
     /**
-     * Get text background awt color in group and convert to javafx Color
-     * @param style
+     * Get text background awt color in group and convert to android Color
+     * @param group
      * @param id
-     * @return javafx.scene.paint.Color
+     * @return int
      */
     public static int getTextBackgroundColor(Style group, int id) {
         return getColor(group.getTextBackgroundColor(id));

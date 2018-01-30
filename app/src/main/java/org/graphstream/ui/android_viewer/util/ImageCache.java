@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
 
 import org.graphstream.ui.android.util.ColorManager;
 
@@ -22,10 +23,11 @@ public class ImageCache {
 		Bitmap img = Bitmap.createBitmap(16, 16, Bitmap.Config.ARGB_8888);
 
 		Canvas c = new Canvas(img);
-		ColorManager.paint.setColor(Color.RED);
-		c.drawRect(0, 0, img.getWidth()-1, img.getHeight()-1, ColorManager.paint);
-		c.drawLine(0, 0, img.getWidth()-1, img.getHeight()-1, ColorManager.paint);
-		c.drawLine(0, img.getHeight()-1, img.getWidth()-1, 0, ColorManager.paint);
+		Paint p = new Paint();
+		p.setColor(Color.RED);
+		c.drawRect(0, 0, img.getWidth()-1, img.getHeight()-1, p);
+		c.drawLine(0, 0, img.getWidth()-1, img.getHeight()-1, p);
+		c.drawLine(0, img.getHeight()-1, img.getWidth()-1, 0, p);
 		
 		dummy = img ;
 	}

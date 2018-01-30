@@ -55,14 +55,14 @@ public class NodeRenderer extends ElementRenderer {
 	protected double width, height, w2, h2;
 
 	@Override
-	protected void setupRenderingPass(StyleGroup group, Canvas g,
+	protected void setupRenderingPass(StyleGroup group, Canvas g, Paint p,
 			Camera camera) {
 		metrics = camera.getMetrics();
 		configureText(group, camera);
 	}
 
 	@Override
-	protected void pushDynStyle(StyleGroup group, Canvas g, Camera camera,
+	protected void pushDynStyle(StyleGroup group, Canvas g, Paint p, Camera camera,
 			GraphicElement element) {
 		int color = ColorManager.getFillColor(group, 0);
 
@@ -70,7 +70,7 @@ public class NodeRenderer extends ElementRenderer {
 			color = interpolateColor(group, element);
 		}
 
-		ColorManager.paint.setColor(color);
+		p.setColor(color);
 
 		if (group.getSizeMode() == SizeMode.DYN_SIZE) {
 			Object s = element.getAttribute("ui.size");
@@ -91,7 +91,7 @@ public class NodeRenderer extends ElementRenderer {
 	}
 
 	@Override
-	protected void pushStyle(StyleGroup group, Canvas g, Camera camera) {
+	protected void pushStyle(StyleGroup group, Canvas g, Paint p, Camera camera) {
 		size = group.getSize();
 		shape = new Ellipse();
 		width = metrics.lengthToGu(size, 0);
@@ -101,23 +101,23 @@ public class NodeRenderer extends ElementRenderer {
 
 		int color = ColorManager.getFillColor(group, 0);
 
-		ColorManager.paint.setColor(color);
+		p.setColor(color);
 	}
 
 	@Override
-	protected void elementInvisible(StyleGroup group, Canvas g,
+	protected void elementInvisible(StyleGroup group, Canvas g, Paint p,
 			Camera camera, GraphicElement element) {
 	}
 
 	@Override
-	protected void renderElement(StyleGroup group, Canvas g, Camera camera,
+	protected void renderElement(StyleGroup group, Canvas g, Paint p, Camera camera,
 			GraphicElement element) {
 		GraphicNode node = (GraphicNode) element;
 
         shape.setFrame((float)(node.x - w2), (float)(node.y - h2), (float)((node.x - w2)+width), (float)((node.y - h2)+height));
-		ColorManager.paint.setStyle(Paint.Style.FILL);
-		g.drawOval(shape.left, shape.top, shape.right, shape.bottom, ColorManager.paint);
-		renderText(group, g, camera, element);
+		p.setStyle(Paint.Style.FILL);
+		g.drawOval(shape.left, shape.top, shape.right, shape.bottom, p);
+		renderText(group, g, p, camera, element);
 	}
 
 	class Ellipse {

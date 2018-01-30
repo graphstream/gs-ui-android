@@ -1,6 +1,7 @@
 package org.graphstream.ui.android.renderer.shape.android.shapePart;
 
 import android.graphics.Canvas;
+import android.graphics.Paint;
 
 import org.graphstream.ui.geom.Point2;
 import org.graphstream.ui.graphicGraph.stylesheet.Style;
@@ -31,10 +32,10 @@ public class ShadowableLine {
      * Render the shadow.
      * @param g The Java2D graphics.
      */
-   	public void cast(Canvas g, Form shape ) {
-   		ColorManager.paint.setColor(theShadowColor);
-   		shadowStroke.stroke( theShadowWidth , shape, -1 ).changeStrokeProperties(g);
-   	  	shape.drawByPoints(g, true);
+   	public void cast(Canvas g, Paint p, Form shape ) {
+   		p.setColor(theShadowColor);
+   		shadowStroke.stroke( theShadowWidth , shape, -1 ).changeStrokeProperties(g, p);
+   	  	shape.drawByPoints(g, p, true);
    	}
  
     /** Configure all the static parts needed to cast the shadow of the shape. */

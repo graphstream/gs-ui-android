@@ -15,7 +15,7 @@ import org.graphstream.ui.android.util.Stroke;
  * for create and display a javafx.scene.shape.Shape in a Canvas.
  */
 public interface Form  {	
-	public void drawByPoints(Canvas g, boolean stroke) ;
+	public void drawByPoints(Canvas c, Paint p, boolean stroke) ;
 	public void setFrame(double x, double y, double w, double h);
 	public RectF getBounds() ; // Left, Top, Right, Bottom (x1, y1, x2, y2)
 	// used by the Double Stroke (see ShapeStroke.class)
@@ -54,23 +54,23 @@ public interface Form  {
 			this.bounds = new RectF((float)x, (float)y, (float)(w+x), (float)(h+y));
 		}
 		
-		public void drawByPoints(Canvas c, boolean stroke) {
+		public void drawByPoints(Canvas c, Paint p, boolean stroke) {
 			if (doubleStroke) {
-                ColorManager.paint.setStyle(Paint.Style.STROKE);
+                p.setStyle(Paint.Style.STROKE);
 
-				strokeBig.changeStrokeProperties(c);
-				c.drawRoundRect(bounds, arcWidth, arcHeight, ColorManager.paint);
-				strokeSmall.changeStrokeProperties(c);
+				strokeBig.changeStrokeProperties(c, p);
+				c.drawRoundRect(bounds, arcWidth, arcHeight, p);
+				strokeSmall.changeStrokeProperties(c, p);
 
-                ColorManager.paint.setColor(fillColor);
+                p.setColor(fillColor);
 			}
 
             if (stroke)
-                ColorManager.paint.setStyle(Paint.Style.STROKE);
+                p.setStyle(Paint.Style.STROKE);
             else
-                ColorManager.paint.setStyle(Paint.Style.FILL);
+                p.setStyle(Paint.Style.FILL);
 
-            c.drawRoundRect(bounds, arcWidth, arcHeight, ColorManager.paint);
+            c.drawRoundRect(bounds, arcWidth, arcHeight, p);
 		}
 
 		@Override
@@ -153,13 +153,13 @@ public interface Form  {
             computeBounds(this.bounds, true);
 		}
 		
-		public void drawByPoints(Canvas c, boolean stroke) {
+		public void drawByPoints(Canvas c, Paint p, boolean stroke) {
             if (!stroke && fillable)
-                ColorManager.paint.setStyle(Paint.Style.FILL);
+                p.setStyle(Paint.Style.FILL);
             else
-                ColorManager.paint.setStyle(Paint.Style.STROKE);
+                p.setStyle(Paint.Style.STROKE);
 
-            c.drawPath(this, ColorManager.paint);
+            c.drawPath(this, p);
 		}
 		
 		@Override
@@ -198,10 +198,10 @@ public interface Form  {
 		}
 
 		@Override
-		public void drawByPoints(Canvas c, boolean stroke) {
-            ColorManager.paint.setStyle(Paint.Style.STROKE);
+		public void drawByPoints(Canvas c, Paint p, boolean stroke) {
+            p.setStyle(Paint.Style.STROKE);
 
-            c.drawPath(this, ColorManager.paint);
+            c.drawPath(this, p);
 		}
 
 		@Override
@@ -251,8 +251,8 @@ public interface Form  {
 		}
 
 		@Override
-		public void drawByPoints(Canvas g, boolean stroke) {
-			g.drawLine(x1, y1, x2, y2, ColorManager.paint);
+		public void drawByPoints(Canvas g, Paint p, boolean stroke) {
+			g.drawLine(x1, y1, x2, y2, p);
 		}
 
 		@Override
@@ -294,13 +294,13 @@ public interface Form  {
 		}
 		
 		@Override
-		public void drawByPoints(Canvas c, boolean stroke) {
+		public void drawByPoints(Canvas c, Paint p, boolean stroke) {
 			if (stroke)
-                ColorManager.paint.setStyle(Paint.Style.STROKE);
+                p.setStyle(Paint.Style.STROKE);
             else
-                ColorManager.paint.setStyle(Paint.Style.FILL);
+                p.setStyle(Paint.Style.FILL);
 
-            c.drawPath(this, ColorManager.paint);
+            c.drawPath(this, p);
         }
 		
 		@Override
@@ -359,24 +359,24 @@ public interface Form  {
 		}
 		
 		@Override
-		public void drawByPoints(Canvas c, boolean stroke) {
+		public void drawByPoints(Canvas c, Paint p, boolean stroke) {
 			if (doubleStroke) {
-				strokeBig.changeStrokeProperties(c);
-                ColorManager.paint.setStyle(Paint.Style.STROKE);
+				strokeBig.changeStrokeProperties(c, p);
+                p.setStyle(Paint.Style.STROKE);
 
-                c.drawOval(path[0][0], path[0][1], path[1][0], path[1][1], ColorManager.paint);
-				strokeSmall.changeStrokeProperties(c);
+                c.drawOval(path[0][0], path[0][1], path[1][0], path[1][1], p);
+				strokeSmall.changeStrokeProperties(c, p);
 				
-                ColorManager.paint.setColor(fillColor);
+                p.setColor(fillColor);
 			}
 			
 			if(stroke) {
-                ColorManager.paint.setStyle(Paint.Style.STROKE);
-				c.drawOval(path[0][0], path[0][1], path[1][0], path[1][1], ColorManager.paint);
+                p.setStyle(Paint.Style.STROKE);
+				c.drawOval(path[0][0], path[0][1], path[1][0], path[1][1], p);
 			}
 			else {
-                ColorManager.paint.setStyle(Paint.Style.FILL);
-                c.drawOval(path[0][0], path[0][1], path[1][0], path[1][1], ColorManager.paint);
+                p.setStyle(Paint.Style.FILL);
+                c.drawOval(path[0][0], path[0][1], path[1][0], path[1][1], p);
             }
 		}
 

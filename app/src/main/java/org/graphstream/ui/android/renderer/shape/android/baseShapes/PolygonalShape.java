@@ -1,6 +1,7 @@
 package org.graphstream.ui.android.renderer.shape.android.baseShapes;
 
 import android.graphics.Canvas;
+import android.graphics.Paint;
 
 import org.graphstream.ui.graphicGraph.GraphicElement;
 import org.graphstream.ui.android.Backend;
@@ -13,14 +14,15 @@ public abstract class PolygonalShape extends AreaShape {
  
  	public void renderShadow(Backend bck, DefaultCamera2D camera, GraphicElement element, Skeleton skel) {
  		makeShadow(bck, camera);
- 		shadowable.cast(bck.graphics2D(), theShape());
+ 		shadowable.cast(bck.graphics2D(), bck.getPaint(), theShape());
  	}
   
  	public void render(Backend bck, DefaultCamera2D camera, GraphicElement element, Skeleton skel) {
  		Canvas g = bck.graphics2D();
+		Paint p = bck.getPaint();
  		make(bck, camera);
- 		fillable.fill(g, theShape(), camera);
- 		strokable.stroke(g, theShape());
+ 		fillable.fill(g, p, theShape(), camera);
+ 		strokable.stroke(g, p, theShape());
  		decorArea(bck, camera, skel.iconAndText, element, theShape());
  	}
  	

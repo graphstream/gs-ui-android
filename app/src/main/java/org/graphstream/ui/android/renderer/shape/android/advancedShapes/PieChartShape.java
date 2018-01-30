@@ -2,6 +2,7 @@ package org.graphstream.ui.android.renderer.shape.android.advancedShapes;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
 
 import java.util.logging.Logger;
 
@@ -69,15 +70,16 @@ public class PieChartShape extends FillableMulticolored implements Shape, Attrib
 	@Override
 	public void render(Backend bck, DefaultCamera2D camera, GraphicElement element, Skeleton skel) {
 		Canvas g = bck.graphics2D();
+		Paint p = bck.getPaint();
 		make(bck, camera);
 		checkValues(element);
-		fillPies(g, element);
+		fillPies(g, p, element);
 		//fill(g, theSize, theShape)
-		strokabe.stroke(g, theShape);
+		strokabe.stroke(g, p, theShape);
 		decorable.decorArea(bck, camera, skel.iconAndText, element, theShape);
 	}
 	
-	private void fillPies(Canvas g, GraphicElement element) {
+	private void fillPies(Canvas g, Paint p, GraphicElement element) {
 		if (theValues != null) {
 			// we assume the pies values sum up to one. And we wont check it, its a mater of speed ;-).
 			Arc2D arc = new Arc2D();
@@ -91,9 +93,9 @@ public class PieChartShape extends FillableMulticolored implements Shape, Attrib
             	end = beg + value;
                 arc.setArcByCenter(area.theCenter.x, area.theCenter.y, area.theSize.x / 2, beg * 360, value * 360);
 
-				ColorManager.paint.setColor(fillColors[(int) (col % fillColors.length)]);
+				p.setColor(fillColors[(int) (col % fillColors.length)]);
 
-                arc.drawByPoints(g, false);
+                arc.drawByPoints(g, p, false);
                 beg = end;
                 sum += value;
                 col += 1;
@@ -105,9 +107,9 @@ public class PieChartShape extends FillableMulticolored implements Shape, Attrib
 		else {
             // Draw a red empty circle to indicate "no value".
 
-            ColorManager.paint.setColor(Color.RED);
+            p.setColor(Color.RED);
 
-            theShape.drawByPoints(g, false);
+            theShape.drawByPoints(g, p,false);
         }
 	}
 
@@ -128,6 +130,6 @@ public class PieChartShape extends FillableMulticolored implements Shape, Attrib
 	@Override
 	public void renderShadow(Backend bck, DefaultCamera2D camera, GraphicElement element, Skeleton skeleton) {
 		makeShadow(bck, camera);
-		shadowable.cast(bck.graphics2D(), theShape);		
+		shadowable.cast(bck.graphics2D(), bck.getPaint(), theShape);
 	}	
 }

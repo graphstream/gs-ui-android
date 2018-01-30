@@ -2,6 +2,7 @@ package org.graphstream.ui.android;
 
 import android.graphics.Canvas;
 import android.graphics.Matrix;
+import android.graphics.Paint;
 import android.graphics.Point;
 import android.util.Log;
 import android.view.SurfaceView;
@@ -43,6 +44,7 @@ public class BackendJ2D implements Backend {
 	
 	private SurfaceView surface ;
 	private Canvas g2 ;
+	private Paint p ;
 	private Stack<Matrix> matrixStack ;
 	private Matrix Tx ;
 	private Matrix xT ;
@@ -51,6 +53,7 @@ public class BackendJ2D implements Backend {
 	public BackendJ2D() {
 		surface = null ;
 		g2 = null ;
+		p = null ;
 		matrixStack = new Stack<>() ;
 		Tx = null ;
 		xT = null ;
@@ -73,6 +76,7 @@ public class BackendJ2D implements Backend {
 	@Override
 	public void prepareNewFrame(Canvas g) {
 		this.g2 = g ;
+		this.p = new Paint();
 		Tx = g2.getMatrix();
 		matrixStack.clear();
 	}
@@ -177,7 +181,7 @@ public class BackendJ2D implements Backend {
 			g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_OFF);
 			g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,      RenderingHints.VALUE_ANTIALIAS_OFF);
 		}*/
-        ColorManager.paint.setAntiAlias(on);
+        p.setAntiAlias(on);
 	}
 
 	@Override
@@ -200,7 +204,10 @@ public class BackendJ2D implements Backend {
 		return g2 ;
 	}
 
-	@Override
+    @Override
+    public Paint getPaint() { return p ;}
+
+    @Override
 	public Shape chooseNodeShape(Shape oldShape, StyleGroup group) {
 		switch (group.getShape()) {
 			case CIRCLE:

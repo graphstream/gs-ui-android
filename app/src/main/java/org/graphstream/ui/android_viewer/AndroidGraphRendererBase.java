@@ -24,11 +24,9 @@ public abstract class AndroidGraphRendererBase extends GraphRendererBase<Surface
         return new DefaultView(context, viewer, viewId, this);
     }
 
-    protected void displayNothingToDo(Canvas g, int w, int h) {
+    protected void displayNothingToDo(Canvas g, Paint p, int w, int h) {
         String msg1 = "Graph width/height/depth is zero !!";
         String msg2 = "Place components using the 'xyz' attribute.";
-
-        Paint p = new Paint();
 
         p.setColor(Color.RED);
 

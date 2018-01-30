@@ -23,16 +23,16 @@ public class Stroke {
 		this.cap = cap ;
 	}
 	
-	public void changeStrokeProperties(Canvas c) {
-		ColorManager.paint.setStrokeWidth(width);
+	public void changeStrokeProperties(Canvas c, Paint p) {
+		p.setStrokeWidth(width);
 
 		if (dashes == null) {
-			ColorManager.paint.setPathEffect(null);
+			p.setPathEffect(null);
 		}
 		else {
 			ColorManager.dashes = dashes ;
-			ColorManager.paint.setPathEffect(new DashPathEffect(new float[]{dashes, dashes}, 0));
+			p.setPathEffect(new DashPathEffect(new float[]{dashes, dashes}, 0));
 		}
-		ColorManager.paint.setStrokeCap(cap);
+		p.setStrokeCap(cap);
 	}
 }

@@ -14,42 +14,42 @@ public class ShowCubics {
 	public boolean showControlPolygon = false ;
 	
 	/** Show the control polygons. */
-    public void showCtrlPoints(Canvas g, Camera camera, ConnectorSkeleton skel) {
+    public void showCtrlPoints(Canvas g, Paint p, Camera camera, ConnectorSkeleton skel) {
         if (showControlPolygon && skel.isCurve()) {
             Point3 from = skel.from();
             Point3 ctrl1 = skel.apply(1);
             Point3 ctrl2 = skel.apply(2);
             Point3 to = skel.to();
 
-            int color = ColorManager.paint.getColor();
-            float stroke = ColorManager.paint.getStrokeWidth();
+            int color = p.getColor();
+            float stroke = p.getStrokeWidth();
 
             double px6 = camera.getMetrics().px1 * 6;
             double px3 = camera.getMetrics().px1 * 3;
 
-            ColorManager.paint.setColor(Color.RED);
-            ColorManager.paint.setStyle(Paint.Style.FILL);
-            g.drawOval((float)(from.x - px3), (float)(from.y - px3), (float)px6, (float)px6, ColorManager.paint);
+            p.setColor(Color.RED);
+            p.setStyle(Paint.Style.FILL);
+            g.drawOval((float)(from.x - px3), (float)(from.y - px3), (float)px6, (float)px6, p);
 
             if (ctrl1 != null) {
-            	g.drawOval((float)(ctrl1.x - px3), (float)(ctrl1.y - px3), (float)px6, (float)px6, ColorManager.paint);
+            	g.drawOval((float)(ctrl1.x - px3), (float)(ctrl1.y - px3), (float)px6, (float)px6, p);
 
-            	g.drawOval((float)(ctrl2.x - px3), (float)(ctrl2.y - px3), (float)px6, (float)px6, ColorManager.paint);
+            	g.drawOval((float)(ctrl2.x - px3), (float)(ctrl2.y - px3), (float)px6, (float)px6, p);
 
-                ColorManager.paint.setStyle(Paint.Style.STROKE);
-                ColorManager.paint.setStrokeWidth((float)camera.getMetrics().px1);
-                g.drawLine((float)ctrl1.x, (float)ctrl1.y, (float)ctrl2.x, (float)ctrl2.y, ColorManager.paint);
+                p.setStyle(Paint.Style.STROKE);
+                p.setStrokeWidth((float)camera.getMetrics().px1);
+                g.drawLine((float)ctrl1.x, (float)ctrl1.y, (float)ctrl2.x, (float)ctrl2.y, p);
                
-                g.drawLine((float)from.x, (float)from.y, (float)ctrl1.x, (float)ctrl1.y, ColorManager.paint);
+                g.drawLine((float)from.x, (float)from.y, (float)ctrl1.x, (float)ctrl1.y, p);
                 
-                g.drawLine((float)ctrl2.x, (float)ctrl2.y, (float)to.x, (float)to.y, ColorManager.paint);
+                g.drawLine((float)ctrl2.x, (float)ctrl2.y, (float)to.x, (float)to.y, p);
             }
 
-            ColorManager.paint.setStyle(Paint.Style.FILL);
-            g.drawOval((float)(to.x - px3), (float)(to.y - px3), (float)px6, (float)px6, ColorManager.paint);
+            p.setStyle(Paint.Style.FILL);
+            g.drawOval((float)(to.x - px3), (float)(to.y - px3), (float)px6, (float)px6, p);
 
-            ColorManager.paint.setColor(color);
-            ColorManager.paint.setStrokeWidth(stroke);
+            p.setColor(color);
+            p.setStrokeWidth(stroke);
         }
     }
 }

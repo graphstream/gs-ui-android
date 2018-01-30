@@ -1,6 +1,7 @@
 package org.graphstream.ui.android.renderer.shape.android.arrowShapes;
 
 import android.graphics.Canvas;
+import android.graphics.Paint;
 
 import org.graphstream.ui.geom.Point2;
 import org.graphstream.ui.geom.Point3;
@@ -106,14 +107,15 @@ public class ArrowOnEdge extends AreaOnConnectorShape {
 	@Override
 	public void render(Backend bck, DefaultCamera2D camera, GraphicElement element, Skeleton skeleton) {
 		Canvas g = bck.graphics2D();
+		Paint p = bck.getPaint();
 		make( false, camera );
-		strokable.stroke( g, theShape );
-		fillable.fill( g, theShape, camera );
+		strokable.stroke( g, p, theShape );
+		fillable.fill( g, p, theShape, camera );
 	}
 
 	@Override
 	public void renderShadow(Backend bck, DefaultCamera2D camera, GraphicElement element, Skeleton skeleton) {
 		make( true, camera );
-		shadowable.cast(bck.graphics2D(), theShape );
+		shadowable.cast(bck.graphics2D(), bck.getPaint(), theShape );
 	}
 }

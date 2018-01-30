@@ -137,7 +137,7 @@ class DoubleShapeStroke extends ShapeStroke {
 		}
 		
 		@Override
-		public void changeStrokeProperties(Canvas g) {
+		public void changeStrokeProperties(Canvas g, Paint p) {
 			// if form is null ==> debug in FillableLine 
 			
 			if (form.getIdForm().equals("Rect")) {
@@ -145,11 +145,11 @@ class DoubleShapeStroke extends ShapeStroke {
 			}
 			else if (form.getIdForm().equals("Path")) {
 				System.err.println("DoubleStroke for Path not implemented yet");
-				stroke2.changeStrokeProperties(g);
+				stroke2.changeStrokeProperties(g, p);
 			}
 			else if (form.getIdForm().equals("CubicCurve")) {
 				System.err.println("DoubleStroke for CubicCurve not implemented yet");
-				stroke2.changeStrokeProperties(g);
+				stroke2.changeStrokeProperties(g, p);
 			}
 			else if (form.getIdForm().equals("Line")) {
 				float[][] path = (float[][]) form.getPath();
@@ -158,7 +158,7 @@ class DoubleShapeStroke extends ShapeStroke {
 				float x2 = path[1][0];
 				float y2 = path[1][1];
 
-				stroke2.changeStrokeProperties(g);
+				stroke2.changeStrokeProperties(g, p);
 				double angle = Math.toDegrees(Math.atan2(y2-y1, x2-x1) - Math.atan2(1, 1));
 				if ( angle >= 90 || angle <= -180 || (angle >= -90 && angle < 0)) {
 					y1 += width*3 ;
@@ -168,8 +168,8 @@ class DoubleShapeStroke extends ShapeStroke {
 					x1 += width*3 ;
 					x2 += width*3 ;
 				}
-				ColorManager.paint.setStyle(Paint.Style.STROKE);
-				g.drawLine(x1, y1, x2, y2, ColorManager.paint);
+				p.setStyle(Paint.Style.STROKE);
+				g.drawLine(x1, y1, x2, y2, p);
 			}
 			else if (form.getIdForm().equals("Ellipse")) {
 				((Ellipse2D)form).setDoubleStroke(stroke1, stroke2, fillColor);

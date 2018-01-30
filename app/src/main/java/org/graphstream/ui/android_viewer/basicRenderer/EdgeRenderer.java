@@ -58,20 +58,20 @@ public class EdgeRenderer extends ElementRenderer {
 	protected double arrowWidth = 0;
 
 	@Override
-	protected void setupRenderingPass(StyleGroup group, Canvas g,
+	protected void setupRenderingPass(StyleGroup group, Canvas g, Paint p,
 			Camera camera) {
 		configureText(group, camera);
 	}
 
 	@Override
-	protected void pushDynStyle(StyleGroup group, Canvas g, Camera camera,
+	protected void pushDynStyle(StyleGroup group, Canvas g, Paint p, Camera camera,
 			GraphicElement element) {
 		int color = ColorManager.getFillColor(group, 0);
 
 		if (element != null && group.getFillMode() == FillMode.DYN_PLAIN)
 			color = interpolateColor(group, element);
 
-		ColorManager.paint.setColor(color);
+		p.setColor(color);
 
 		if (group.getSizeMode() == SizeMode.DYN_SIZE) {
 			width = camera.getMetrics().lengthToGu(
@@ -80,41 +80,41 @@ public class EdgeRenderer extends ElementRenderer {
 			// width = camera.getMetrics().lengthToGu( (double)
 			// element.getNumber( "ui.size" ), Units.PX );
 
-			ColorManager.paint.setStrokeWidth((float)width);
+			p.setStrokeWidth((float)width);
 		}
 	}
 
 	@Override
-	protected void pushStyle(StyleGroup group, Canvas g, Camera camera) {
+	protected void pushStyle(StyleGroup group, Canvas g, Paint p, Camera camera) {
 		width = camera.getMetrics().lengthToGu(group.getSize(), 0);
 		arrowLength = camera.getMetrics().lengthToGu(group.getArrowSize(), 0);
 		arrowWidth = camera.getMetrics().lengthToGu(group.getArrowSize(),
 				group.getArrowSize().size() > 1 ? 1 : 0);
 
-		ColorManager.paint.setColor(ColorManager.getFillColor(group, 0));
-		ColorManager.paint.setStrokeWidth((float)width);
+		p.setColor(ColorManager.getFillColor(group, 0));
+		p.setStrokeWidth((float)width);
 	}
 
 	@Override
-	protected void elementInvisible(StyleGroup group, Canvas g,
+	protected void elementInvisible(StyleGroup group, Canvas g, Paint p,
 			Camera camera, GraphicElement element) {
 	}
 
 	@Override
-	protected void renderElement(StyleGroup group, Canvas g, Camera camera,
+	protected void renderElement(StyleGroup group, Canvas g, Paint p, Camera camera,
 			GraphicElement element) {
 		GraphicEdge edge = (GraphicEdge) element;
 		GraphicNode node0 = (GraphicNode) edge.getNode0();
 		GraphicNode node1 = (GraphicNode) edge.getNode1();
 
 		shape.setFrame((float)node0.x, (float)node0.y, (float)node1.x, (float)node1.y);
-		ColorManager.paint.setStyle(Paint.Style.FILL);
-		g.drawLine(shape.startX, shape.startY, shape.stopX, shape.stopY, ColorManager.paint);
-		renderArrow(group, g, camera, edge);
-		renderText(group, g, camera, element);
+		p.setStyle(Paint.Style.FILL);
+		g.drawLine(shape.startX, shape.startY, shape.stopX, shape.stopY, p);
+		renderArrow(group, g, p, camera, edge);
+		renderText(group, g, p, camera, element);
 	}
 
-	protected void renderArrow(StyleGroup group, Canvas g, Camera camera,
+	protected void renderArrow(StyleGroup group, Canvas g, Paint p, Camera camera,
 			GraphicEdge edge) {
 		if (edge.isDirected() && arrowWidth > 0 && arrowLength > 0) {
 			if (group.getArrowShape() != ArrowShape.NONE) {
@@ -146,8 +146,8 @@ public class EdgeRenderer extends ElementRenderer {
 						(float)(y - theDirection.data[1] - perp.data[1]));
 				shape.close();
 
-				ColorManager.paint.setStyle(Paint.Style.FILL);
-				g.drawPath(shape, ColorManager.paint);
+				p.setStyle(Paint.Style.FILL);
+				g.drawPath(shape, p);
 			}
 		}
 	}

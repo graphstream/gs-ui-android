@@ -30,8 +30,6 @@ import java.util.HashSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import static org.graphstream.ui.android.util.ColorManager.paint;
-
 public class AndroidBasicGraphRenderer extends AndroidGraphRendererBase {
     private static final Logger logger = Logger.getLogger(AndroidBasicGraphRenderer.class.getName());
 
@@ -114,17 +112,19 @@ public class AndroidBasicGraphRenderer extends AndroidGraphRendererBase {
         // If not closed, one or two renders can occur after closed.
         // Camera == null means closed. In case render occurs after closing
         // (called from the gfx thread).
+        Paint p = new Paint();
+
         if (graph != null && c != null && camera != null) {
             beginFrame();
 
             if (camera.getGraphViewport() == null && camera.getMetrics().diagonal == 0
                     && (graph.getNodeCount() == 0 && graph.getSpriteCount() == 0)) {
-                displayNothingToDo(c, width, height);
+                displayNothingToDo(c, p, width, height);
             } else {
                 camera.setPadding(graph);
                 camera.setViewport(x, y, width, height);
-                renderGraph(c);
-                renderSelection(c);
+                renderGraph(c, p);
+                renderSelection(c, p);
             }
 
             endFrame();
@@ -164,14 +164,14 @@ public class AndroidBasicGraphRenderer extends AndroidGraphRendererBase {
 
     // Rendering
 
-    protected void renderGraph(Canvas g) {
+    protected void renderGraph(Canvas g, Paint p) {
         StyleGroup style = graph.getStyle();
 
-        setupGraphics(g);
-        renderGraphBackground(g);
+        setupGraphics(g, p);
+        renderGraphBackground(g, p);
         renderBackLayer(g);
         camera.pushView(graph, g);
-        renderGraphElements(g);
+        renderGraphElements(g, p);
 
         if (style.getStrokeMode() != StyleConstants.StrokeMode.NONE && style.getStrokeWidth().value != 0) {
             GraphMetrics metrics = camera.getMetrics();
@@ -181,10 +181,10 @@ public class AndroidBasicGraphRenderer extends AndroidGraphRendererBase {
 
             rect.set((float) metrics.lo.x, (float) (metrics.lo.y + px1), (float) (metrics.size.data[0] - px1), (float) (metrics.size.data[1] - px1));
 
-            paint.setStrokeWidth((float) metrics.lengthToGu(stroke));
-            paint.setColor(ColorManager.getStrokeColor(graph.getStyle(), 0));
-            paint.setStyle(Paint.Style.FILL);
-            g.drawRect(rect, paint);
+            p.setStrokeWidth((float) metrics.lengthToGu(stroke));
+            p.setColor(ColorManager.getStrokeColor(graph.getStyle(), 0));
+            p.setStyle(Paint.Style.FILL);
+            g.drawRect(rect, p);
         }
 
         camera.popView(g);
@@ -196,7 +196,7 @@ public class AndroidBasicGraphRenderer extends AndroidGraphRendererBase {
      *
      * @param g The Swing graphics.
      */
-    protected void renderGraphBackground(Canvas g) {
+    protected void renderGraphBackground(Canvas g, Paint paint) {
         StyleGroup group = graph.getStyle();
 
         if (group.getFillMode() != StyleConstants.FillMode.NONE) {
@@ -212,14 +212,14 @@ public class AndroidBasicGraphRenderer extends AndroidGraphRendererBase {
      *
      * @param g The Swing graphics.
      */
-    protected void renderGraphElements(Canvas g) {
+    protected void renderGraphElements(Canvas g, Paint p) {
         try {
             StyleGroupSet sgs = graph.getStyleGroups();
             //System.out.println(sgs);
             if (sgs != null) {
                 for (HashSet<StyleGroup> groups : sgs.zIndex()) {
                     for (StyleGroup group : groups) {
-                        renderGroup(g, group);
+                        renderGroup(g, p, group);
                     }
                 }
             }
@@ -234,16 +234,16 @@ public class AndroidBasicGraphRenderer extends AndroidGraphRendererBase {
      * @param g     The Swing graphics.
      * @param group The group to render.
      */
-    protected void renderGroup(Canvas g, StyleGroup group) {
+    protected void renderGroup(Canvas g, Paint p, StyleGroup group) {
         switch (group.getType()) {
             case NODE:
-                nodeRenderer.render(group, g, camera);
+                nodeRenderer.render(group, g, p, camera);
                 break;
             case EDGE:
-                edgeRenderer.render(group, g, camera);
+                edgeRenderer.render(group, g, p, camera);
                 break;
             case SPRITE:
-                spriteRenderer.render(group, g, camera);
+                spriteRenderer.render(group, g, p, camera);
                 break;
             default:
                 // Do nothing
@@ -251,12 +251,12 @@ public class AndroidBasicGraphRenderer extends AndroidGraphRendererBase {
         }
     }
 
-    protected void setupSpriteStyle(Canvas g, StyleGroup group) {
+    protected void setupSpriteStyle(Canvas g, Paint paint, StyleGroup group) {
         int c = ColorManager.getFillColor(group, 0);
         paint.setColor(c);
     }
 
-    protected void renderSelection(Canvas g) {
+    protected void renderSelection(Canvas g, Paint paint) {
         if (selection != null && selection.x1 != selection.x2 && selection.y1 != selection.y2) {
             double x1 = selection.x1;
             double y1 = selection.y1;
@@ -320,7 +320,7 @@ public class AndroidBasicGraphRenderer extends AndroidGraphRendererBase {
      * Show the centre, the low and high points of the graph, and the visible
      * area (that should always map to the window borders).
      */
-    protected void debugVisibleArea(Canvas g) {
+    protected void debugVisibleArea(Canvas g, Paint paint) {
         RectF rect = new RectF();
         GraphMetrics metrics = camera.getMetrics();
 
@@ -360,7 +360,7 @@ public class AndroidBasicGraphRenderer extends AndroidGraphRendererBase {
     public void elementStyleChanged(Element element, StyleGroup oldStyle, StyleGroup style) {
     }
 
-    protected void setupGraphics(Canvas g) {
-        ColorManager.paint.setAntiAlias(graph.hasAttribute("ui.antialias"));
+    protected void setupGraphics(Canvas g, Paint p) {
+        p.setAntiAlias(graph.hasAttribute("ui.antialias"));
     }
 }

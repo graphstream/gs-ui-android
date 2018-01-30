@@ -2,6 +2,7 @@ package org.graphstream.ui.android.renderer.shape.android.baseShapes;
 
 import android.graphics.Canvas;
 import android.graphics.Matrix;
+import android.graphics.Paint;
 
 import org.graphstream.ui.geom.Point3;
 import org.graphstream.ui.geom.Vector2;
@@ -80,6 +81,7 @@ public class OrientableRectangularAreaShape extends RectangularAreaShape {
 		make(bck, false, camera);
 		
 		Canvas g = bck.graphics2D();
+		Paint paint = bck.getPaint();
  		
  		if (oriented) {
 	 		Matrix Tx = g.getMatrix();
@@ -88,8 +90,8 @@ public class OrientableRectangularAreaShape extends RectangularAreaShape {
 	 		g.rotate( (float)angle );						// 2. Rotate the image from its center.
 			g.translate( (float)-w/2, (float)-h/2 );	// 1. Position in center of the image.
 
-			strokable.stroke(g, theShape());
-	 		fillable.fill(g, theShape(), camera);
+			strokable.stroke(g, paint, theShape());
+	 		fillable.fill(g, paint, theShape(), camera);
 	 		g.setMatrix(Tx);							// Restore the original transform
 	 		((Form) theShape()).setFrame(area.theCenter.x-w/2, area.theCenter.y-h/2, w, h);
 	 		decorArea(bck, camera, skel.iconAndText, element, theShape());
@@ -112,7 +114,7 @@ public class OrientableRectangularAreaShape extends RectangularAreaShape {
 	 		g.rotate( (float)angle );							// 2. Rotate the image from its center.
 	 		g.translate( (float)-w/2, (float)-h/2 );		// 1. Position in center of the image.
 
- 			shadowable.cast(g, theShape());
+ 			shadowable.cast(g, bck.getPaint(), theShape());
 	 		g.setMatrix( Tx );									// Restore the original transform
  		} else {
  			super.renderShadow(bck, camera, element, skel);

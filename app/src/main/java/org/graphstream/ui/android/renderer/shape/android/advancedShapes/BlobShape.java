@@ -2,6 +2,7 @@ package org.graphstream.ui.android.renderer.shape.android.advancedShapes;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
 
 import org.graphstream.ui.android.util.ColorManager;
 import org.graphstream.ui.geom.Vector2;
@@ -199,32 +200,33 @@ public class BlobShape extends AreaConnectorShape {
 	@Override
 	public void render(Backend bck, DefaultCamera2D camera, GraphicElement element, Skeleton skeleton) {
 		Canvas g = bck.graphics2D();
+		Paint p = bck.getPaint();
 		make(bck, camera);
-		strokable.stroke(g, theShape);
-		fillable.fill(g, theShape, camera);
+		strokable.stroke(g, p, theShape);
+		fillable.fill(g, p, theShape, camera);
 		decorable.decorConnector(bck, camera, skel.iconAndText, element, theShape);	
 
 		if (showCubics.showControlPolygon) {
-			int color = ColorManager.paint.getColor();
+			int color = p.getColor();
 
-            Stroke oldS = new Stroke(ColorManager.paint.getStrokeWidth(), ColorManager.dashes, ColorManager.paint.getStrokeCap());
+            Stroke oldS = new Stroke(p.getStrokeWidth(), ColorManager.dashes, p.getStrokeCap());
 			
 			Stroke newS = new Stroke((float)camera.getMetrics().px1);
-			newS.changeStrokeProperties(g);
+			newS.changeStrokeProperties(g, p);
 
-			ColorManager.paint.setColor(Color.RED);
-			theShape.drawByPoints(g, false);
+			p.setColor(Color.RED);
+			theShape.drawByPoints(g, p, false);
 			
-			oldS.changeStrokeProperties(g);
-			ColorManager.paint.setColor(color);
+			oldS.changeStrokeProperties(g, p);
+			p.setColor(color);
 			
-			showCubics.showCtrlPoints(g, camera, (ConnectorSkeleton)skel);
+			showCubics.showCtrlPoints(g, p, camera, (ConnectorSkeleton)skel);
 		}
 	}
 
 	@Override
 	public void renderShadow(Backend bck, DefaultCamera2D camera, GraphicElement element, Skeleton skeleton) {
 		makeShadow(bck, camera);
-		shadowable.cast(bck.graphics2D(), theShape);
+		shadowable.cast(bck.graphics2D(), bck.getPaint(), theShape);
 	}
 }

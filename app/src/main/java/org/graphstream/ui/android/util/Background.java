@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
+import android.graphics.Paint;
 import android.graphics.Shader;
 
 public class Background {
@@ -47,25 +48,25 @@ public class Background {
         return resizedBitmap;
     }
 
-    public void applyPaint(Canvas c) {
+    public void applyPaint(Canvas c, Paint p) {
         if( color != -1 ) {
-            oldColor = ColorManager.paint.getColor();
-            ColorManager.paint.setColor(color);
+            oldColor = p.getColor();
+            p.setColor(color);
         }
         else if (gradient != null) {
-            ColorManager.paint.setShader(gradient);
+            p.setShader(gradient);
         }
         else if ( img != null ) {
-            c.drawBitmap(img, (float)x, (float)y, ColorManager.paint);
+            c.drawBitmap(img, (float)x, (float)y, p);
         }
     }
 
-    public void removePaint() {
+    public void removePaint(Paint p) {
         if( color != -1 ) {
-            ColorManager.paint.setColor(oldColor);
+            p.setColor(oldColor);
         }
         else if (gradient != null) {
-            ColorManager.paint.setShader(null);
+            p.setShader(null);
         }
     }
 }

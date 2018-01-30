@@ -45,27 +45,28 @@ public class GraphBackgroundRenderer implements GraphicElement.SwingElementRende
 		String msg1 = "Graph width/height/depth is zero !!";
 		String msg2 = "Place components using the 'xyz' attribute." ;
 		Canvas g = bck.graphics2D() ;
+        Paint p = bck.getPaint();
 
-        ColorManager.paint.setColor(Color.WHITE);
-        ColorManager.paint.setStyle(Paint.Style.FILL);
+        p.setColor(Color.WHITE);
+        p.setStyle(Paint.Style.FILL);
 
-		g.drawRect( 0, 0, w, h, ColorManager.paint);
+		g.drawRect( 0, 0, w, h, p);
 
-        ColorManager.paint.setColor(Color.RED);
-        ColorManager.paint.setStyle(Paint.Style.STROKE);
+        p.setColor(Color.RED);
+        p.setStyle(Paint.Style.STROKE);
 
-        g.drawLine(0, 0, w, h, ColorManager.paint);
-        g.drawLine(0, h, w, 0, ColorManager.paint);
+        g.drawLine(0, 0, w, h, p);
+        g.drawLine(0, h, w, 0, p);
 
-        double msg1length = ColorManager.paint.measureText(msg1);
-        double msg2length = ColorManager.paint.measureText(msg2);
+        double msg1length = p.measureText(msg1);
+        double msg2length = p.measureText(msg2);
 
         int x = w / 2;
 		int y = h / 2;
 
-        ColorManager.paint.setColor(Color.BLACK);
-		g.drawText(msg1, (float) (x - msg1length / 2), (float) (y - 20), ColorManager.paint);
-		g.drawText(msg2, (float) (x - msg2length / 2), (float) (y + 20), ColorManager.paint);
+        p.setColor(Color.BLACK);
+		g.drawText(msg1, (float) (x - msg1length / 2), (float) (y - 20), p);
+		g.drawText(msg2, (float) (x - msg2length / 2), (float) (y + 20), p);
 	}
 	
 	
@@ -82,53 +83,54 @@ public class GraphBackgroundRenderer implements GraphicElement.SwingElementRende
 
 	private void renderGraphBackground(Backend bck, DefaultCamera2D camera) {
 		Canvas g = bck.graphics2D() ;
+		Paint p = bck.getPaint();
 		switch (graph.getStyle().getFillMode()) {
 		case NONE:
 			break;
-		case IMAGE_TILED: fillImageTiled(g, camera);
+		case IMAGE_TILED: fillImageTiled(g, p, camera);
 			break;
-		case IMAGE_SCALED: fillImageScaled(g, camera, 0);
+		case IMAGE_SCALED: fillImageScaled(g, p, camera, 0);
 			break;
-		case IMAGE_SCALED_RATIO_MAX: fillImageScaled(g, camera, 1);
+		case IMAGE_SCALED_RATIO_MAX: fillImageScaled(g, p, camera, 1);
 			break;
-		case IMAGE_SCALED_RATIO_MIN: fillImageScaled(g, camera, 2);
+		case IMAGE_SCALED_RATIO_MIN: fillImageScaled(g, p, camera, 2);
 			break;
-		case GRADIENT_DIAGONAL1: fillGradient(g, camera);
+		case GRADIENT_DIAGONAL1: fillGradient(g, p, camera);
 			break;
-		case GRADIENT_DIAGONAL2: fillGradient(g, camera);
+		case GRADIENT_DIAGONAL2: fillGradient(g, p, camera);
 			break;
-		case GRADIENT_HORIZONTAL: fillGradient(g, camera);
+		case GRADIENT_HORIZONTAL: fillGradient(g, p, camera);
 			break;
-		case GRADIENT_VERTICAL: fillGradient(g, camera);
+		case GRADIENT_VERTICAL: fillGradient(g, p, camera);
 			break;
-		case GRADIENT_RADIAL: fillGradient(g, camera);
+		case GRADIENT_RADIAL: fillGradient(g, p, camera);
 			break;
-		case DYN_PLAIN: fillBackground(g, camera);
+		case DYN_PLAIN: fillBackground(g, p, camera);
 			break;
-		default: fillBackground(g, camera);
+		default: fillBackground(g, p, camera);
 			break;
 		}
 	}
 
-	private void fillBackground(Canvas g, DefaultCamera2D camera) {
+	private void fillBackground(Canvas g, Paint p, DefaultCamera2D camera) {
 		GraphMetrics metrics = camera.getMetrics();
 
-        ColorManager.paint.setColor(ColorManager.getFillColor(style, 0));
-        ColorManager.paint.setStyle(Paint.Style.FILL);
+        p.setColor(ColorManager.getFillColor(style, 0));
+        p.setStyle(Paint.Style.FILL);
 
-		g.drawRect(0, 0, (int)metrics.viewport[2], (int)metrics.viewport[3], ColorManager.paint);
+		g.drawRect(0, 0, (int)metrics.viewport[2], (int)metrics.viewport[3], p);
 	}
 	
-	private void fillCanvasBackground(Canvas g, DefaultCamera2D camera) {
+	private void fillCanvasBackground(Canvas g, Paint p, DefaultCamera2D camera) {
 		GraphMetrics metrics = camera.getMetrics();
 
-        ColorManager.paint.setColor(ColorManager.getCanvasColor(style, 0));
-        ColorManager.paint.setStyle(Paint.Style.FILL);
-		g.drawRect( 0, 0, (int) metrics.viewport[2], (int) metrics.viewport[3], ColorManager.paint);
+        p.setColor(ColorManager.getCanvasColor(style, 0));
+        p.setStyle(Paint.Style.FILL);
+		g.drawRect( 0, 0, (int) metrics.viewport[2], (int) metrics.viewport[3], p);
 	}
 	
 
-	private void fillImageTiled(Canvas g, DefaultCamera2D camera) {
+	private void fillImageTiled(Canvas g, Paint p, DefaultCamera2D camera) {
 		GraphMetrics metrics = camera.getMetrics();
 		double px2gu = metrics.ratioPx2Gu;
 		Bitmap img = null ;
@@ -143,13 +145,13 @@ public class GraphBackgroundRenderer implements GraphicElement.SwingElementRende
         float x     = (float)( metrics.viewport[2] / 2 ) - ( gw / 2 ) ;
         float y     = (float)(metrics.viewport[3] - ( metrics.viewport[3] / 2 ) - ( gh / 2 )) ;
 
-        ColorManager.paint.setStyle(Paint.Style.FILL);
-		g.drawBitmap(img, x, y, ColorManager.paint);
-		g.drawRect(0, 0, (float)metrics.viewport[2], (float)metrics.viewport[3], ColorManager.paint);
+        p.setStyle(Paint.Style.FILL);
+		g.drawBitmap(img, x, y, p);
+		g.drawRect(0, 0, (float)metrics.viewport[2], (float)metrics.viewport[3], p);
 	}
 	
 
-	private void fillImageScaled(Canvas g, DefaultCamera2D camera, int mode) {
+	private void fillImageScaled(Canvas g, Paint p, DefaultCamera2D camera, int mode) {
 		GraphMetrics metrics = camera.getMetrics();
 		double px2gu = metrics.ratioPx2Gu;
 		Bitmap img = null ;
@@ -159,14 +161,14 @@ public class GraphBackgroundRenderer implements GraphicElement.SwingElementRende
 			img = ImageCache.dummyImage();
 		}
 				
-		fillCanvasBackground( g, camera );
+		fillCanvasBackground( g, p, camera );
 		float gw    = (float)( metrics.graphWidthGU()  * px2gu ) ;
         float gh    = (float)( metrics.graphHeightGU() * px2gu ) ;
         float x     = (float)( metrics.viewport[2] / 2 ) - ( gw / 2 ) ;
         float y     = (float)( metrics.viewport[3] - ( metrics.viewport[3] / 2 ) - ( gh / 2 ) ) ;
 		
 		if (mode == 0) { // Ratio
-            g.drawBitmap(img, new Rect((int)x, (int)y, (int)(x+gw), (int)(y+gh)), new RectF(0.0f, 0.0f, img.getWidth(), img.getHeight()), ColorManager.paint);
+            g.drawBitmap(img, new Rect((int)x, (int)y, (int)(x+gw), (int)(y+gh)), new RectF(0.0f, 0.0f, img.getWidth(), img.getHeight()), p);
 		}
 		else if (mode == 1) { // Ratio-max
 			double ratioi = (double)img.getWidth() / (double)img.getHeight();
@@ -175,12 +177,12 @@ public class GraphBackgroundRenderer implements GraphicElement.SwingElementRende
 			if(ratioi > ratiog) {
 				double newgw = gh * ratioi;
 				double newx  = x - ((newgw-gw)/2);
-                g.drawBitmap(img, new Rect((int)newx, (int)y, (int)(newx+newgw), (int)(y+gh)), new RectF(0, 0, img.getWidth(), img.getHeight()), ColorManager.paint);
+                g.drawBitmap(img, new Rect((int)newx, (int)y, (int)(newx+newgw), (int)(y+gh)), new RectF(0, 0, img.getWidth(), img.getHeight()), p);
             }
 			else {
 				double newgh = gw / ratioi;
 				double newy  = y - ((newgh-gh)/2);
-                g.drawBitmap(img, new Rect((int)x, (int)newy, (int)(x+gw), (int)(newy+newgh)), new RectF(0, 0, img.getWidth(), img.getHeight()), ColorManager.paint);
+                g.drawBitmap(img, new Rect((int)x, (int)newy, (int)(x+gw), (int)(newy+newgh)), new RectF(0, 0, img.getWidth(), img.getHeight()), p);
             }
 		}
 		else if (mode == 2) { // Ratio-min
@@ -190,12 +192,12 @@ public class GraphBackgroundRenderer implements GraphicElement.SwingElementRende
 			if( ratiog > ratioi ) {
 				double newgw = gh * ratioi;
 				double newx  = x + ((gw-newgw)/2);
-                g.drawBitmap(img, new Rect((int)newx, (int)y, (int)(newx+newgw), (int)(y+gh)), new RectF(0, 0, img.getWidth(), img.getHeight()), ColorManager.paint);
+                g.drawBitmap(img, new Rect((int)newx, (int)y, (int)(newx+newgw), (int)(y+gh)), new RectF(0, 0, img.getWidth(), img.getHeight()), p);
             }
 			else {
 				double newgh = gw / ratioi;
 				double newy  = y + ((gh-newgh)/2);
-                g.drawBitmap(img, new Rect((int)x, (int)newy, (int)(x+gw), (int)(newy+newgh)), new RectF(0, 0, img.getWidth(), img.getHeight()), ColorManager.paint);
+                g.drawBitmap(img, new Rect((int)x, (int)newy, (int)(x+gw), (int)(newy+newgh)), new RectF(0, 0, img.getWidth(), img.getHeight()), p);
             }
 		}
 		else {
@@ -206,26 +208,26 @@ public class GraphBackgroundRenderer implements GraphicElement.SwingElementRende
 	private void strokeGraph(Backend bck, DefaultCamera2D camera) {
 		GraphMetrics metrics = camera.getMetrics();
 		Canvas g = bck.graphics2D() ;
-		
+		Paint p = bck.getPaint();
 		if( style.getStrokeMode() != StyleConstants.StrokeMode.NONE && style.getStrokeWidth().value > 0 ) {
-			ColorManager.paint.setColor( ColorManager.getStrokeColor(style, 0) );
+			p.setColor( ColorManager.getStrokeColor(style, 0) );
 
-			ColorManager.paint.setStrokeWidth((float)metrics.lengthToGu( style.getStrokeWidth()));
+			p.setStrokeWidth((float)metrics.lengthToGu( style.getStrokeWidth()));
 			int padx = (int)metrics.lengthToPx( style.getPadding(), 0 ) ;
 			int pady = padx ;
 			if( style.getPadding().size() > 1 ) 
 				pady = (int)metrics.lengthToPx( style.getPadding(), 1 );
 
-            ColorManager.paint.setStyle(Paint.Style.FILL);
-            g.drawRect(padx, pady, (int)metrics.viewport[2] - padx*2, (int)metrics.viewport[3] - pady*2 , ColorManager.paint);
+            p.setStyle(Paint.Style.FILL);
+            g.drawRect(padx, pady, (int)metrics.viewport[2] - padx*2, (int)metrics.viewport[3] - pady*2 , p);
 		}
 	}
 	
-	protected void fillGradient(Canvas g, DefaultCamera2D camera) {
+	protected void fillGradient(Canvas g, Paint p, DefaultCamera2D camera) {
 		GraphMetrics metrics = camera.getMetrics();
 
 		if( style.getFillColors().size() < 2 ) {
-			fillBackground( g, camera );
+			fillBackground( g, p, camera );
 		}
 		else {
 			int w = (int)metrics.viewport[2] ; 
@@ -233,11 +235,11 @@ public class GraphBackgroundRenderer implements GraphicElement.SwingElementRende
 
             Background b = GradientFactory.gradientInArea( 0, 0, w, h, style );
 			if (b != null)
-				b.applyPaint(g);
+				b.applyPaint(g, p);
 
-            ColorManager.paint.setStyle(Paint.Style.FILL);
-			g.drawRect( 0, 0, w, h, ColorManager.paint);
-            b.removePaint();
+            p.setStyle(Paint.Style.FILL);
+			g.drawRect( 0, 0, w, h, p);
+            //b.removePaint(p);
 		}
 	}
 	

@@ -2,6 +2,7 @@ package org.graphstream.ui.android;
 
 
 import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.view.SurfaceView;
 
 import org.graphstream.ui.android.renderer.GraphBackgroundRenderer;
@@ -29,6 +30,11 @@ public interface Backend extends org.graphstream.ui.view.camera.Backend {
      * The Java2D graphics.
      */
     Canvas graphics2D();
+
+    /**
+     * The brush for Canvas
+     */
+    Paint getPaint();
 
     Shape chooseNodeShape(Shape oldShape, StyleGroup group);
 
