@@ -144,8 +144,6 @@ public interface Form  {
 		}
 		
 		public void drawByPoints(Canvas c, Paint p, boolean stroke) {
-			Log.e("Debug", "Paint= "+p.getShader()+" "+p.getColor()+" "+c.isHardwareAccelerated());
-
             if (!stroke && fillable)
                 p.setStyle(Paint.Style.FILL);
             else

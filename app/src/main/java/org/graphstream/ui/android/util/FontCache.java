@@ -1,6 +1,7 @@
 package org.graphstream.ui.android.util;
 
 import android.graphics.Typeface;
+import android.util.Log;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -9,10 +10,10 @@ import org.graphstream.ui.graphicGraph.stylesheet.StyleConstants.TextStyle;
 
 public class FontCache {
 	
-	protected static Font defFont = new Font (Typeface.create("SansSerif", Typeface.NORMAL), 40) ;
+	protected static Font defFont = new Font(Typeface.create("SansSerif", Typeface.NORMAL), 11) ;
 	
 	protected static HashMap<String, FontSlot> cache = new HashMap<>();
-	
+
 	public static Font getDefaultFont() {
 		return defFont;
 	}

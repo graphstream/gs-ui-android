@@ -327,27 +327,31 @@ class AndroidTextBox extends TextBox {
 
 
     public void render(Backend backend, double xLeft, double yBottom) {
-
         if ( textData != null ) {
             Canvas g = backend.graphics2D();
-            Paint p = backend.getPaint();
+            Paint p = new Paint();
 
-            if (bgColor != -1) {
-                double a = getAscent() ;
-                double h = a + getDescent() ;
-
-                p.setColor(bgColor);
-                p.setStyle(Paint.Style.FILL);
-                if(rounded) {
-                    g.drawRoundRect((float)(xLeft-padx), (float)(yBottom-(a+pady)), (float)(getWidth()+1+(padx+padx)), (float)(h+(pady+pady)), 6, 6, p);
-                } else {
-                    g.drawRect((float)(xLeft-padx), (float)(yBottom-(a+pady)), (float)(getWidth()+1+(padx+padx)), (float)(h+(pady+pady)), p);
-                }
-            }
-            p.setColor(textColor);
             p.setTextSize(font.getSizeFont());
             p.setTypeface(font.getFont());
 
+            if (bgColor != -1) {
+                p.setColor(bgColor);
+                p.setStyle(Paint.Style.FILL);
+
+                Rect boundText = new Rect();
+                p.getTextBounds(textData, 0, textData.length(), boundText);
+                Log.e("Debug",textData+" bond= "+boundText.left+" "+boundText.top+" "+boundText.right+" "+boundText.bottom);
+
+                if(rounded) {
+                    g.drawRoundRect((float)(xLeft+padx), (float)(yBottom+(getAscent()+pady)), (float)((xLeft+getWidth())-1-(padx+padx)), (float)((yBottom+getHeight())-(pady+pady)), 6, 6, p);
+                } else {
+                    g.drawRect((float)(xLeft+boundText.left+padx), (float)(yBottom+boundText.top+pady), (float)((xLeft+boundText.right)-1-(padx+padx)), (float)((yBottom+boundText.bottom)-(pady+pady)), p);
+                }
+            }
+
+            p.setColor(textColor);
+
+            //Log.e("Debug","x= "+xLeft+" y= "+yBottom+" Asc= "+getAscent()+" desc= "+getDescent()+" padx= "+padx+" pady"+pady);
             g.drawText(textData, (float)xLeft, (float)yBottom, p);
         }
     }

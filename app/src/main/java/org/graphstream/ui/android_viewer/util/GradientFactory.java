@@ -30,7 +30,6 @@ public class GradientFactory {
 	 */
 	public static Background gradientInArea(int x0, int y0, int width, int height,
 											Style style) {
-		Log.e("Debug", "2 = "+style.getFillMode());
 		switch (style.getFillMode()) {
 			case GRADIENT_VERTICAL:
 				return linearGradientFromStyle(x0, y0, x0, y0 + height, style);
