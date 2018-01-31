@@ -1,6 +1,7 @@
 package org.graphstream.ui.android.renderer.shape.android.shapePart;
 
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 
 import org.graphstream.ui.android.util.Background;
@@ -38,11 +39,13 @@ public class Shadowable {
 			Background background = ((ShapeAreaPaint)shadowPaint).paint( shape, 1 ) ;
 			background.applyPaint(g, p);
 			shape.drawByPoints(g, p, false);
+			background.removePaint(p);
 		}
 		else if ( shadowPaint instanceof ShapeColorPaint ) {
 			Background background = ((ShapeColorPaint)shadowPaint).paint( 0, -1 ) ;
 			background.applyPaint(g, p);
 			shape.drawByPoints(g, p, false);
+            background.removePaint(p);
 		}
 		else {
 			System.out.println("no shadow !!!");

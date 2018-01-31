@@ -42,11 +42,13 @@ public class Fillable {
 				Background background = ((ShapeAreaPaint)fillPaint).paint(shape, camera.getMetrics().ratioPx2Gu) ;
 				background.applyPaint(g, p);
 				shape.drawByPoints(g, p, false);
+				background.removePaint(p);
 			}
 			else if (fillPaint instanceof ShapeColorPaint ) {
 				Background background = ((ShapeColorPaint)fillPaint).paint(dynColor, optColor);
 				background.applyPaint(g, p);
 				shape.drawByPoints(g, p, false);
+                background.removePaint(p);
 			}
 	    }
 	}

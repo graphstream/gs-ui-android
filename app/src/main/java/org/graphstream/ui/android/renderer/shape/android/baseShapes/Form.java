@@ -10,6 +10,8 @@ import android.util.Log;
 import org.graphstream.ui.android.util.ColorManager;
 import org.graphstream.ui.android.util.Stroke;
 
+import java.util.ArrayList;
+
 /**
  * The interface and the classes that implement it used by all shapes in renderer.shape.javafx 
  * for create and display a javafx.scene.shape.Shape in a Canvas.
@@ -105,42 +107,32 @@ public interface Form  {
 	}
 	
 	public class Path2D extends Path implements Form {
-		private int size ;
-		
 		private boolean fillable;
         private RectF bounds = new RectF();
-		
+
 		public Path2D(int nbElement, boolean fillable) {
 			super();
-			this.size = 0;
-			
 			this.fillable = fillable ;
 		}
 		
 		public void moveTo(double x, double y) {
 			super.moveTo((float)x, (float)y);
-			
-			size++;
-		}
+        }
 		
 		public void lineTo(double x, double y) {
             super.lineTo((float)x, (float)y);
-			size++;
 
-			computeBounds(this.bounds, true);
+            computeBounds(this.bounds, true);
 		}
 		
 		public void curveTo(double xc1, double yc1, double xc2, double yc2, double x1, double y1) {
             super.cubicTo((float)xc1, (float)yc1, (float)xc2, (float)yc2, (float)x1, (float)y1);
-			size++;
 
             computeBounds(this.bounds, true);
 		}
 		
 		public void quadTo(double cx, double cy, double x, double y) {
             super.quadTo((float)cx, (float)cy, (float)x, (float)y);
-			
-			size++;
 
             computeBounds(this.bounds, true);
 		}
@@ -148,19 +140,19 @@ public interface Form  {
 		public void closePath() {
             super.close();
 
-			size++ ;
-
             computeBounds(this.bounds, true);
 		}
 		
 		public void drawByPoints(Canvas c, Paint p, boolean stroke) {
+			Log.e("Debug", "Paint= "+p.getShader()+" "+p.getColor()+" "+c.isHardwareAccelerated());
+
             if (!stroke && fillable)
                 p.setStyle(Paint.Style.FILL);
             else
                 p.setStyle(Paint.Style.STROKE);
 
             c.drawPath(this, p);
-		}
+        }
 		
 		@Override
 		public String getIdForm() {
@@ -252,7 +244,7 @@ public interface Form  {
 
 		@Override
 		public void drawByPoints(Canvas g, Paint p, boolean stroke) {
-			g.drawLine(x1, y1, x2, y2, p);
+            g.drawLine(x1, y1, x2, y2, p);
 		}
 
 		@Override
@@ -372,13 +364,14 @@ public interface Form  {
 			
 			if(stroke) {
                 p.setStyle(Paint.Style.STROKE);
-				c.drawOval(path[0][0], path[0][1], path[1][0], path[1][1], p);
 			}
 			else {
                 p.setStyle(Paint.Style.FILL);
-                c.drawOval(path[0][0], path[0][1], path[1][0], path[1][1], p);
             }
-		}
+
+            c.drawOval(path[0][0], path[0][1], path[1][0], path[1][1], p);
+
+        }
 
 		@Override
 		public String getIdForm() {

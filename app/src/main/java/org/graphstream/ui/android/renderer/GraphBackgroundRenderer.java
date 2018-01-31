@@ -237,9 +237,9 @@ public class GraphBackgroundRenderer implements GraphicElement.SwingElementRende
 			if (b != null)
 				b.applyPaint(g, p);
 
-            p.setStyle(Paint.Style.FILL);
+			p.setStyle(Paint.Style.FILL);
 			g.drawRect( 0, 0, w, h, p);
-            //b.removePaint(p);
+            b.removePaint(p);
 		}
 	}
 	

@@ -96,7 +96,7 @@ public class ArrowOnEdge extends AreaOnConnectorShape {
 		}
 		
 		// Create a polygon.
-	
+
 		theShape = new Path2D(5, true);
 		theShape.moveTo( x , y );
 		theShape.lineTo( x - theDirection.x() + perp.x(), y - theDirection.y() + perp.y() );	
