@@ -13,7 +13,7 @@ import org.graphstream.ui.android.Backend;
 import org.graphstream.ui.android.util.ColorManager;
 import org.graphstream.ui.android.util.Font;
 import org.graphstream.ui.android.util.FontCache;
-import org.graphstream.ui.android_viewer.util.ImageCache;
+import org.graphstream.ui.android.util.ImageCache;
 import org.graphstream.ui.graphicGraph.GraphicElement;
 import org.graphstream.ui.graphicGraph.stylesheet.Style;
 import org.graphstream.ui.graphicGraph.stylesheet.StyleConstants.IconMode;
@@ -39,7 +39,8 @@ public abstract class IconAndText {
 
     public IconAndText(TextBox text, double offx, double offy, double padx, double pady) {
         this.descent = text.getDescent() ;
-        this.ascent = text.getAscent();		this.text = text ;
+        this.ascent = text.getAscent();
+        this.text = text ;
         this.offx = offx ;
         this.offy = offy ;
         this.padx = padx ;
@@ -135,6 +136,7 @@ class IconAtLeftAndText extends IconAndText {
 
     public IconAtLeftAndText(Bitmap icon, TextBox text, double offx, double offy, double padx, double pady ) {
         super(text, offx, offy, padx, pady);
+
         //this.width = text.getWidth() + icon.getWidth(null) + 5 + padx*2 ;
         //this.height = Math.max(icon.getHeight(null), text.ascent + text.descent) + pady*2;
         this.icon = icon ;
@@ -160,10 +162,11 @@ class IconAtLeftAndText extends IconAndText {
         Canvas g = backend.graphics2D();
         Paint p = backend.getPaint();
 
-        Matrix m = new Matrix();
-        float[] trans = {1f, 0f, 0f, 1f, (float)(offx+xLeft), (float)(offy+(yBottom-(getHeight()/2))-(icon.getHeight()/2)+pady)} ;
-        m.mapPoints(trans);
-        g.drawBitmap(icon, m, p);
+        Matrix mOrigin = g.getMatrix();
+        g.setMatrix( new Matrix() );
+        g.translate((float)(offx+xLeft), (float)(offy+(yBottom-(getHeight()/2))-(icon.getHeight()/2)+pady));
+        g.drawBitmap(icon, 0, 0, p);
+        g.setMatrix( mOrigin );
 
         double th = text.getAscent() + text.getDescent();
         double dh = 0f ;
@@ -171,6 +174,8 @@ class IconAtLeftAndText extends IconAndText {
             dh = ((icon.getHeight() - th) / 2f) ;
 
         this.text.render(backend, offx+xLeft + icon.getWidth() + 5, offy+yBottom - dh - descent);
+
+        backend.drawingSurface().invalidate(); // Fix refresh bug
     }
 
     public double getWidth() {
