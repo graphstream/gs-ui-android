@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Shader;
+import android.util.Log;
 
 public class Background {
     private int color = -1;
@@ -49,6 +50,7 @@ public class Background {
     }
 
     public void applyPaint(Canvas c, Paint p) {
+        Log.e("Debug", this.toString());
         if( color != -1 ) {
             oldColor = p.getColor();
             p.setColor(color);
@@ -57,7 +59,7 @@ public class Background {
             p.setShader(gradient);
         }
         else if ( img != null ) {
-            c.drawBitmap(img, (float)x, (float)y, p);
+            c.drawBitmap(img, x, y, p);
         }
     }
 
@@ -68,5 +70,14 @@ public class Background {
         else if (gradient != null) {
             p.setShader(null);
         }
+    }
+
+    @Override
+    public String toString() {
+        return "color = "+color+" shader = "+gradient+" img = "+img+" x = "+x+" y = "+y;
+    }
+
+    public boolean isImage() {
+        return (img!=null);
     }
 }

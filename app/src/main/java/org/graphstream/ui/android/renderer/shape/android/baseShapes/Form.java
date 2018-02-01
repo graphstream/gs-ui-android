@@ -274,14 +274,24 @@ public interface Form  {
 		}
 	}
 
-	public class Arc2D extends Path implements Form {
+	public class Arc2D implements Form {
         private RectF bounds = new RectF();
 
-		public void setArcByCenter(double x, double y, double rad, double angleSt, double angleLen) {
-            super.arcTo((float)(x-rad), (float)(y-rad), (float)rad*2, (float)rad*2, (float)angleSt, (float)angleLen, true);
+        private float left, top, right, bottom ;
+        private float rad, angleSt, angleLen ;
 
-            computeBounds(this.bounds, true);
-		}
+		public void setArcByCenter(double x, double y, double rad, double angleSt, double angleLen) {
+            //super.arcTo((float)x, (float)y, (float)(x+rad), (float)(y+rad), (float)angleSt, (float)angleLen, false);
+            this.left = (float)x;
+            this.top = (float)y;
+            this.right = (float)(x+rad);
+            this.bottom = (float)(y+rad);
+            this.rad = (float)rad ;
+            this.angleSt = (float)angleSt;
+            this.angleLen = (float)angleLen;
+
+            bounds = new RectF((float)x, (float)y, (float)(x+rad), (float)(y+rad));
+        }
 		
 		@Override
 		public void drawByPoints(Canvas c, Paint p, boolean stroke) {
@@ -290,7 +300,7 @@ public interface Form  {
             else
                 p.setStyle(Paint.Style.FILL);
 
-            c.drawPath(this, p);
+            c.drawArc(bounds, angleSt, angleLen, true, p);
         }
 		
 		@Override

@@ -3,6 +3,7 @@ package org.graphstream.ui.android.renderer.shape.android.advancedShapes;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.util.Log;
 
 import java.util.logging.Logger;
 
@@ -102,7 +103,7 @@ public class PieChartShape extends FillableMulticolored implements Shape, Attrib
             }
 
             if (sum > 1.01f)
-                Logger.getLogger(this.getClass().getSimpleName()).warning("[Sprite "+element.getId()+"] The sum of values for ui.pie-value should eval to 1 at max (actually "+sum+").");
+                Log.e("Error", "[Sprite "+element.getId()+"] The sum of values for ui.pie-value should eval to 1 at max (actually "+sum+").");
         }
 		else {
             // Draw a red empty circle to indicate "no value".

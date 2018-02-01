@@ -162,6 +162,7 @@ class IconAtLeftAndText extends IconAndText {
         Canvas g = backend.graphics2D();
         Paint p = backend.getPaint();
 
+        Log.e("Debug", "IconAndText");
         Matrix mOrigin = g.getMatrix();
         g.setMatrix( new Matrix() );
         g.translate((float)(offx+xLeft), (float)(offy+(yBottom-(getHeight()/2))-(icon.getHeight()/2)+pady));

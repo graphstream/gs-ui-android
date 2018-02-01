@@ -38,13 +38,15 @@ public class Shadowable {
 		if ( shadowPaint instanceof ShapeAreaPaint ) {
 			Background background = ((ShapeAreaPaint)shadowPaint).paint( shape, 1 ) ;
 			background.applyPaint(g, p);
-			shape.drawByPoints(g, p, false);
+			if (!background.isImage())
+				shape.drawByPoints(g, p, false);
 			background.removePaint(p);
 		}
 		else if ( shadowPaint instanceof ShapeColorPaint ) {
 			Background background = ((ShapeColorPaint)shadowPaint).paint( 0, -1 ) ;
 			background.applyPaint(g, p);
-			shape.drawByPoints(g, p, false);
+			if (!background.isImage())
+				shape.drawByPoints(g, p, false);
             background.removePaint(p);
 		}
 		else {
