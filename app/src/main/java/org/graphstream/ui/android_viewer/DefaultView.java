@@ -52,7 +52,6 @@ public class DefaultView extends ViewPanel {
         this.graph = viewer.getGraphicGraph();
         this.renderer = renderer;
 
-
         setMouseManager(null);
         setShortcutManager(null);
         renderer.open(graph, this);
@@ -79,8 +78,7 @@ public class DefaultView extends ViewPanel {
                 viewer.removeView(getIdView());
                 break;
             case HIDE_ONLY:
-                /*if (frame != null)
-                    frame.setVisible(false);*/
+                viewer.removeView(getIdView());
                 break;
             case EXIT:
                 System.exit(0);
@@ -195,10 +193,7 @@ public class DefaultView extends ViewPanel {
     }
 
     @Override
-    public void setShortcutManager(ShortcutManager shortcutManager) {
-    }
-
-
+    public void setShortcutManager(ShortcutManager shortcutManager) {}
 
     @Override
     public Object requireFocus() {

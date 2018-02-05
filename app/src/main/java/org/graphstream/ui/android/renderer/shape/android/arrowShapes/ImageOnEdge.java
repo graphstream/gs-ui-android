@@ -140,7 +140,7 @@ public class ImageOnEdge extends AreaOnConnectorShape {
  			g.rotate( (float)angle );														// 2. Rotate the image from its center.
  			g.translate( (float)-image.getWidth()/2, (float)-image.getHeight()/2 );	// 1. Position in center of the image.
 
- 			g.drawBitmap(image, 0, 0, bck.getPaint());														// Paint the image.
+ 			g.drawBitmap(image, 0, 0, new Paint());								// Paint the image.
  			g.setMatrix( Tx );															// Restore the original transform
  		}
 	}

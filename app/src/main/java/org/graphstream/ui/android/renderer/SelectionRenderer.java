@@ -31,7 +31,7 @@ public class SelectionRenderer {
 	    // XXX
 		if(selection.isActive() && selection.x1() != selection.x2() && selection.y1() != selection.y2()) {
 			Canvas g = bck.graphics2D();
-            Paint p = bck.getPaint();
+            Paint p = new Paint();
 
 			float x1 = selection.x1();
 			float y1 = selection.y1();

@@ -50,7 +50,6 @@ public class Background {
     }
 
     public void applyPaint(Canvas c, Paint p) {
-        Log.e("Debug", this.toString());
         if( color != -1 ) {
             oldColor = p.getColor();
             p.setColor(color);

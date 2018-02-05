@@ -13,21 +13,20 @@ import org.graphstream.graph.Graph;
 import org.graphstream.ui.android.AndroidFullGraphRenderer;
 import org.graphstream.ui.android_viewer.AndroidViewer;
 import org.graphstream.ui.android_viewer.DefaultView;
-import org.graphstream.ui.android_viewer.basicRenderer.AndroidBasicGraphRenderer;
 import org.graphstream.ui.layout.Layout;
 import org.graphstream.ui.layout.Layouts;
 
 public class DefaultFragment extends Fragment {
 
-    private static Graph graph ;
+    private Graph graph ;
     public static boolean autoLayout = true;
-    private AndroidViewer viewer ;
+    private AndroidViewer viewer = null ;
     private AndroidFullGraphRenderer renderer ;
 
-    public void init(Graph g) {
-        graph = g ;
+    public void init(Graph g, boolean autoLayout) {
+        this.graph = g ;
+        this.autoLayout = autoLayout;
     }
-
     /**
      * 1- Create only one Viewer
      * @param savedInstanceState
@@ -70,7 +69,5 @@ public class DefaultFragment extends Fragment {
         return view ;
     }
 
-    public AndroidViewer getViewer() {
-        return viewer;
-    }
+    public AndroidViewer getViewer() { return viewer; }
 }
