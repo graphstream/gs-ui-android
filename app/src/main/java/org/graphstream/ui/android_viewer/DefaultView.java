@@ -99,8 +99,13 @@ public class DefaultView extends ViewPanel {
     }*/
 
     public void render(Canvas c) {
-        renderer.render(c, (int)getX(), (int)getY(), getWidth(), getHeight());
+        float[] topLeft = {(float)0, (float)0};
 
+        c.getMatrix().mapPoints(topLeft, topLeft);
+
+        renderer.render(c, (int)topLeft[0], (int)topLeft[1], getWidth(), getHeight());
+
+        // No screenshot in android, renderer.screenshot is empty
         String screenshot = (String) graph.getLabel("ui.screenshot");
 
         if (screenshot != null) {

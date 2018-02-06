@@ -31,8 +31,6 @@
  */
 package org.graphstream.ui.android;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.Collection;
 import java.util.EnumSet;
 import java.util.logging.Logger;
@@ -66,7 +64,6 @@ import org.graphstream.ui.view.util.InteractiveElement;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Paint;
 import android.view.SurfaceView;
 
 /**	
