@@ -25,12 +25,12 @@ public class NodeRenderer extends StyleRenderer {
 
 	@Override
 	public void setupRenderingPass(Backend bck, DefaultCamera2D camera, boolean forShadow) {
-		shape = bck.chooseNodeShape(shape, group);	
+		shape = bck.chooseNodeShape(shape, group);
 	}
 
 	@Override
 	public void pushStyle(Backend bck, DefaultCamera2D camera, boolean forShadow) {
-		shape.configureForGroup(bck, group, camera);		
+		shape.configureForGroup(bck, group, camera);
 	}
 
 	@Override

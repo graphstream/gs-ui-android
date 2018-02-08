@@ -1,6 +1,7 @@
 package org.graphstream.ui.android_viewer.util;
 
 import android.view.MotionEvent;
+import android.view.SurfaceView;
 
 import org.graphstream.ui.graphicGraph.GraphicElement;
 import org.graphstream.ui.graphicGraph.GraphicGraph;
@@ -131,7 +132,15 @@ public class DefaultMouseManager implements MouseManager, android.view.View.OnTo
     }
 
     protected void elementMoving(GraphicElement element, MotionEvent event) {
-        view.moveElementAtPx(element, event.getX(), event.getY());
+        int statusBarHeight = 0;
+        SurfaceView v = (SurfaceView)view ;
+        if (!v.isHardwareAccelerated()) {
+            int resourceId = v.getResources().getIdentifier("status_bar_height", "dimen", "android");
+            if (resourceId > 0) {
+                statusBarHeight = v.getResources().getDimensionPixelSize(resourceId);
+            }
+        }
+        view.moveElementAtPx(element, event.getX(), event.getY()+statusBarHeight);
     }
 
     protected void mouseButtonReleaseOffElement(GraphicElement element,

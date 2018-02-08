@@ -6,18 +6,17 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.RectF;
 import android.util.Log;
+import android.view.SurfaceView;
+import android.view.View;
 
-import org.graphstream.ui.android.util.ColorManager;
 import org.graphstream.ui.android.util.Stroke;
-
-import java.util.ArrayList;
 
 /**
  * The interface and the classes that implement it used by all shapes in renderer.shape.javafx 
  * for create and display a javafx.scene.shape.Shape in a Canvas.
  */
 public interface Form  {	
-	public void drawByPoints(Canvas c, Paint p, boolean stroke) ;
+	public void drawByPoints(SurfaceView view, Canvas c, Paint p, boolean stroke) ;
 	public void setFrame(double x, double y, double w, double h);
 	public RectF getBounds() ; // Left, Top, Right, Bottom (x1, y1, x2, y2)
 	// used by the Double Stroke (see ShapeStroke.class)
@@ -56,7 +55,7 @@ public interface Form  {
 			this.bounds = new RectF((float)x, (float)y, (float)(w+x), (float)(h+y));
 		}
 		
-		public void drawByPoints(Canvas c, Paint p, boolean stroke) {
+		public void drawByPoints(SurfaceView view, Canvas c, Paint p, boolean stroke) {
 			if (doubleStroke) {
                 p.setStyle(Paint.Style.STROKE);
 
@@ -106,7 +105,7 @@ public interface Form  {
 		}
 	}
 	
-	public class Path2D extends Path implements Form {
+	public class Path2D extends Path implements Form{
 		private boolean fillable;
         private RectF bounds = new RectF();
 
@@ -143,8 +142,17 @@ public interface Form  {
             computeBounds(this.bounds, true);
 		}
 		
-		public void drawByPoints(Canvas c, Paint p, boolean stroke) {
-            if (!stroke && fillable)
+		public void drawByPoints(SurfaceView view, Canvas c, Paint p, boolean stroke) {
+            /**
+             * Fixes path bug with hardware acceleration
+             */
+		    if ( view.isHardwareAccelerated() ) {
+                view.setLayerType(View.LAYER_TYPE_SOFTWARE, p);
+                int colorWithoutAlpha = p.getColor() | 0xFF000000;
+                p.setColor(colorWithoutAlpha);
+            }
+
+		    if (!stroke && fillable)
                 p.setStyle(Paint.Style.FILL);
             else
                 p.setStyle(Paint.Style.STROKE);
@@ -188,7 +196,16 @@ public interface Form  {
 		}
 
 		@Override
-		public void drawByPoints(Canvas c, Paint p, boolean stroke) {
+		public void drawByPoints(SurfaceView view, Canvas c, Paint p, boolean stroke) {
+            /**
+             * Fixes path bug with hardware acceleration
+             */
+            if ( view.isHardwareAccelerated() ) {
+                view.setLayerType(View.LAYER_TYPE_SOFTWARE, p);
+                int colorWithoutAlpha = p.getColor() | 0xFF000000;
+                p.setColor(colorWithoutAlpha);
+            }
+
             p.setStyle(Paint.Style.STROKE);
 
             c.drawPath(this, p);
@@ -241,7 +258,7 @@ public interface Form  {
 		}
 
 		@Override
-		public void drawByPoints(Canvas g, Paint p, boolean stroke) {
+		public void drawByPoints(SurfaceView view, Canvas g, Paint p, boolean stroke) {
             g.drawLine(x1, y1, x2, y2, p);
 		}
 
@@ -290,11 +307,20 @@ public interface Form  {
             this.angleSt = (float)angleSt;
             this.angleLen = (float)angleLen;
 
-            bounds = new RectF((float)x, (float)y, (float)(x+rad), (float)(y+rad));
+            bounds = new RectF(left-((right-left)/2), top-((bottom-top)/2), right-((right-left)/2), bottom-((bottom-top)/2));
         }
 		
 		@Override
-		public void drawByPoints(Canvas c, Paint p, boolean stroke) {
+		public void drawByPoints(SurfaceView view, Canvas c, Paint p, boolean stroke) {
+            /**
+             * Fixes path bug with hardware acceleration
+             */
+            if ( view.isHardwareAccelerated() ) {
+                view.setLayerType(View.LAYER_TYPE_SOFTWARE, p);
+                int colorWithoutAlpha = p.getColor() | 0xFF000000;
+                p.setColor(colorWithoutAlpha);
+            }
+
 			if (stroke)
                 p.setStyle(Paint.Style.STROKE);
             else
@@ -333,14 +359,14 @@ public interface Form  {
 		
 		public void setFrameFromCenter(double centerX, double centerY, double cornerX, double cornerY) {
             /*bounds = new RectF((float)(centerX-(cornerX-centerX)), (float)(centerY-(cornerY-centerY)), (float)(cornerX-centerX)*2, (float)(cornerY-centerY)*2);
-			
+
 			path[0][0] = (float)(centerX-(cornerX-centerX)) ; path[0][1] = (float)(centerY-(cornerY-centerY)) ;
 			path[1][0] = (float)(cornerX-centerX)*2 ; path[1][1] = (float)(cornerY-centerY)*2;
 			*/
-            bounds = new RectF((float)centerX, (float)centerY, (float)(centerX+cornerX), (float)(centerY+cornerY));
+            path[0][0] = (float)(centerX-((cornerX-centerX)/2)) ; path[0][1] = (float)(centerY-((cornerY-centerY)/2));
+            path[1][0] = (float)(cornerX-((cornerX-centerX)/2)); path[1][1] = (float)(cornerY-((cornerY-centerY)/2));
 
-            path[0][0] = (float)centerX ; path[0][1] = (float)centerY;
-            path[1][0] = (float)cornerX; path[1][1] = (float)cornerY;
+            bounds = new RectF(path[0][0], path[0][1], path[1][0], path[1][1]);
 
             doubleStroke = false ;
 		}
@@ -350,16 +376,17 @@ public interface Form  {
 
             path[0][0] = (float)x ; path[0][1] = (float)y ;
 			path[1][0] = (float)cornerX ; path[1][1] = (float)cornerY ;*/
-            bounds = new RectF((float)x, (float)y, (float)(x+cornerX), (float)(y+cornerY));
 
             path[0][0] = (float)x ; path[0][1] = (float)y;
             path[1][0] = (float)(x+cornerX); path[1][1] = (float)(y+cornerY);
+
+            bounds = new RectF(path[0][0], path[0][1], path[1][0], path[1][1]);
 
             doubleStroke = false ;
 		}
 		
 		@Override
-		public void drawByPoints(Canvas c, Paint p, boolean stroke) {
+		public void drawByPoints(SurfaceView view, Canvas c, Paint p, boolean stroke) {
 			if (doubleStroke) {
 				strokeBig.changeStrokeProperties(c, p);
                 p.setStyle(Paint.Style.STROKE);
@@ -377,8 +404,7 @@ public interface Form  {
                 p.setStyle(Paint.Style.FILL);
             }
 
-            c.drawOval(path[0][0], path[0][1], path[1][0], path[1][1], p);
-
+            c.drawOval(bounds, p);
         }
 
 		@Override

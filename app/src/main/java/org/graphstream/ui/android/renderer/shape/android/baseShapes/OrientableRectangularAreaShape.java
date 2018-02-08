@@ -84,15 +84,15 @@ public class OrientableRectangularAreaShape extends RectangularAreaShape {
 		Paint paint = bck.getPaint();
  		
  		if (oriented) {
-	 		Matrix Tx = g.getMatrix();
-	 		g.setMatrix(new Matrix());						// An identity matrix.
+	 		Matrix Tx = bck.getMatrix();
+			bck.setMatrix(new Matrix());						// An identity matrix.
 	 		g.translate((float) p.x, (float)p.y );			// 3. Position the image at its position in the graph.
 	 		g.rotate( (float)angle );						// 2. Rotate the image from its center.
 			g.translate( (float)-w/2, (float)-h/2 );	// 1. Position in center of the image.
 
-			strokable.stroke(g, paint, theShape());
-	 		fillable.fill(g, paint, theShape(), camera);
-	 		g.setMatrix(Tx);							// Restore the original transform
+			strokable.stroke(bck.drawingSurface(), g, paint, theShape());
+	 		fillable.fill(bck.drawingSurface(), g, paint, theShape(), camera);
+			bck.setMatrix(Tx);							// Restore the original transform
 	 		((Form) theShape()).setFrame(area.theCenter.x-w/2, area.theCenter.y-h/2, w, h);
 	 		decorArea(bck, camera, skel.iconAndText, element, theShape());
  		}
@@ -108,14 +108,14 @@ public class OrientableRectangularAreaShape extends RectangularAreaShape {
  		Canvas g = bck.graphics2D();
  		
  		if (oriented) {
-			Matrix Tx = g.getMatrix();
-			g.setMatrix(new Matrix());							// An identity matrix.
+			Matrix Tx = bck.getMatrix();
+			bck.setMatrix(new Matrix());						// An identity matrix.
 	 		g.translate( (float)p.x, (float)p.y );				// 3. Position the image at its position in the graph.
 	 		g.rotate( (float)angle );							// 2. Rotate the image from its center.
 	 		g.translate( (float)-w/2, (float)-h/2 );		// 1. Position in center of the image.
 
- 			shadowable.cast(g, bck.getPaint(), theShape());
-	 		g.setMatrix( Tx );									// Restore the original transform
+ 			shadowable.cast(bck.drawingSurface(), g, bck.getPaint(), theShape());
+			bck.setMatrix( Tx );								// Restore the original transform
  		} else {
  			super.renderShadow(bck, camera, element, skel);
  		}

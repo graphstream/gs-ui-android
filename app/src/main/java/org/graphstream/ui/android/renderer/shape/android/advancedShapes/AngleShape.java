@@ -177,15 +177,15 @@ public class AngleShape extends AreaConnectorShape {
 		Paint p = bck.getPaint();
 
 		make(bck, camera);
-		strokable.stroke(g, p, theShape);
+		strokable.stroke(bck.drawingSurface(), g, p, theShape);
 		// 		fill( g, theSize, theShape, camera )
-		fillable.fill(g, p, theShape, camera);
+		fillable.fill(bck.drawingSurface(), g, p, theShape, camera);
 		decorable.decorConnector(bck, camera, skel.iconAndText, element, theShape);
 	}
 
 	@Override
 	public void renderShadow(Backend bck, DefaultCamera2D camera, GraphicElement element, Skeleton skeleton) {
 		makeShadow(bck, camera);
-		shadowable.cast(bck.graphics2D(), bck.getPaint(), theShape);
+		shadowable.cast(bck.drawingSurface(), bck.graphics2D(), bck.getPaint(), theShape);
 	}
 }

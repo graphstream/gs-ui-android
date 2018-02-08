@@ -46,8 +46,8 @@ public class FreePlaneNodeShape extends RectangularAreaShape {
 		Canvas g = bck.graphics2D();
 		Paint p = bck.getPaint();
 		make(bck, camera);
-		fillable.fill(g, p, theShape(), camera);
-		strokable.stroke(g, p, theLineShape);
+		fillable.fill(bck.drawingSurface(), g, p, theShape(), camera);
+		strokable.stroke(bck.drawingSurface(), g, p, theLineShape);
 		decorArea(bck, camera, skel.iconAndText, element, theShape());
 	}
 	

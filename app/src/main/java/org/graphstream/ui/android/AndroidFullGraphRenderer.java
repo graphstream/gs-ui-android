@@ -220,12 +220,12 @@ public class AndroidFullGraphRenderer implements GraphRenderer<SurfaceView, Canv
   	        
   		    if(backend == null)
   		        backend = new BackendJ2D(); // TODO choose it according to some setting ...
-  		    
+
   		    backend.prepareNewFrame(g);
   		    camera.setBackend(backend);
   		        
   			StyleGroupSet sgs = graph.getStyleGroups();
-  			
+
   			setupGraphics();
   			graph.computeBounds();
   			camera.setBounds(graph);
@@ -235,7 +235,7 @@ public class AndroidFullGraphRenderer implements GraphRenderer<SurfaceView, Canv
 
   			camera.pushView(graph);
   			sgs.shadows().forEach( s -> getStyleRenderer(s).renderShadow(backend, camera));
-  			
+
   			
   			sgs.getZIndex().forEach( groups -> {
   				groups.forEach( group -> {
@@ -244,10 +244,10 @@ public class AndroidFullGraphRenderer implements GraphRenderer<SurfaceView, Canv
 		  	  		}
   				});
   			});
- 
+
   			camera.popView();
   			renderForeLayer();
-  
+
   			if( selection.getRenderer() == null ) 
   				selection.setRenderer(new SelectionRenderer( selection, graph ));
   			selection.getRenderer().render(backend, camera, width, height );

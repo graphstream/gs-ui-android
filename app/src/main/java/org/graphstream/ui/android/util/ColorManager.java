@@ -7,7 +7,6 @@ import org.graphstream.ui.graphicGraph.StyleGroup;
 import org.graphstream.ui.graphicGraph.stylesheet.Style;
 
 public class ColorManager {
-    //public static Paint paint = new Paint();
     public static Float dashes = null ;
     /**
      * Get fill awt color in styleGroup and convert to android Color

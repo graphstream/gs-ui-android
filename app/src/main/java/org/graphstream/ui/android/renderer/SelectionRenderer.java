@@ -51,10 +51,10 @@ public class SelectionRenderer {
 			shape.setFrame(x1, y1, x2-x1, y2-y1);
 
             p.setColor(fillColor);
-            shape.drawByPoints(g, p, false);
+            shape.drawByPoints(bck.drawingSurface(), g, p, false);
 
             p.setColor(linesColorQ);
-            shape.drawByPoints(g, p, true);
+            shape.drawByPoints(bck.drawingSurface(), g, p, true);
 
             //p.setColor(color);
             //p.setStrokeWidth(width);

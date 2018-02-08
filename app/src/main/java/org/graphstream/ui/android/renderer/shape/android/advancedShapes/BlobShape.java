@@ -202,8 +202,8 @@ public class BlobShape extends AreaConnectorShape {
 		Canvas g = bck.graphics2D();
 		Paint p = bck.getPaint();
 		make(bck, camera);
-		strokable.stroke(g, p, theShape);
-		fillable.fill(g, p, theShape, camera);
+		strokable.stroke(bck.drawingSurface(), g, p, theShape);
+		fillable.fill(bck.drawingSurface(), g, p, theShape, camera);
 		decorable.decorConnector(bck, camera, skel.iconAndText, element, theShape);	
 
 		if (showCubics.showControlPolygon) {
@@ -215,7 +215,7 @@ public class BlobShape extends AreaConnectorShape {
 			newS.changeStrokeProperties(g, p);
 
 			p.setColor(Color.RED);
-			theShape.drawByPoints(g, p, false);
+			theShape.drawByPoints(bck.drawingSurface(), g, p, false);
 			
 			oldS.changeStrokeProperties(g, p);
 			p.setColor(color);
@@ -227,6 +227,6 @@ public class BlobShape extends AreaConnectorShape {
 	@Override
 	public void renderShadow(Backend bck, DefaultCamera2D camera, GraphicElement element, Skeleton skeleton) {
 		makeShadow(bck, camera);
-		shadowable.cast(bck.graphics2D(), bck.getPaint(), theShape);
+		shadowable.cast(bck.drawingSurface(), bck.graphics2D(), bck.getPaint(), theShape);
 	}
 }

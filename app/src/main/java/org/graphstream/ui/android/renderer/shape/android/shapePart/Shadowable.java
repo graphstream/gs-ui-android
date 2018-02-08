@@ -1,11 +1,10 @@
 package org.graphstream.ui.android.renderer.shape.android.shapePart;
 
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
+import android.view.SurfaceView;
 
 import org.graphstream.ui.android.util.Background;
-import org.graphstream.ui.android.util.ColorManager;
 import org.graphstream.ui.geom.Point2;
 import org.graphstream.ui.graphicGraph.stylesheet.Style;
 import org.graphstream.ui.view.camera.DefaultCamera2D;
@@ -34,19 +33,19 @@ public class Shadowable {
      * Render the shadow.
      * @param g The Java2D graphics.
      */
-	public void cast(Canvas g, Paint p, Form shape) {
+	public void cast(SurfaceView view, Canvas g, Paint p, Form shape) {
 		if ( shadowPaint instanceof ShapeAreaPaint ) {
 			Background background = ((ShapeAreaPaint)shadowPaint).paint( shape, 1 ) ;
 			background.applyPaint(g, p);
 			if (!background.isImage())
-				shape.drawByPoints(g, p, false);
+				shape.drawByPoints(view, g, p, false);
 			background.removePaint(p);
 		}
 		else if ( shadowPaint instanceof ShapeColorPaint ) {
 			Background background = ((ShapeColorPaint)shadowPaint).paint( 0, -1 ) ;
 			background.applyPaint(g, p);
 			if (!background.isImage())
-				shape.drawByPoints(g, p, false);
+				shape.drawByPoints(view, g, p, false);
             background.removePaint(p);
 		}
 		else {

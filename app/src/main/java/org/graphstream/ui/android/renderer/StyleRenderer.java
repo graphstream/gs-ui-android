@@ -1,6 +1,7 @@
 package org.graphstream.ui.android.renderer;
 
 import android.graphics.Canvas;
+import android.util.Log;
 
 import org.graphstream.ui.android.AndroidFullGraphRenderer;
 import org.graphstream.ui.android.Backend;
@@ -16,8 +17,8 @@ public abstract class StyleRenderer implements GraphicElement.SwingElementRender
 	public static StyleRenderer apply(StyleGroup style, AndroidFullGraphRenderer mainRenderer) {
 		switch (style.getType()) {
 			case NODE: return NodeRenderer.apply(style, mainRenderer) ; 
-			case EDGE: return new EdgeRenderer(style, mainRenderer) ; 
-			case SPRITE: return SpriteRenderer.apply(style, mainRenderer) ; 
+			case EDGE: return new EdgeRenderer(style, mainRenderer) ;
+			case SPRITE: return SpriteRenderer.apply(style, mainRenderer) ;
 			case GRAPH: System.out.println("we got a graph%n"); return null ;
 			default: throw new RuntimeException("WTF?");
 		}
@@ -57,17 +58,15 @@ public abstract class StyleRenderer implements GraphicElement.SwingElementRender
 		setupRenderingPass(bck, camera, shadow);
 		pushStyle(bck, camera, shadow);
 
-//var T1 = System.currentTimeMillis
-		group.bulkElements().forEach( e -> {
-			GraphicElement ge = (GraphicElement)e;
-	
-			if(camera.isVisible(ge))
-				render.apply(bck, camera, ge);
-			else 
-				elementInvisible(bck, camera, ge);
-		});
-//var T2 = System.currentTimeMillis
-			
+        group.bulkElements().forEach(e -> {
+            GraphicElement ge = (GraphicElement) e;
+
+            if (camera.isVisible(ge))
+                render.apply(bck, camera, ge);
+            else
+                elementInvisible(bck, camera, ge);
+        });
+
 		if(group.hasDynamicElements()) {
 			group.dynamicElements().forEach( e -> {
 				GraphicElement ge = (GraphicElement)e;
@@ -77,7 +76,7 @@ public abstract class StyleRenderer implements GraphicElement.SwingElementRender
 						pushDynStyle(bck, camera, ge);
 						render.apply(bck, camera, ge);
 					}
-				} 
+				}
 				else {
 					elementInvisible(bck, camera, ge);
 				}
@@ -87,24 +86,24 @@ public abstract class StyleRenderer implements GraphicElement.SwingElementRender
 		if(group.hasEventElements()) {
 			group.elementsEvents().forEach( event -> {
 				GraphicElement ge = (GraphicElement)event.getElement();
-				
+
 				if(camera.isVisible(ge)) {
 					event.activate();
 					pushStyle(bck, camera, shadow);
 					render.apply(bck, camera, ge);
 					event.deactivate();
-				} 
+				}
 				else {
 					elementInvisible(bck, camera, ge);
 				}
 			});
-			
+
 			hadEvents = true;
 		}
 		else {
 			hadEvents = false;
 		}
- 
+
 		endRenderingPass(bck, camera, shadow);
    }
 	

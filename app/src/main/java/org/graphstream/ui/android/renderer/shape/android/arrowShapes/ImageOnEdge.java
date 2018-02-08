@@ -133,15 +133,15 @@ public class ImageOnEdge extends AreaOnConnectorShape {
  		// fill( g, theShape, camera )
  		
  		if( image != null ) {
- 			Matrix Tx = g.getMatrix();
-			g.setMatrix( new Matrix() );													// An identity matrix.
+ 			Matrix Tx = bck.getMatrix();
+			bck.setMatrix( new Matrix() );													// An identity matrix.
 
 			g.translate( (float)p.x, (float)p.y );											// 3. Position the image at its position in the graph.
  			g.rotate( (float)angle );														// 2. Rotate the image from its center.
  			g.translate( (float)-image.getWidth()/2, (float)-image.getHeight()/2 );	// 1. Position in center of the image.
 
  			g.drawBitmap(image, 0, 0, new Paint());								// Paint the image.
- 			g.setMatrix( Tx );															// Restore the original transform
+			bck.setMatrix( Tx );															// Restore the original transform
  		}
 	}
 

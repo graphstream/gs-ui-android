@@ -14,15 +14,15 @@ public abstract class PolygonalShape extends AreaShape {
  
  	public void renderShadow(Backend bck, DefaultCamera2D camera, GraphicElement element, Skeleton skel) {
  		makeShadow(bck, camera);
- 		shadowable.cast(bck.graphics2D(), bck.getPaint(), theShape());
+ 		shadowable.cast(bck.drawingSurface(), bck.graphics2D(), bck.getPaint(), theShape());
  	}
   
  	public void render(Backend bck, DefaultCamera2D camera, GraphicElement element, Skeleton skel) {
  		Canvas g = bck.graphics2D();
 		Paint p = bck.getPaint();
  		make(bck, camera);
- 		fillable.fill(g, p, theShape(), camera);
- 		strokable.stroke(g, p, theShape());
+ 		fillable.fill(bck.drawingSurface(), g, p, theShape(), camera);
+ 		strokable.stroke(bck.drawingSurface(), g, p, theShape());
  		decorArea(bck, camera, skel.iconAndText, element, theShape());
  	}
  	

@@ -79,15 +79,14 @@ abstract class PxShapeDecor extends ShapeDecor {
 	 */
 	protected void renderGu2Px(Backend backend, DefaultCamera2D camera, IconAndText iconAndText, double x, double y, double angle,
 			FunctionIn<Backend, Point3, IconAndText, Double, Point3> positionPx ) {
-		Canvas g  = backend.graphics2D();
 		Point3 p  = camera.transformGuToPx( x, y, 0 );
-		Matrix Tx = g.getMatrix();
+		Matrix Tx = backend.getMatrix();
 
-		g.setMatrix( new Matrix() );
+		backend.setMatrix( new Matrix() );
 
 		p = positionPx.apply(backend, p, iconAndText, angle);
 		iconAndText.render(backend, camera, p.x, p.y );
-		g.setMatrix( Tx );
+		backend.setMatrix( Tx );
 	}
 }
 

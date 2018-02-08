@@ -1,9 +1,14 @@
 package org.graphstream.ui.android_viewer;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Canvas;
+import android.graphics.Matrix;
+import android.graphics.Rect;
+import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.View;
+import android.view.Window;
 
 import org.graphstream.ui.android_viewer.util.DefaultMouseManager;
 import org.graphstream.ui.graphicGraph.GraphicElement;
@@ -20,9 +25,6 @@ import java.util.Collection;
 import java.util.EnumSet;
 
 public class DefaultView extends ViewPanel {
-
-    // Thread where we drawing
-   // DrawingThread mThread;
 
     /**
      * Parent viewer.
@@ -59,9 +61,6 @@ public class DefaultView extends ViewPanel {
 
     public void surfaceCreated(SurfaceHolder holder) {
         graph.removeAttribute("ui.viewClosed");
-
-       /* mThread = new DrawingThread();
-        mThread.start();*/
     }
 
     @Override
@@ -93,17 +92,18 @@ public class DefaultView extends ViewPanel {
         return renderer.getCamera();
     }
 
-   /* public void doDraw(Canvas c) {
-        //checkTitle();
-        render(c);
-    }*/
-
     public void render(Canvas c) {
-        float[] topLeft = {(float)0, (float)0};
+        int statusBarHeight = 0;
 
-        c.getMatrix().mapPoints(topLeft, topLeft);
+        if (!isHardwareAccelerated()) {
+            int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
+            if (resourceId > 0) {
+                statusBarHeight = getResources().getDimensionPixelSize(resourceId);
+            }
+        }
 
-        renderer.render(c, (int)topLeft[0], (int)topLeft[1], getWidth(), getHeight());
+        renderer.render(c, (int)getX(), (int)getY()+statusBarHeight, getWidth(), getHeight());
+        //renderer.render(c, 0, statusBarHeight, getWidth(), getHeight());
 
         // No screenshot in android, renderer.screenshot is empty
         String screenshot = (String) graph.getLabel("ui.screenshot");
@@ -117,6 +117,7 @@ public class DefaultView extends ViewPanel {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+
         render(canvas);
     }
 

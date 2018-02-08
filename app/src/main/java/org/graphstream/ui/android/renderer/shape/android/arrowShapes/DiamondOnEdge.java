@@ -99,13 +99,13 @@ public class DiamondOnEdge extends AreaOnConnectorShape {
 		Canvas g = bck.graphics2D();
 		Paint p = bck.getPaint();
 		make( false, camera );
-		strokable.stroke( g, p, theShape );
-		fillable.fill( g, p, theShape, camera );
+		strokable.stroke(bck.drawingSurface(), g, p, theShape );
+		fillable.fill(bck.drawingSurface(), g, p, theShape, camera );
 	}
 
 	@Override
 	public void renderShadow(Backend bck, DefaultCamera2D camera, GraphicElement element, Skeleton skeleton) {
 		make( true, camera );
-		shadowable.cast(bck.graphics2D(), bck.getPaint(), theShape );
+		shadowable.cast(bck.drawingSurface(), bck.graphics2D(), bck.getPaint(), theShape );
 	}
 }

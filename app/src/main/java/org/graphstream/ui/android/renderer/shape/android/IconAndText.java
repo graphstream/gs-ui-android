@@ -162,11 +162,11 @@ class IconAtLeftAndText extends IconAndText {
         Canvas g = backend.graphics2D();
         Paint p = backend.getPaint();
 
-        Matrix mOrigin = g.getMatrix();
-        g.setMatrix( new Matrix() );
+        Matrix mOrigin = backend.getMatrix();
+        backend.setMatrix( new Matrix() );
         g.translate((float)(offx+xLeft), (float)(offy+(yBottom-(getHeight()/2))-(icon.getHeight()/2)+pady));
         g.drawBitmap(icon, 0, 0, new Paint());
-        g.setMatrix( mOrigin );
+        backend.setMatrix( mOrigin );
 
         double th = text.getAscent() + text.getDescent();
         double dh = 0f ;
@@ -175,7 +175,7 @@ class IconAtLeftAndText extends IconAndText {
 
         this.text.render(backend, offx+xLeft + icon.getWidth() + 5, offy+yBottom - dh - descent);
 
-        backend.drawingSurface().invalidate(); // Fix refresh bug
+        backend.drawingSurface().postInvalidate(); // Fix refresh bug
     }
 
     public double getWidth() {

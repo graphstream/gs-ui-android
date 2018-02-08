@@ -3,6 +3,7 @@ package org.graphstream.ui.android.renderer.shape.android.shapePart;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.util.Log;
+import android.view.SurfaceView;
 
 import org.graphstream.ui.android.util.Background;
 import org.graphstream.ui.android.util.ColorManager;
@@ -33,24 +34,24 @@ public class Fillable {
 	 * @param g The Java2D graphics.
 	 * @param dynColor The value between 0 and 1 allowing to know the dynamic plain color, if any.
 	 * @param shape The shape to fill. */
-	public void fill(Canvas g, Paint p, double dynColor, int optColor, Form shape, DefaultCamera2D camera) {
+	public void fill(SurfaceView view, Canvas g, Paint p, double dynColor, int optColor, Form shape, DefaultCamera2D camera) {
 		if(plainFast) {
 			p.setColor(theFillColor);
-			shape.drawByPoints(g, p, false);
+			shape.drawByPoints(view, g, p, false);
 	    } 
 		else {
 			if ( fillPaint instanceof ShapeAreaPaint ) {	
 				Background background = ((ShapeAreaPaint)fillPaint).paint(shape, camera.getMetrics().ratioPx2Gu) ;
 				background.applyPaint(g, p);
                 if (!background.isImage())
-					shape.drawByPoints(g, p, false);
+					shape.drawByPoints(view, g, p, false);
 				background.removePaint(p);
 			}
 			else if (fillPaint instanceof ShapeColorPaint ) {
 				Background background = ((ShapeColorPaint)fillPaint).paint(dynColor, optColor);
 				background.applyPaint(g, p);
 				if (!background.isImage())
-					shape.drawByPoints(g, p, false);
+					shape.drawByPoints(view, g, p, false);
                 background.removePaint(p);
 			}
 	    }
@@ -59,8 +60,8 @@ public class Fillable {
 	/** Fill the shape.
 	 * @param g The Java2D graphics.
 	 * @param shape The shape to fill. */
- 	public void fill(Canvas g, Paint p, Form shape, DefaultCamera2D camera) {
- 		fill( g, p, theFillPercent, theFillColor, shape, camera );
+ 	public void fill(SurfaceView view, Canvas g, Paint p, Form shape, DefaultCamera2D camera) {
+ 		fill(view, g, p, theFillPercent, theFillColor, shape, camera );
  	}
 
     /** Configure all static parts needed to fill the shape. */

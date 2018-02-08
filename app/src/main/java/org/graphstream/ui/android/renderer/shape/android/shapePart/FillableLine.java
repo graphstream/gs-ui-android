@@ -2,6 +2,7 @@ package org.graphstream.ui.android.renderer.shape.android.shapePart;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.view.SurfaceView;
 
 import org.graphstream.ui.graphicGraph.GraphicElement;
 import org.graphstream.ui.graphicGraph.stylesheet.Style;
@@ -19,22 +20,22 @@ public class FillableLine {
 	int theFillColor = -1 ;
 	boolean plainFast = false ;
   
-	public void fill(Canvas g, Paint p, double width, double dynColor, Form shape) {
+	public void fill(SurfaceView view, Canvas g, Paint p, double width, double dynColor, Form shape) {
 		if(fillStroke != null) {
 		    if(plainFast) {
 				p.setColor(theFillColor);
-				shape.drawByPoints(g, p, false);
+				shape.drawByPoints(view, g, p, false);
 		    }
 		    else {
 				p.setColor(theFillColor);
 				fillStroke.stroke((float)width, shape, -1).changeStrokeProperties(g, p);
 
-				shape.drawByPoints(g, p, false);
+				shape.drawByPoints(view, g, p, false);
 			}
 		}
 	}
  
-	public void fill(Canvas g, Paint p, double width, Form shape) { fill(g, p, width, theFillPercent, shape); }
+	public void fill(SurfaceView view, Canvas g, Paint p, double width, Form shape) { fill(view, g, p, width, theFillPercent, shape); }
  
 	public void configureFillableLineForGroup(Backend bck, Style style, DefaultCamera2D camera, double theSize) {
 		fillStroke = ShapeStroke.strokeForConnectorFill( style );

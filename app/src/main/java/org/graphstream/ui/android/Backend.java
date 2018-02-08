@@ -54,4 +54,13 @@ public interface Backend extends org.graphstream.ui.view.camera.Backend {
      * as it sees fit.
      */
     SurfaceView drawingSurface();
+
+    /**
+     * Access to currentTransform
+     */
+    Matrix getMatrix();
+
+    Matrix getMatrixSurface();
+
+    void setMatrix(Matrix m) ;
 }

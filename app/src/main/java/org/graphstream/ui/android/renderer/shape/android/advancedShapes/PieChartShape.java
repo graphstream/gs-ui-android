@@ -4,6 +4,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.Log;
+import android.view.SurfaceView;
 
 import java.util.logging.Logger;
 
@@ -74,13 +75,13 @@ public class PieChartShape extends FillableMulticolored implements Shape, Attrib
 		Paint p = bck.getPaint();
 		make(bck, camera);
 		checkValues(element);
-		fillPies(g, p, element);
+		fillPies(bck.drawingSurface(), g, p, element);
 		//fill(g, theSize, theShape)
-		strokabe.stroke(g, p, theShape);
+		strokabe.stroke(bck.drawingSurface(), g, p, theShape);
 		decorable.decorArea(bck, camera, skel.iconAndText, element, theShape);
 	}
 	
-	private void fillPies(Canvas g, Paint p, GraphicElement element) {
+	private void fillPies(SurfaceView view, Canvas g, Paint p, GraphicElement element) {
 		if (theValues != null) {
 			// we assume the pies values sum up to one. And we wont check it, its a mater of speed ;-).
 			Arc2D arc = new Arc2D();
@@ -96,7 +97,7 @@ public class PieChartShape extends FillableMulticolored implements Shape, Attrib
 
 				p.setColor(fillColors[(int) (col % fillColors.length)]);
 
-                arc.drawByPoints(g, p, false);
+                arc.drawByPoints(view, g, p, false);
                 beg = end;
                 sum += value;
                 col += 1;
@@ -110,7 +111,7 @@ public class PieChartShape extends FillableMulticolored implements Shape, Attrib
 
             p.setColor(Color.RED);
 
-            theShape.drawByPoints(g, p,false);
+            theShape.drawByPoints(view, g, p,false);
         }
 	}
 
@@ -131,6 +132,6 @@ public class PieChartShape extends FillableMulticolored implements Shape, Attrib
 	@Override
 	public void renderShadow(Backend bck, DefaultCamera2D camera, GraphicElement element, Skeleton skeleton) {
 		makeShadow(bck, camera);
-		shadowable.cast(bck.graphics2D(), bck.getPaint(), theShape);
+		shadowable.cast(bck.drawingSurface(), bck.graphics2D(), bck.getPaint(), theShape);
 	}	
 }

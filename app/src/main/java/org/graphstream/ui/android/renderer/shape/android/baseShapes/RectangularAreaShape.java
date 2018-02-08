@@ -29,15 +29,15 @@ public abstract class RectangularAreaShape extends AreaShape {
 	@Override
 	public void render(Backend bck, DefaultCamera2D camera, GraphicElement element, Skeleton skel) {
 		make(bck, camera);
- 		fillable.fill(bck.graphics2D(), bck.getPaint(), theShape(), camera);
- 		strokable.stroke(bck.graphics2D(), bck.getPaint(), theShape());
+ 		fillable.fill(bck.drawingSurface(), bck.graphics2D(), bck.getPaint(), theShape(), camera);
+ 		strokable.stroke(bck.drawingSurface(), bck.graphics2D(), bck.getPaint(), theShape());
  		decorArea(bck, camera, skel.iconAndText, element, theShape());
 	}
 
 	@Override
 	public void renderShadow(Backend bck, DefaultCamera2D camera, GraphicElement element, Skeleton skeleton) {
 		makeShadow(bck, camera);
- 		shadowable.cast(bck.graphics2D(), bck.getPaint(), theShape());
+ 		shadowable.cast(bck.drawingSurface(), bck.graphics2D(), bck.getPaint(), theShape());
 	}
 	
 	public Form theShape() {

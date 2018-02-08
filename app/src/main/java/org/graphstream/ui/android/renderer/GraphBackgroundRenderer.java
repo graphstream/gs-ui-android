@@ -6,8 +6,6 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.RectF;
-import android.os.Debug;
-import android.util.Log;
 
 import org.graphstream.ui.android.Backend;
 import org.graphstream.ui.android.util.Background;
@@ -230,7 +228,7 @@ public class GraphBackgroundRenderer implements GraphicElement.SwingElementRende
 			fillBackground( g, p, camera );
 		}
 		else {
-			int w = (int)metrics.viewport[2] ; 
+			int w = (int)metrics.viewport[2] ;
 			int h = (int)metrics.viewport[3] ;
 
             Background b = GradientFactory.gradientInArea( 0, 0, w, h, style );

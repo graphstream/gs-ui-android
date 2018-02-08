@@ -223,8 +223,8 @@ public class SpriteFlowShape implements Shape {
  		    Canvas g = bck.graphics2D();
 			Paint p = bck.getPaint();
  			make(bck, camera);
- 			strokableLine.stroke( g, p, theShape );
- 			fillableLine.fill( g, p, theSize, theShape );
+ 			strokableLine.stroke(bck.drawingSurface(),  g, p, theShape );
+ 			fillableLine.fill(bck.drawingSurface(), g, p, theSize, theShape );
  			decorable.decorConnector( bck, camera, skel.iconAndText, element, theShape );
  		}
 	}
@@ -233,7 +233,7 @@ public class SpriteFlowShape implements Shape {
 	public void renderShadow(Backend bck, DefaultCamera2D camera, GraphicElement element, Skeleton skeleton) {
 		if( connectorSkel != null ) {
 			makeShadow(bck, camera);
-			shadowableLine.cast(bck.graphics2D(), bck.getPaint(), theShape );
+			shadowableLine.cast(bck.drawingSurface(), bck.graphics2D(), bck.getPaint(), theShape );
 		}
 	}
 	

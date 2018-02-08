@@ -48,11 +48,13 @@ public class BackendJ2D implements Backend {
 	private Stack<Matrix> matrixStack ;
 	private Matrix Tx ;
 	private Matrix xT ;
-	private Point dummyPoint = new Point(-1, -1);
+	private Matrix currentTransform ; // save the current transform because we can't use g.getMatrix() if we want to support hardware acceleration
+	private Point3 dummyPoint = new Point3(-1, -1);
 	
 	public BackendJ2D() {
 		surface = null ;
 		g2 = null ;
+        currentTransform = null ;
 		p = null ;
 		matrixStack = new Stack<>() ;
 		Tx = null ;
@@ -77,18 +79,47 @@ public class BackendJ2D implements Backend {
 	public void prepareNewFrame(Canvas g) {
 		this.g2 = g ;
 		this.p = new Paint();
-		Tx = g2.getMatrix();
-		matrixStack.clear();
+
+ 		currentTransform = getMatrixSurface();
+
+        Tx = getMatrixSurface();
+        matrixStack.clear();
 	}
+
+	public Matrix getMatrix(){
+        return currentTransform;
+    }
+
+    /**
+     * Setup the transformation with translation for the status bar of android
+     */
+    public Matrix getMatrixSurface(){
+        Matrix origin = surface.getMatrix();
+
+        if (!surface.isHardwareAccelerated()) {
+            int statusBarHeight = 0;
+            int resourceId = surface.getResources().getIdentifier("status_bar_height", "dimen", "android");
+            if (resourceId > 0) {
+                statusBarHeight = surface.getResources().getDimensionPixelSize(resourceId);
+            }
+            origin.postTranslate(0, statusBarHeight);
+        }
+        return origin ;
+    }
+
+    public void setMatrix(Matrix m) {
+        currentTransform = m ;
+	    g2.setMatrix(m);
+    }
 
 	@Override
 	public Point3 transform(double x, double y, double z) {
 		float[] p = {(float)x, (float)y};
 		Tx.mapPoints(p, p);
 
-		dummyPoint = new Point((int)p[0], (int)p[1]);
+		dummyPoint = new Point3(p[0], p[1], 0);
 
-		return new Point3(dummyPoint.x, dummyPoint.y, 0);
+		return dummyPoint;
 	}
 
 	@Override
@@ -96,9 +127,8 @@ public class BackendJ2D implements Backend {
         float[] p = {(float)x, (float)y};
         xT.mapPoints(p, p);
 
-        dummyPoint = new Point((int)p[0], (int)p[1]);
-
-        return new Point3(dummyPoint.x, dummyPoint.y, 0);
+        dummyPoint = new Point3(p[0], p[1], 0);
+        return dummyPoint;
 	}
 
 	@Override
@@ -106,9 +136,9 @@ public class BackendJ2D implements Backend {
         float[] point = {(float)p.x, (float)p.y};
         Tx.mapPoints(point, point);
 
-        dummyPoint = new Point((int)point[0], (int)point[1]);
+        dummyPoint = new Point3(point[0], point[1], 0);
         p.set(dummyPoint.x, dummyPoint.y, 0);
-        return new Point3(dummyPoint.x, dummyPoint.y, 0);
+        return dummyPoint;
 	}
 
 	@Override
@@ -116,14 +146,14 @@ public class BackendJ2D implements Backend {
         float[] point = {(float)p.x, (float)p.y};
         xT.mapPoints(point, point);
 
-        dummyPoint = new Point((int)point[0], (int)point[1]);
+        dummyPoint = new Point3(point[0], point[1], 0);
         p.set(dummyPoint.x, dummyPoint.y, 0);
-        return new Point3(dummyPoint.x, dummyPoint.y, 0);
+        return dummyPoint;
 	}
 
 	@Override
 	public void pushTransform() {
-		matrixStack.push(g2.getMatrix());
+        matrixStack.push(new Matrix(getMatrix()));
 	}
 
 	@Override
@@ -134,22 +164,28 @@ public class BackendJ2D implements Backend {
 
 	@Override
 	public void translate(double tx, double ty, double tz) {
-		g2.translate((float)tx, (float)ty);
+	    Matrix m = getMatrix() ;
+	    m.preTranslate((float)tx, (float)ty);
+	    setMatrix(m);
 	}
 
 	@Override
 	public void rotate(double angle, double ax, double ay, double az) {
-		g2.rotate((float)angle);
+	    Matrix m = getMatrix() ;
+	    m.preRotate((float)angle);
+        setMatrix(m);
 	}
 
 	@Override
 	public void scale(double sx, double sy, double sz) {
-		g2.scale((float)sx, (float)sy);
+        Matrix m = getMatrix() ;
+        m.preScale((float)sx, (float)sy);
+        setMatrix(m);
 	}
 
 	@Override
 	public void endTransform() {
-		Tx = g2.getMatrix();
+		Tx = getMatrix();
 		computeInverse();
 	}
 
@@ -163,40 +199,16 @@ public class BackendJ2D implements Backend {
 	@Override
 	public void popTransform() {
 		assert(!matrixStack.isEmpty());
-		g2.setMatrix(matrixStack.pop());
+		setMatrix(matrixStack.pop());
 	}
 
 	@Override
-	/**
-	 * Antialiasing and Quality are set directly in the main Application (see DefaultApplication.class)
-	 */
 	public void setAntialias(Boolean on) {
-		/*if(on) {
-			g2.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL,    RenderingHints.VALUE_STROKE_PURE);
-			g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-			g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,      RenderingHints.VALUE_ANTIALIAS_ON);
-		}
-		else {
-			g2.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL,    RenderingHints.VALUE_STROKE_DEFAULT);
-			g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_OFF);
-			g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,      RenderingHints.VALUE_ANTIALIAS_OFF);
-		}*/
         p.setAntiAlias(on);
 	}
 
 	@Override
 	public void setQuality(Boolean on) {
-		/*if(on) {
-			g2.setRenderingHint(RenderingHints.KEY_RENDERING,           RenderingHints.VALUE_RENDER_QUALITY);
-			g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION,       RenderingHints.VALUE_INTERPOLATION_BICUBIC);
-			g2.setRenderingHint(RenderingHints.KEY_COLOR_RENDERING,     RenderingHints.VALUE_COLOR_RENDER_QUALITY);
-			g2.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY);
-		} else {
-			g2.setRenderingHint(RenderingHints.KEY_RENDERING,           RenderingHints.VALUE_RENDER_SPEED);
-			g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION,       RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
-			g2.setRenderingHint(RenderingHints.KEY_COLOR_RENDERING,     RenderingHints.VALUE_COLOR_RENDER_SPEED);
-			g2.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_SPEED);
-		}*/
 	}
 
 	@Override
