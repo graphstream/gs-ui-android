@@ -19,15 +19,12 @@ public class SpriteRenderer extends StyleRenderer {
 	}
 	
 	public static StyleRenderer apply(StyleGroup style, AndroidFullGraphRenderer renderer) {
-		/*if( style.getShape() == org.graphstream.ui.graphicGraph.stylesheet.StyleConstants.Shape.JCOMPONENT )
-		     return new JComponentRenderer( style, renderer );
-		else*/
-			return new SpriteRenderer( style );
+    	return new SpriteRenderer( style );
 	}
 
 	@Override
 	public void setupRenderingPass(Backend bck, DefaultCamera2D camera, boolean forShadow) {
-		shape = bck.chooseSpriteShape(shape, group);		
+		shape = bck.chooseSpriteShape(shape, group);
 	}
 
 	@Override
@@ -42,7 +39,7 @@ public class SpriteRenderer extends StyleRenderer {
 	public void renderElement(Backend bck, DefaultCamera2D camera, GraphicElement element) {
 		GraphicSprite sprite = (GraphicSprite)element;
 		AreaSkeleton skel = getOrSetAreaSkeleton(element);
-		
+
 		shape.configureForElement(bck, element, skel, camera);
 		shape.render(bck, camera, element, skel);
 	}

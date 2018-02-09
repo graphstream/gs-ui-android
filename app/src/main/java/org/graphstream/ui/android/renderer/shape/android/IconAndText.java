@@ -336,6 +336,10 @@ class AndroidTextBox extends TextBox {
             Canvas g = backend.graphics2D();
             Paint p = new Paint();
 
+            Rect boundCharacter = new Rect();
+            p.getTextBounds("A", 0, 1, boundCharacter);
+            final float constant = boundCharacter.width()/2 ;
+
             p.setTextSize(font.getSizeFont());
             p.setTypeface(font.getFont());
 
@@ -347,16 +351,15 @@ class AndroidTextBox extends TextBox {
                 p.getTextBounds(textData, 0, textData.length(), boundText);
 
                 if(rounded) {
-                    g.drawRoundRect((float)(xLeft+padx), (float)(yBottom+(getAscent()+pady)), (float)((xLeft+getWidth())-1-(padx+padx)), (float)((yBottom+getHeight())-(pady+pady)), 6, 6, p);
+                    g.drawRoundRect((float)(xLeft+padx)-constant, (float)(yBottom+(getAscent()+pady))+(font.getSizeFont()/2), (float)((xLeft+getWidth())-1-(padx+padx))-constant, (float)((yBottom+getHeight())-(pady+pady))+(font.getSizeFont()/2), 6, 6, p);
                 } else {
-                    g.drawRect((float)(xLeft+boundText.left+padx), (float)(yBottom+boundText.top+pady), (float)((xLeft+boundText.right)-1-(padx+padx)), (float)((yBottom+boundText.bottom)-(pady+pady)), p);
+                    g.drawRect((float)(xLeft+boundText.left+padx)-constant, (float)(yBottom+boundText.top+pady)+(font.getSizeFont()/2), (float)((xLeft+boundText.right)-1-(padx+padx))-constant, (float)((yBottom+boundText.bottom)-(pady+pady))+(font.getSizeFont()/2), p);
                 }
             }
 
             p.setColor(textColor);
 
-            //Log.e("Debug","x= "+xLeft+" y= "+yBottom+" Asc= "+getAscent()+" desc= "+getDescent()+" padx= "+padx+" pady"+pady);
-            g.drawText(textData, (float)xLeft, (float)yBottom, p);
+            g.drawText(textData, (float)xLeft-constant, (float)yBottom+(font.getSizeFont()/2), p);
         }
     }
 }

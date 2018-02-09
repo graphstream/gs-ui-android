@@ -12,7 +12,7 @@ public abstract class RectangularAreaShape extends AreaShape {
 	public void make(Backend backend, DefaultCamera2D camera) {
 		float w = (float)area.theSize.x;
 		float h = (float)area.theSize.y;
-		
+
 		((Form)theShape()).setFrame((float)area.theCenter.x-w/2, (float)area.theCenter.y-h/2, w, h);
 	}
 
