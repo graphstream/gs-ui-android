@@ -132,15 +132,17 @@ public class DefaultMouseManager implements MouseManager, android.view.View.OnTo
     }
 
     protected void elementMoving(GraphicElement element, MotionEvent event) {
-        int statusBarHeight = 0;
         SurfaceView v = (SurfaceView)view ;
+
+        // get the surfaceView's location on screen
+        int[] location = new int[2];
+        location[0] = 0; location[1] = 0;
+
         if (!v.isHardwareAccelerated()) {
-            int resourceId = v.getResources().getIdentifier("status_bar_height", "dimen", "android");
-            if (resourceId > 0) {
-                statusBarHeight = v.getResources().getDimensionPixelSize(resourceId);
-            }
+            v.getLocationOnScreen(location);
         }
-        view.moveElementAtPx(element, event.getX(), event.getY()+statusBarHeight);
+
+        view.moveElementAtPx(element, event.getX()+location[0], event.getY()+location[1]);
     }
 
     protected void mouseButtonReleaseOffElement(GraphicElement element,

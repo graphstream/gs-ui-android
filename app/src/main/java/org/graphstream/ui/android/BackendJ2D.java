@@ -97,12 +97,13 @@ public class BackendJ2D implements Backend {
         Matrix origin = surface.getMatrix();
 
         if (!surface.isHardwareAccelerated()) {
-            int statusBarHeight = 0;
-            int resourceId = surface.getResources().getIdentifier("status_bar_height", "dimen", "android");
-            if (resourceId > 0) {
-                statusBarHeight = surface.getResources().getDimensionPixelSize(resourceId);
-            }
-            origin.postTranslate(0, statusBarHeight);
+			// get the surfaceView's location on screen
+			int[] location = new int[2];
+			location[0] = 0; location[1] = 0;
+
+			surface.getLocationOnScreen(location);
+
+            origin.postTranslate(location[0], location[1]);
         }
         return origin ;
     }
@@ -190,6 +191,7 @@ public class BackendJ2D implements Backend {
 	}
 
 	private void computeInverse() {
+        Log.e("Debug", getMatrix()+"");
 	    xT = new Matrix(Tx);
 		if( !xT.invert(xT)) {
             Log.e("Error", "Cannot inverse matrix. " + this.getClass().getSimpleName());

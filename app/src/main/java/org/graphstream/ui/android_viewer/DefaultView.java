@@ -93,16 +93,15 @@ public class DefaultView extends ViewPanel {
     }
 
     public void render(Canvas c) {
-        int statusBarHeight = 0;
+        // get the surfaceView's location on screen
+        int[] location = new int[2];
+        location[0] = 0; location[1] = 0;
 
         if (!isHardwareAccelerated()) {
-            int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
-            if (resourceId > 0) {
-                statusBarHeight = getResources().getDimensionPixelSize(resourceId);
-            }
+            getLocationOnScreen(location);
         }
 
-        renderer.render(c, (int)getX(), (int)getY()+statusBarHeight, getWidth(), getHeight());
+        renderer.render(c, location[0], location[1], getWidth(), getHeight());
         //renderer.render(c, 0, statusBarHeight, getWidth(), getHeight());
 
         // No screenshot in android, renderer.screenshot is empty

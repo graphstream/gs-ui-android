@@ -8,7 +8,7 @@ import org.graphstream.graph.Graph;
 import org.graphstream.stream.ProxyPipe;
 import org.graphstream.stream.Source;
 import org.graphstream.stream.thread.ThreadProxyPipe;
-import org.graphstream.ui.android_viewer.basicRenderer.AndroidBasicGraphRenderer;
+import org.graphstream.ui.android.AndroidFullGraphRenderer;
 import org.graphstream.ui.graphicGraph.GraphicGraph;
 import org.graphstream.ui.view.GraphRenderer;
 import org.graphstream.ui.view.View;
@@ -195,7 +195,7 @@ public class AndroidViewer extends Viewer {
     }
 
     public GraphRenderer<?, ?> newDefaultGraphRenderer() {
-        return new AndroidBasicGraphRenderer();
+        return new AndroidFullGraphRenderer();
     }
 
     class MyTimer extends CountDownTimer
