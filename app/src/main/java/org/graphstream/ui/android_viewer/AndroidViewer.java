@@ -213,7 +213,7 @@ public class AndroidViewer extends Viewer {
 
         @Override
         public void onTick(long millisUntilFinished) {
-            Log.e("Debug", "tick");
+            //Log.e("Debug", "tick");
             //fired on each interval
             synchronized (views) {
                 if (pumpPipe != null)
