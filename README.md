@@ -1,67 +1,82 @@
-GraphStream
-===========
+# GraphStream -- Android Viewer
 
-Welcome to GraphStream, and thank you for your download, we hope you will find it useful and practical.
+The GraphStream project is a java library that provides an API to model, analyze and visualize graphs and dynamic graphs.
 
-We are always interested by suggestions on how to make the library more developer friendly, see the [website](http://graphstream-project.org) for more information.
+This module contains a Android implementation of the GraphStream Viewer.
 
-UI
---
+Check out the Website <http://www.graphstream-project.org/> for more information.
 
-This module is intended to provide several alternative graph "renderers" to be used with the GraphStream Viewer. It contains actually one renderer, the android version of the basic swing renderer.
+## UI
 
 This renderer supports almost all of the CSS properties defined in the [GraphStream CSS Reference](http://graphstream-project.org/doc/Tutorials/GraphStream-CSS-Reference_1.0/), however it is still a work in progress. This viewer is intended only at 2D visualization actually.
 
 We are interested in any suggestion to improve this renderer, and your use cases could be of great help for us in developing this project. If you like and use this project, this could be a good contribution.
 
-Building
---------
-The project need gs-core 2.0 for compile.
+## Install UI
 
-If you works with Android Studio :
+`gs-ui-android` is a plugin to the `gs-core` main project.
 
-- Display gradle menu
+The release comes with a pre-packaged aar file named `gs-ui-android.aar` that contains the GraphStream viewer classes. It depends on the root project `gs-core`.
 
-- Execute app>Tasks>build>assemble
+ For using Graphstream, your project <b>must</b> run with java 8
 
-- Get the AAR in app>build>outputs>aar
+ Add the .aar in your project following these instructions : https://developer.android.com/studio/projects/android-library.html#AddDependency
 
-The release comes with a pre-packaged AAR file named gs-ui-android.aar that contains the GraphStream classes related to this UI. To start using GraphStream, follow the instructions in Running section.
+ You can download GraphStream on the github releases pages:
 
-Running
---------
-For using Graphstream, your project <b>must</b> run with java 8
-
-Add the .aar in your project following these instructions : https://developer.android.com/studio/projects/android-library.html#AddDependency
+- [gs-core](https://github.com/graphstream/gs-core/releases)
+- [gs-ui-android](https://github.com/graphstream/gs-ui-android/releases)
 
 
-Authors
--------
+Gradle users, you may include `gs-core` and `gs-ui-android` as a dependency to your project using <https://jitpack.io>.
+Simply add the `jitpack` repository to the `pom.xml`:
 
-The GraphStream team:
+```
+allprojects {
+    repositories {
+        maven { url 'https://jitpack.io' }
+    }
+}
+```
 
-- Julien Baudry <julien.baudry@graphstream-project.org>
-- Antoine Dutot <antoine.dutot@graphstream-project.org>
-- Yoann Pigné <yoann.pigne@graphstream-project.org> 
-- Guilhelm Savin <guilhelm.savin@graphstream-project.org>
+then, add the `gs-core` and `gs-ui-android` to your dependencies:
 
-Contributors:
+```xml
+dependencies {
+    api 'com.github.graphstream:gs-ui-android:2.0-alpha'
+    api 'com.github.graphstream:gs-core:2.0-alpha'
+}
+```
 
-- Frédéric Guinand <frederic.guinand@univ-lehavre.fr>
-- Guillaume-Jean Herbiet <guillaume-jean@herbiet.net>
+You can use any version of `gs-core` and `gs-ui-android` you need, provided they are the same. Simply specify the desired version in the `<version>` tag. The version can be a git tag name (e.g. `2.0-alpha`), a commit number, or a branch name followed by `-SNAPSHOT` (e.g. `dev-SNAPSHOT`). More details on the [possible versions on jitpack](https://jitpack.io/#graphstream/gs-core).
 
-Help
-----
+## Configure UI
+
+For the convenience of the users, a default Android Fragment (`org.graphstream.ui.android_viewer.util.DefaultFragment`) is provided. The Fragment can be used like so:
+
+```java
+public void display(Bundle savedInstanceState, Graph graph, boolean autoLayout) {
+    if (savedInstanceState == null) {
+        FragmentManager fm = getFragmentManager();
+
+        // find fragment or create him
+        fragment = (DefaultFragment) fm.findFragmentByTag("fragment_tag");
+        if (null == fragment) {
+            fragment = new DefaultFragment();
+            fragment.init(graph, autoLayout);
+        }
+
+        // Add the fragment in the layout and commit
+        FragmentTransaction ft = fm.beginTransaction() ;
+        ft.add(CONTENT_VIEW_ID, fragment).commit();
+    }
+}
+```
+
+## Help
 
 You may check the documentation on the [website](http://graphstream-project.org). You may also share your questions on the mailing list at http://sympa.litislab.fr/sympa/subscribe/graphstream-users
 
-Copyright
----------
+## License
 
-This program is free software distributed under the terms of two licenses, the CeCILL-C license that fits European law, and the GNU Lesser General Public License. You can  use, modify and/ or redistribute the software under the terms of the CeCILL-C license as circulated by CEA, CNRS and INRIA at the following URL http://www.cecill.info or under the terms of the GNU LGPL as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
-
-This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more details.
-
-You should have received a copy of the GNU Lesser General Public License along with this program.  If not, see http://www.gnu.org/licenses/.
-
-The fact that you are presently reading this means that you have had knowledge of the CeCILL-C and LGPL licenses and that you accept their terms.
+See the COPYING file.
