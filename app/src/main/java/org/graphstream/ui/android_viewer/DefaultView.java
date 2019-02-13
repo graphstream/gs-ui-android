@@ -197,6 +197,14 @@ public class DefaultView extends ViewPanel {
         mouseClicks = (DefaultMouseManager)manager;
     }
 
+    /**
+     * This is a shortcut to a call setMouseManager instance and with
+     * (InteractiveElement.EDGE, InteractiveElement.NODE, InteractiveElement.SPRITE).
+     */
+    public void enableMouseOptions() {
+        setMouseManager(new DefaultMouseManager(EnumSet.of(InteractiveElement.EDGE, InteractiveElement.NODE, InteractiveElement.SPRITE)));
+    }
+
     @Override
     public void setShortcutManager(ShortcutManager shortcutManager) {}
 
