@@ -57,7 +57,7 @@ For the convenience of the users, a default Android Fragment (`org.graphstream.u
 ```java
 public void display(Bundle savedInstanceState, Graph graph, boolean autoLayout) {
     if (savedInstanceState == null) {
-        FragmentManager fm = getFragmentManager();
+        FragmentManager fm = getSupportFragmentManager();
 
         // find fragment or create him
         fragment = (DefaultFragment) fm.findFragmentByTag("fragment_tag");
