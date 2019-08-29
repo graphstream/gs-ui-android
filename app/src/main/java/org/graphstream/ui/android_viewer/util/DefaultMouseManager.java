@@ -177,7 +177,7 @@ public class DefaultMouseManager implements MouseManager, android.view.View.OnTo
             Camera camera = view.getCamera();
             float factor = detector.getScaleFactor() ;
 
-            camera.setViewPercent(Math.max(0.0001f, camera.getViewPercent() * factor));
+            camera.setViewPercent(Math.max(0.0001f, camera.getViewPercent() / factor));
             return true;
         }
     }
