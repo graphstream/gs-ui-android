@@ -9,6 +9,7 @@ import android.view.SurfaceView;
 import org.graphstream.ui.graphicGraph.GraphicElement;
 import org.graphstream.ui.graphicGraph.GraphicGraph;
 import org.graphstream.ui.view.View;
+import org.graphstream.ui.view.camera.Camera;
 import org.graphstream.ui.view.util.InteractiveElement;
 import org.graphstream.ui.view.util.MouseManager;
 
@@ -173,12 +174,10 @@ public class DefaultMouseManager implements MouseManager, android.view.View.OnTo
     class ScaleListener extends ScaleGestureDetector.SimpleOnScaleGestureListener {
         @Override
         public boolean onScale(ScaleGestureDetector detector) {
-            Log.e("AAAAAAH", "PINCH! OUCH! "+detector.getScaleFactor());
+            Camera camera = view.getCamera();
+            float factor = detector.getScaleFactor() ;
 
-            // Don't let the object get too small or too large.
-//            mScaleFactor = Math.max(0.1f, Math.min(mScaleFactor, 5.0f));
-
-  //          invalidate();
+            camera.setViewPercent(Math.max(0.0001f, camera.getViewPercent() * factor));
             return true;
         }
     }
