@@ -1,6 +1,9 @@
 package org.graphstream.ui.android_viewer.util;
 
+import android.content.Context;
+import android.util.Log;
 import android.view.MotionEvent;
+import android.view.ScaleGestureDetector;
 import android.view.SurfaceView;
 
 import org.graphstream.ui.graphicGraph.GraphicElement;
@@ -29,6 +32,13 @@ public class DefaultMouseManager implements MouseManager, android.view.View.OnTo
 
     protected float x1, y1;
 
+    /**
+     * Manager to detect gesture (pinch)
+     * and the context needed
+     */
+    protected ScaleGestureDetector gestureManager;
+    protected Context context;
+
     public DefaultMouseManager() {
         this(EnumSet.of(InteractiveElement.NODE, InteractiveElement.SPRITE));
     }
@@ -43,6 +53,12 @@ public class DefaultMouseManager implements MouseManager, android.view.View.OnTo
         view.addListener("Touch", this);
     }
 
+    public void initContext(Context context){
+        this.context = context;
+
+        gestureManager = new ScaleGestureDetector(context, new ScaleListener());
+    }
+
     @Override
     public EnumSet<InteractiveElement> getManagedTypes() {
         return types;
@@ -54,6 +70,8 @@ public class DefaultMouseManager implements MouseManager, android.view.View.OnTo
 
     @Override
     public boolean onTouch(android.view.View v, MotionEvent event) {
+
+        gestureManager.onTouchEvent(event);
 
         switch(event.getActionMasked())
         {
@@ -150,4 +168,19 @@ public class DefaultMouseManager implements MouseManager, android.view.View.OnTo
         view.freezeElement(element, false);
             element.removeAttribute("ui.clicked");
     }
+
+
+    class ScaleListener extends ScaleGestureDetector.SimpleOnScaleGestureListener {
+        @Override
+        public boolean onScale(ScaleGestureDetector detector) {
+            Log.e("AAAAAAH", "PINCH! OUCH! "+detector.getScaleFactor());
+
+            // Don't let the object get too small or too large.
+//            mScaleFactor = Math.max(0.1f, Math.min(mScaleFactor, 5.0f));
+
+  //          invalidate();
+            return true;
+        }
+    }
+
 }
