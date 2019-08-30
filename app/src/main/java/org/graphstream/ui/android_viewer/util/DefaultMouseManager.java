@@ -131,17 +131,9 @@ public class DefaultMouseManager implements MouseManager, android.view.View.OnTo
             Camera camera = view.getCamera();
 
             switch(event.getActionMasked()) {
-                case MotionEvent.ACTION_DOWN:
+                case MotionEvent.ACTION_POINTER_DOWN:
                     x1 = event.getX(0); x2 = event.getX(1);
-                    y1 = event.getY(0); y2 = event.getX(1);
-                    /*float[] initPositionXFinger = new float[pointerCount];
-                    float[] initPositionYFinger = new float[pointerCount];
-
-                    for (int i = 0 ; i < pointerCount ; i++){
-                        initPositionXFinger[i] = event.getX(i);
-                        initPositionYFinger[i] = event.getY(i);
-                    }*/
-
+                    y1 = event.getY(0); y2 = event.getY(1);
 
                     break;
                 case MotionEvent.ACTION_MOVE:
@@ -149,28 +141,59 @@ public class DefaultMouseManager implements MouseManager, android.view.View.OnTo
                     delta *= camera.getViewPercent();
                     Point3 p = camera.getViewCenter();
 
-
-                    // To the right
-                    if (event.getX(0) > x1 && event.getX(1) > x2){
-                        camera.setViewCenter(p.x + delta, p.y, 0);
+                    double strength ;
+                    // ---------- To the right
+                    if (event.getX(0) > x1 && event.getX(1) > x2) {
+                        strength = ((event.getX(0)-x1)/100);
+                        camera.setViewCenter(p.x - delta*strength, p.y, 0);
                     }
-                    // To the left
-                    else if (event.getX(0) < x1 && event.getX(1) < x2){
-                        camera.setViewCenter(p.x - delta, p.y, 0);
-                    }
-                    
-                    // Downwards
-                    if (event.getY(0) > x1 && event.getY(1) > x2){
-                        camera.setViewCenter(p.x, p.y - delta, 0);
-                    }
-                    // Upwards
-                    else if (event.getY(0) < x1 && event.getY(1) < x2) {
-                        camera.setViewCenter(p.x, p.y + delta, 0);
+                    // ---------- To the left
+                    else if (event.getX(0) < x1 && event.getX(1) < x2) {
+                        strength = ((x1-event.getX(0))/100);
+                        camera.setViewCenter(p.x + delta*strength, p.y, 0);
                     }
 
-                    break;
-                case MotionEvent.ACTION_UP:
+                    // ---------- Downwards
+                    if (event.getY(0) > y1 && event.getY(1) > y2) {
+                        strength = ((event.getY(0)-y1)/100);
+                        camera.setViewCenter(p.x, p.y + delta*strength, 0);
+                    }
+                    // ---------- Upwards
+                    else if (event.getY(0) < y1 && event.getY(1) < y2) {
+                        strength = ((y1-event.getY(0))/100);
+                        camera.setViewCenter(p.x, p.y - delta*strength, 0);
+                    }
 
+                    // ---------- Inverted direction
+                    // The rotation to the left is the high finger on the screen
+                    // to the left and the down finger to the right.
+                    float highFingerXfirst, highFingerXcurrent;
+                    float downFingerXfirst, downFingerXcurrent;
+                    if (y1 < y2) {
+                        highFingerXfirst = x1;
+                        highFingerXcurrent = event.getX(0);
+                        downFingerXfirst = x2;
+                        downFingerXcurrent = event.getX(1);
+                    }
+                    else {
+                        highFingerXfirst = x2;
+                        highFingerXcurrent = event.getX(1);
+                        downFingerXfirst = x1;
+                        downFingerXcurrent = event.getX(0);
+                    }
+
+                    if ( highFingerXcurrent > highFingerXfirst && downFingerXcurrent < downFingerXfirst) /*||
+                                (event.getY(0) > y1 && event.getY(1) < y2) )*/ {
+                        strength = (highFingerXcurrent-highFingerXfirst)/2;
+                        double r = camera.getViewRotation();
+                        camera.setViewRotation(r + strength);
+                    }
+                    else if ( highFingerXcurrent < highFingerXfirst && downFingerXcurrent > downFingerXfirst) /*||
+                                (event.getY(0) < y1 && event.getY(1) > y2) )*/ {
+                        strength = (highFingerXfirst-highFingerXcurrent)/2;
+                        double r = camera.getViewRotation();
+                        camera.setViewRotation(r - strength);
+                    }
 
                     break;
                 default:
@@ -234,7 +257,7 @@ public class DefaultMouseManager implements MouseManager, android.view.View.OnTo
             Camera camera = view.getCamera();
             float factor = detector.getScaleFactor() ;
 
-            camera.setViewPercent(Math.max(0.0001f, camera.getViewPercent() * factor));
+            camera.setViewPercent(Math.max(0.0001f, camera.getViewPercent() * (1/factor)));
             return true;
         }
     }
