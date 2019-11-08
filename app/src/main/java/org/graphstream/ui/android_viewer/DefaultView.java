@@ -195,6 +195,7 @@ public class DefaultView extends ViewPanel {
         manager.init(graph, this);
 
         mouseClicks = (DefaultMouseManager)manager;
+        mouseClicks.initContext(getContext());
     }
 
     @Override
