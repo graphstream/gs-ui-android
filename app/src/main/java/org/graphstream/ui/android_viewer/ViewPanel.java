@@ -41,4 +41,6 @@ public abstract class ViewPanel extends SurfaceView implements SurfaceHolder.Cal
     public SurfaceHolder getSurface() {
         return mSurfaceHolder ;
     }
+
+    public abstract void enableMouseOptions();
 }
