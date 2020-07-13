@@ -1,0 +1,13 @@
+org.graphstream.ui.android
+org.graphstream.ui.android.renderer
+org.graphstream.ui.android.renderer.shape
+org.graphstream.ui.android.renderer.shape.android
+org.graphstream.ui.android.renderer.shape.android.advancedShapes
+org.graphstream.ui.android.renderer.shape.android.arrowShapes
+org.graphstream.ui.android.renderer.shape.android.baseShapes
+org.graphstream.ui.android.renderer.shape.android.basicShapes
+org.graphstream.ui.android.renderer.shape.android.shapePart
+org.graphstream.ui.android.renderer.shape.android.spriteShapes
+org.graphstream.ui.android.util
+org.graphstream.ui.android_viewer
+org.graphstream.ui.android_viewer.util
