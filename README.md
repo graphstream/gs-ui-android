@@ -43,12 +43,12 @@ then, add the `gs-core` and `gs-ui-android` to your dependencies:
 
 ```xml
 dependencies {
-    api 'com.github.graphstream:gs-ui-android:2.0-alpha'
-    api 'com.github.graphstream:gs-core:2.0-alpha'
+    api 'com.github.graphstream:gs-ui-android:2.0'
+    api 'com.github.graphstream:gs-core:2.0'
 }
 ```
 
-You can use any version of `gs-core` and `gs-ui-android` you need, provided they are the same. Simply specify the desired version in the `<version>` tag. The version can be a git tag name (e.g. `2.0-alpha`), a commit number, or a branch name followed by `-SNAPSHOT` (e.g. `dev-SNAPSHOT`). More details on the [possible versions on jitpack](https://jitpack.io/#graphstream/gs-core).
+You can use any version of `gs-core` and `gs-ui-android` you need, provided they are the same. Simply specify the desired version in the `<version>` tag. The version can be a git tag name (e.g. `2.0`), a commit number, or a branch name followed by `-SNAPSHOT` (e.g. `dev-SNAPSHOT`). More details on the [possible versions on jitpack](https://jitpack.io/#graphstream/gs-core).
 
 ## Configure UI
 
@@ -57,7 +57,7 @@ For the convenience of the users, a default Android Fragment (`org.graphstream.u
 ```java
 public void display(Bundle savedInstanceState, Graph graph, boolean autoLayout) {
     if (savedInstanceState == null) {
-        FragmentManager fm = getFragmentManager();
+        FragmentManager fm = getSupportFragmentManager();
 
         // find fragment or create him
         fragment = (DefaultFragment) fm.findFragmentByTag("fragment_tag");

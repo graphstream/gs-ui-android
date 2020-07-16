@@ -195,6 +195,15 @@ public class DefaultView extends ViewPanel {
         manager.init(graph, this);
 
         mouseClicks = (DefaultMouseManager)manager;
+        mouseClicks.initContext(getContext());
+    }
+
+    /**
+     * This is a shortcut to a call setMouseManager instance and with
+     * (InteractiveElement.EDGE, InteractiveElement.NODE, InteractiveElement.SPRITE).
+     */
+    public void enableMouseOptions() {
+        setMouseManager(new DefaultMouseManager(EnumSet.of(InteractiveElement.EDGE, InteractiveElement.NODE, InteractiveElement.SPRITE)));
     }
 
     @Override
