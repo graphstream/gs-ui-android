@@ -43,8 +43,8 @@ then, add the `gs-core` and `gs-ui-android` to your dependencies:
 
 ```xml
 dependencies {
-    api 'com.github.graphstream:gs-ui-android:dev-SNAPSHOT'
-    api 'com.github.graphstream:gs-core:dev-SNAPSHOT'
+    api 'com.github.graphstream:gs-ui-android:2.0'
+    api 'com.github.graphstream:gs-core:2.0'
 }
 ```
 
