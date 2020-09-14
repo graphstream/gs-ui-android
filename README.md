@@ -80,3 +80,8 @@ You may check the documentation on the [website](http://graphstream-project.org)
 ## License
 
 See the COPYING file.
+
+## Compilation notes
+
+- Java 1.8 is needed.
+- The `JAVA_HOME` variable should be set.
